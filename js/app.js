@@ -64,6 +64,16 @@ function init() {
         return;
     }
 
+    // FORCE UNREGISTER SERVICE WORKER (Fixes caching issues)
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function (registrations) {
+            for (let registration of registrations) {
+                console.log('Unregistering Service Worker:', registration);
+                registration.unregister();
+            }
+        });
+    }
+
     // Load config
     document.title = Subject.config.title;
     document.querySelector('meta[name="description"]').content = Subject.config.description;
