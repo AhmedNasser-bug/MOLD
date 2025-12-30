@@ -1078,6 +1078,48 @@
         #installBtn:hover {
             transform: scale(1.05);
         }
+
+        #brainrotLink {
+            display: none;
+            margin-top: 15px;
+            background: linear-gradient(90deg, #ff00ff, #00ff00);
+            color: #000;
+            font-weight: 900;
+            border: 2px solid #fff;
+            box-shadow: 0 0 15px #ff00ff;
+            animation: glitch 1s infinite;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        @keyframes glitch {
+            0% {
+                transform: translate(0)
+            }
+
+            20% {
+                transform: translate(-2px, 2px)
+            }
+
+            40% {
+                transform: translate(-2px, -2px)
+            }
+
+            60% {
+                transform: translate(2px, 2px)
+            }
+
+            80% {
+                transform: translate(2px, -2px)
+            }
+
+            100% {
+                transform: translate(0)
+            }
+        }
     </style>
 </head>
 
@@ -1104,6 +1146,7 @@
                 <div class="header">
                     <h1>⛓️ BLOCKCHAIN MASTERY</h1>
                     <p>Speedrun your way to exam excellence</p>
+                    <a id="brainrotLink" href="brainrot-runner-v1/gamified.html">Gamified version!!</a>
                 </div>
 
                 <div class="stats-bar">
@@ -1434,6 +1477,10 @@
                 if (data.runs.length > 0) {
                     const avg = Math.round(data.runs.reduce((a, b) => a + b.score, 0) / data.runs.length);
                     document.getElementById('avgScore').textContent = avg + '%';
+                }
+
+                if (localStorage.getItem('brainrotUnlocked') === 'true') {
+                    document.getElementById('brainrotLink').style.display = 'inline-block';
                 }
             }
 
@@ -1779,6 +1826,16 @@
                 if (streak >= 3) {
                     document.getElementById('streakIndicator').classList.add('active');
                     document.getElementById('streakCount').textContent = streak;
+                }
+
+                // UNLOCK BRAINROT MODE
+                if (streak >= 15 && currentMode !== 'practice') {
+                    const btn = document.getElementById('brainrotLink');
+                    if (btn.style.display !== 'inline-block') {
+                        btn.style.display = 'inline-block';
+                        localStorage.setItem('brainrotUnlocked', 'true');
+                        alert("Gamified Version Unlocked! 🎮");
+                    }
                 }
             }
 
