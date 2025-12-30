@@ -1,0 +1,17 @@
+{
+  "name": "Blockchain Mastery Speedrun",
+  "short_name": "Blockchain Prep",
+  "description": "Speedrun your way to exam excellence with 120+ blockchain questions.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a0a0f",
+  "theme_color": "#0a0a0f",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
