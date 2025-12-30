@@ -970,21 +970,23 @@ function nextFlashcard(difficulty = 'good') {
 
 // ---------------- REVISION FEATURE ----------------
 
-function renderRevision(categoryFilter = 'All') {
-    const container = document.getElementById('revisionContent');
-    const filterSelect = document.getElementById('revisionCategoryFilter');
-    if (!container) return;
+function showRevisionScreen() {
+    showScreen('revisionScreen');
+    renderRevision();
 
-    // Populate filter if empty
-    if (filterSelect && filterSelect.options.length <= 1) {
-        // Keep 'All'
-        Subject.categories.forEach(cat => {
-            const opt = document.createElement('option');
-            opt.value = cat;
-            opt.textContent = cat;
-            filterSelect.appendChild(opt);
+    // Setup search listener
+    const searchInput = document.getElementById('termSearch');
+    if (searchInput && !searchInput.dataset.listenerAttached) {
+        searchInput.addEventListener('input', (e) => {
+            renderRevision(e.target.value);
         });
+        searchInput.dataset.listenerAttached = 'true';
     }
+}
+
+function renderRevision(searchTerm = '') {
+    const container = document.getElementById('revisionContent');
+    if (!container) return;
 
     if (!Subject.terminology) {
         container.innerHTML = '<p>No terminology loaded.</p>';
@@ -992,37 +994,50 @@ function renderRevision(categoryFilter = 'All') {
     }
 
     const categories = {};
+    const lowerSearch = searchTerm.toLowerCase();
+
     Object.keys(Subject.terminology).forEach(key => {
         const item = Subject.terminology[key];
-        const cat = item.Category || 'Uncategorized';
-        if (!categories[cat]) categories[cat] = [];
-        categories[cat].push({ key, ...item });
+        const name = key.replace(/_/g, ' ');
+
+        // Filter Logic
+        const matchesSearch = name.toLowerCase().includes(lowerSearch) ||
+            item.Meaning.toLowerCase().includes(lowerSearch) ||
+            (item.Category && item.Category.toLowerCase().includes(lowerSearch));
+
+        if (matchesSearch) {
+            const cat = item.Category || 'Uncategorized';
+            if (!categories[cat]) categories[cat] = [];
+            categories[cat].push({ key, name, ...item });
+        }
     });
 
     let html = '';
     const catsToSort = Object.keys(categories).sort();
 
-    catsToSort.forEach(cat => {
-        if (categoryFilter !== 'All' && cat !== categoryFilter) return;
-
-        html += `<h2 class="revision-category">${cat}</h2><div class="terms-grid">`;
-        categories[cat].forEach(term => {
-            const name = term.key.replace(/_/g, ' ');
-            html += `
-             <div class="term-card" onclick="toggleTerm(this)">
-                 <div class="term-header">
-                     <h3>${name}</h3>
-                     <span class="expand-icon">+</span>
-                 </div>
-                 <div class="term-details">
-                     <p><strong>Meaning:</strong> ${term.Meaning}</p>
-                     <p><strong>Context:</strong> ${term.Context}</p>
-                     ${term.Analogy ? `<p class="analogy"><strong>Analogy:</strong> ${term.Analogy}</p>` : ''}
-                 </div>
-             </div>`;
+    if (catsToSort.length === 0) {
+        html = '<p style="text-align:center; padding:20px; color:var(--text-muted)">No matching terms found.</p>';
+    } else {
+        catsToSort.forEach(cat => {
+            html += `<h2 class="revision-category">${cat}</h2><div class="terms-grid">`;
+            categories[cat].forEach(term => {
+                html += `
+                 <div class="term-card" onclick="toggleTerm(this)">
+                     <div class="term-header">
+                         <h3>${term.name}</h3>
+                         <span class="expand-icon">+</span>
+                     </div>
+                     <div class="term-details">
+                         <p><strong>Meaning:</strong> ${term.Meaning}</p>
+                         ${term.Where_it_is_used ? `<p><strong>Where:</strong> ${term.Where_it_is_used}</p>` : ''}
+                         ${term.When_it_is_used ? `<p><strong>When:</strong> ${term.When_it_is_used}</p>` : ''}
+                         ${term.Analogy ? `<p class="analogy"><strong>Analogy:</strong> ${term.Analogy}</p>` : ''}
+                     </div>
+                 </div>`;
+            });
+            html += `</div>`;
         });
-        html += `</div>`;
-    });
+    }
 
     container.innerHTML = html;
 }
@@ -1069,6 +1084,7 @@ window.nextQuestion = nextQuestion;
 window.showReview = showReview;
 window.goHome = goHome;
 window.showAchievements = showAchievements;
+window.showRevisionScreen = showRevisionScreen;
 window.startFlashcards = startFlashcards;
 window.flipFlashcard = flipFlashcard;
 window.nextFlashcard = nextFlashcard;
