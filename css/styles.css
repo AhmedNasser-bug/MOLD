@@ -1109,15 +1109,7 @@ body {
     }
 
     100% {
-        transform: translate($ {
-                Math.random() * 200 - 100
-            }
-
-            px, $ {
-                Math.random() * 200 - 100
-            }
-
-            px) scale(0);
+        transform: translate(100px, -100px) scale(0);
         opacity: 0;
     }
 }
@@ -1284,4 +1276,356 @@ body {
 .term-card.expanded .expand-icon {
     transform: rotate(180deg);
 }
-.flashcard.flipped { transform: rotateY(180deg) !important; }
+
+.flashcard.flipped {
+    transform: rotateY(180deg) !important;
+}
+
+/* Achievements Grid */
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .header {
+        padding: 20px;
+    }
+
+    .header h1 {
+        font-size: 2rem;
+    }
+
+    .stats-bar {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .mode-selector {
+        flex-direction: column;
+    }
+
+    .mode-btn {
+        max-width: 100%;
+    }
+
+    .match-container {
+        grid-template-columns: 1fr;
+    }
+
+    .tf-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pros-cons-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .achievements-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+        padding: 10px;
+    }
+}
+
+/* Refactored Inline Styles */
+.streak-label-text {
+    color: var(--text-muted);
+    margin-left: 5px;
+}
+
+.stat-card.awards-card {
+    cursor: pointer;
+    border-color: var(--accent);
+}
+
+.section-title {
+    margin-bottom: 20px;
+    color: var(--text-primary);
+}
+
+.category-selector-title {
+    margin: 30px 0 15px;
+    color: var(--text-secondary);
+}
+
+.start-btn-group {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.btn-inline-flex {
+    display: inline-flex;
+}
+
+.ml-10 {
+    margin-left: 10px;
+}
+
+.mr-10 {
+    margin-right: 10px;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.mt-30 {
+    margin-top: 30px;
+}
+
+.fc-progress-container {
+    max-width: 300px;
+    margin: 10px auto;
+}
+
+.flashcard-scene {
+    perspective: 1000px;
+    width: 100%;
+    max-width: 500px;
+    height: 300px;
+    cursor: pointer;
+}
+
+.flashcard-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+}
+
+.flashcard-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    background: var(--bg-card);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.flashcard-front-face {
+    border: 1px solid var(--glass-border);
+}
+
+.flashcard-back-face {
+    border: 1px solid var(--accent);
+    transform: rotateY(180deg);
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0, 183, 195, 0.2);
+    overflow-y: auto;
+}
+
+.fc-term-title {
+    color: var(--accent);
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+.fc-tap-hint {
+    color: var(--text-muted);
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+.fc-content-text {
+    text-align: center;
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+.fc-controls {
+    display: none;
+    margin-top: 30px;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.fc-btn-bad {
+    border-color: var(--error);
+    color: var(--error);
+    min-width: 80px;
+}
+
+.fc-btn-hard {
+    border-color: var(--warning);
+    color: var(--warning);
+    min-width: 80px;
+}
+
+.fc-btn-good {
+    border-color: var(--success);
+    color: var(--success);
+    min-width: 80px;
+}
+
+.fc-btn-easy {
+    border-color: var(--accent);
+    color: var(--accent);
+    min-width: 80px;
+}
+
+.revision-header {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.revision-title {
+    font-size: 2rem;
+}
+
+.search-container {
+    margin-top: 20px;
+}
+
+/* Screen Visibility Logic - Restored */
+.screen {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    animation: slideIn 0.3s ease;
+}
+
+.screen.active {
+    display: block;
+    opacity: 1;
+}
+
+/* Flashcard Styles - Restored */
+.flashcard-scene {
+    width: 600px;
+    height: 400px;
+    perspective: 1000px;
+    margin: 2rem auto;
+    max-width: 90vw;
+}
+
+.flashcard-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border-radius: var(--radius);
+}
+
+.flashcard-inner.flipped {
+    transform: rotateY(180deg);
+}
+
+.flashcard-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.flashcard-front-face {
+    background: linear-gradient(135deg, var(--bg-card), rgba(255, 255, 255, 0.05));
+}
+
+.flashcard-back-face {
+    background: linear-gradient(135deg, var(--bg-card), rgba(0, 0, 0, 0.2));
+    transform: rotateY(180deg);
+}
+
+.fc-term-title {
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.fc-tap-hint {
+    color: var(--text-secondary);
+    font-style: italic;
+    opacity: 0.7;
+    margin-top: 2rem;
+}
+
+.fc-content-text {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: var(--text);
+}
+
+.fc-controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.fc-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: white;
+}
+
+.fc-btn.bad {
+    background-color: var(--danger);
+}
+
+.fc-btn.hard {
+    background-color: var(--warning);
+    color: black;
+}
+
+.fc-btn.good {
+    background-color: var(--success);
+}
+
+.fc-btn.easy {
+    background-color: var(--primary);
+}
+
+.fc-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+@media (max-width: 768px) {
+    .flashcard-scene {
+        height: 300px;
+    }
+
+    .fc-term-title {
+        font-size: 1.8rem;
+    }
+
+    .fc-controls {
+        flex-wrap: wrap;
+    }
+}
