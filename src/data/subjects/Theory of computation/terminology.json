@@ -1,0 +1,527 @@
+{
+    "Symbol": {
+        "Category": "Introduction",
+        "Meaning": "An indivisible object or entity that cannot be defined, the atom of languages (e.g., a, 0, 1).",
+        "Where_it_is_used": "Building blocks of strings.",
+        "When_it_is_used": "Always.",
+        "Analogy": "Atoms in chemistry.",
+        "Pros": [
+            "Fundamental unit"
+        ],
+        "Cons": [
+            "None"
+        ]
+    },
+    "Alphabet": {
+        "Category": "Introduction",
+        "Meaning": "A finite, non-empty set of symbols, denoted by Sigma.",
+        "Where_it_is_used": "Defining valid characters for a language.",
+        "When_it_is_used": "At the start of any automata definition.",
+        "Analogy": "The ABCs for English.",
+        "Pros": [
+            "Defines scope"
+        ],
+        "Cons": [
+            "Finite"
+        ]
+    },
+    "String": {
+        "Category": "Introduction",
+        "Meaning": "A finite sequence of symbols from an alphabet.",
+        "Where_it_is_used": "Input for automata.",
+        "When_it_is_used": "Representing data.",
+        "Analogy": "A word.",
+        "Pros": [
+            "flexible data representation"
+        ],
+        "Cons": [
+            "None"
+        ]
+    },
+    "Language": {
+        "Category": "Introduction",
+        "Meaning": "A set of strings chosen from some alphabet's closure.",
+        "Where_it_is_used": "Specification of valid inputs.",
+        "When_it_is_used": "Defining problem scope.",
+        "Analogy": " The dictionary of valid words.",
+        "Pros": [
+            "Formalizes problems"
+        ],
+        "Cons": [
+            "Can be infinite"
+        ]
+    },
+    "Grammar": {
+        "Category": "Introduction",
+        "Meaning": "A quadruple (V, T, S, P) defining rules to generate strings in a language.",
+        "Where_it_is_used": "Generating languages, compilers.",
+        "When_it_is_used": "Describing syntax.",
+        "Analogy": "Sentence structure rules (Subject-Verb-Object).",
+        "Pros": [
+            "Generative power"
+        ],
+        "Cons": [
+            "Parsing complexity"
+        ]
+    },
+    "Deterministic_Finite_Automaton_(DFA)": {
+        "Category": "Finite Automata",
+        "Meaning": "A finite-state machine where for each state and input symbol, there is exactly one transition.",
+        "Where_it_is_used": "Lexical analysis, pattern matching.",
+        "When_it_is_used": "Memory is limited, pattern is regular.",
+        "Analogy": "A vending machine.",
+        "Pros": [
+            "Fast",
+            "Simple"
+        ],
+        "Cons": [
+            "Limited memory",
+            "Cannot count"
+        ]
+    },
+    "Nondeterministic_Finite_Automaton_(NFA)": {
+        "Category": "Finite Automata",
+        "Meaning": "An automaton allowing zero, one, or multiple transitions for a symbol, including epsilon moves.",
+        "Where_it_is_used": "Conceptual modeling, converting RE to DFA.",
+        "When_it_is_used": "Designing complex logic easily.",
+        "Analogy": "Exploring a maze with the ability to clone yourself at junctions.",
+        "Pros": [
+            "Easier design",
+            "Compact"
+        ],
+        "Cons": [
+            "Slower simulation",
+            "Nondeterminism"
+        ]
+    },
+    "Regular_Expression_(RE)": {
+        "Category": "Regular Languages",
+        "Meaning": "An algebraic string denoting a regular language using operators like union, concatenation, and Kleene star.",
+        "Where_it_is_used": "Search patterns (grep), lexical analysis.",
+        "When_it_is_used": "Declaratively defining search patterns.",
+        "Analogy": "Wildcard search (*.txt).",
+        "Pros": [
+            "Concise",
+            "Declarative"
+        ],
+        "Cons": [
+            "Hard to read if complex"
+        ]
+    },
+    "Regular_Grammar": {
+        "Category": "Regular Languages",
+        "Meaning": "A grammar that is either right-linear or left-linear.",
+        "Where_it_is_used": "Generating regular languages.",
+        "When_it_is_used": "Describing simple syntax.",
+        "Analogy": "Simple instructions: 'Do A, then B'.",
+        "Pros": [
+            "Simple generation"
+        ],
+        "Cons": [
+            "Limited power"
+        ]
+    },
+    "Kleene_Star": {
+        "Category": "Regular Languages",
+        "Meaning": "An operation representing zero or more concatenations of a string/set.",
+        "Where_it_is_used": "Regular expressions.",
+        "When_it_is_used": "Modeling loops or infinite sequences.",
+        "Analogy": "The 'Loop' block in coding.",
+        "Pros": [
+            "Infinite reach"
+        ],
+        "Cons": [
+            "None"
+        ]
+    },
+    "Pumping_Lemma_for_Regular_Languages": {
+        "Category": "Properties of Regular Languages",
+        "Meaning": "A property stating that any sufficiently long string in a regular language can be 'pumped' (repeated) and stay in the language.",
+        "Where_it_is_used": "Proving a language is NOT regular.",
+        "When_it_is_used": "Testing limitations of FAs.",
+        "Analogy": "Finding a repeating pattern in a wallpaper.",
+        "Pros": [
+            "Disproof tool"
+        ],
+        "Cons": [
+            "Cannot prove regularity"
+        ]
+    },
+    "Context-Free_Language_(CFL)": {
+        "Category": "Context-Free Grammars",
+        "Meaning": "A language generated by a Context-Free Grammar or accepted by a PDA.",
+        "Where_it_is_used": "Programming language syntax, nesting structures.",
+        "When_it_is_used": "Handling balanced parentheses or recursion.",
+        "Analogy": "HTML tags (must close what you open).",
+        "Pros": [
+            "Handles recursion"
+        ],
+        "Cons": [
+            "Harder to parse than Regular"
+        ]
+    },
+    "Context-Free_Grammar_(CFG)": {
+        "Category": "Context-Free Grammars",
+        "Meaning": "A grammar where productions replace a single variable with a string of variables and terminals.",
+        "Where_it_is_used": "Defining programming languages.",
+        "When_it_is_used": "Compiler design.",
+        "Analogy": "Diagramming sentences.",
+        "Pros": [
+            "Expressive"
+        ],
+        "Cons": [
+            "Ambiguity risk"
+        ]
+    },
+    "Derivation_Tree_(Parse_Tree)": {
+        "Category": "Context-Free Grammars",
+        "Meaning": "A graphical representation of the derivation of a string from a grammar.",
+        "Where_it_is_used": "Compilers, analyzing structure.",
+        "When_it_is_used": "Visualizing syntax.",
+        "Analogy": "Family tree of a sentence.",
+        "Pros": [
+            "Visual structure"
+        ],
+        "Cons": [
+            "Space consuming"
+        ]
+    },
+    "Ambiguity": {
+        "Category": "Context-Free Grammars",
+        "Meaning": "When a grammar can generate the same string with two different parse trees.",
+        "Where_it_is_used": "Compiler design (to be avoided).",
+        "When_it_is_used": "Debugging grammars.",
+        "Analogy": "A sentence with two meanings ('I saw the man with the telescope').",
+        "Pros": [
+            "None"
+        ],
+        "Cons": [
+            "Confuses parsers"
+        ]
+    },
+    "Chomsky_Normal_Form_(CNF)": {
+        "Category": "Context-Free Grammars",
+        "Meaning": "A restricted CFG form where rules are A->BC or A->a.",
+        "Where_it_is_used": "Algorithms like CYK.",
+        "When_it_is_used": "Simplifying proofs and parsing.",
+        "Analogy": "Standardized building bricks.",
+        "Pros": [
+            "Uniform structure"
+        ],
+        "Cons": [
+            "Increases rule count"
+        ]
+    },
+    "Pushdown_Automaton_(PDA)": {
+        "Category": "Pushdown Automata",
+        "Meaning": "A finite automaton equipped with a stack memory.",
+        "Where_it_is_used": "Parsing CFLs.",
+        "When_it_is_used": "Recognizing nested structures.",
+        "Analogy": "A finite state machine with a stack of plates.",
+        "Pros": [
+            "Infinite memory (LIFO)"
+        ],
+        "Cons": [
+            "Random access impossible"
+        ]
+    },
+    "Stack": {
+        "Category": "Pushdown Automata",
+        "Meaning": "A Last-In-First-Out (LIFO) data structure.",
+        "Where_it_is_used": "PDA memory.",
+        "When_it_is_used": "Tracking nested dependencies.",
+        "Analogy": "A stack of trays in a cafeteria.",
+        "Pros": [
+            "Simple memory"
+        ],
+        "Cons": [
+            "Restricted access"
+        ]
+    },
+    "Deterministic_PDA": {
+        "Category": "Pushdown Automata",
+        "Meaning": "A PDA where every move is uniquely determined.",
+        "Where_it_is_used": "Parsers for programming languages.",
+        "When_it_is_used": "Efficient parsing.",
+        "Analogy": "A deterministic machine with a stack.",
+        "Pros": [
+            "Fast parsing"
+        ],
+        "Cons": [
+            "Less powerful than NPDA"
+        ]
+    },
+    "Turing_Machine_(TM)": {
+        "Category": "Turing Machines",
+        "Meaning": "A mathematical model of computation with an infinite tape and a read/write head.",
+        "Where_it_is_used": "Defining computability.",
+        "When_it_is_used": "Modeling general algorithms.",
+        "Analogy": "A person with infinite paper and a pencil.",
+        "Pros": [
+            "Universal computation"
+        ],
+        "Cons": [
+            "Theoretical only"
+        ]
+    },
+    "Recursive_Language": {
+        "Category": "Turing Machines",
+        "Meaning": "A language decided by a Turing Machine that always halts.",
+        "Where_it_is_used": "Decidable problems.",
+        "When_it_is_used": "Ideally all software.",
+        "Analogy": "A program that never hangs.",
+        "Pros": [
+            "Guaranteed answer"
+        ],
+        "Cons": [
+            "Restricted class"
+        ]
+    },
+    "Recursively_Enumerable_Language": {
+        "Category": "Turing Machines",
+        "Meaning": "A language recognized by a Turing Machine (may loop forever on rejection).",
+        "Where_it_is_used": "Semi-decidable problems.",
+        "When_it_is_used": "Broadest class of computation.",
+        "Analogy": "A search that might never finish if the item isn't there.",
+        "Pros": [
+            "Most powerful"
+        ],
+        "Cons": [
+            "Halting not guaranteed"
+        ]
+    },
+    "Halting_Problem": {
+        "Category": "Turing Machines",
+        "Meaning": "The problem of determining if a TM stops on a given input (Undecidable).",
+        "Where_it_is_used": "Limits of computation.",
+        "When_it_is_used": "Proving undecidability.",
+        "Analogy": "Predicting if a code has an infinite loop.",
+        "Pros": [
+            "None"
+        ],
+        "Cons": [
+            "Fundamental limit"
+        ]
+    },
+    "Tape": {
+        "Category": "Turing Machines",
+        "Meaning": "The infinite memory storage of a Turing Machine.",
+        "Where_it_is_used": "TM storage.",
+        "When_it_is_used": "Storing input and intermediate work.",
+        "Analogy": "Infinite magnetic tape.",
+        "Pros": [
+            "Infinite storage"
+        ],
+        "Cons": [
+            "Sequential access"
+        ]
+    },
+    "Transition_Function": {
+        "Category": "Finite Automata",
+        "Meaning": "The function mapping (state, input) to next state.",
+        "Where_it_is_used": "Defining automata logic.",
+        "When_it_is_used": "Every step of computation.",
+        "Analogy": "The rulebook.",
+        "Pros": [
+            "Precise logic"
+        ],
+        "Cons": [
+            "None"
+        ]
+    },
+    "Accept_State": {
+        "Category": "Finite Automata",
+        "Meaning": "A state where the machine approves the input string.",
+        "Where_it_is_used": "Finalizing computation.",
+        "When_it_is_used": "Validating input.",
+        "Analogy": "The 'Success' screen.",
+        "Pros": [
+            "Clear outcome"
+        ],
+        "Cons": [
+            "None"
+        ]
+    },
+    "Trap_State_(Dead_State)": {
+        "Category": "Finite Automata",
+        "Meaning": "A non-accepting state from which there is no escape to an accepting state.",
+        "Where_it_is_used": "DFA design.",
+        "When_it_is_used": "Handling invalid prefixes.",
+        "Analogy": "A pitfall.",
+        "Pros": [
+            "Explicit rejection"
+        ],
+        "Cons": [
+            "Adds states"
+        ]
+    },
+    "Concatenation": {
+        "Category": "Regular Languages",
+        "Meaning": "Joining two strings or languages end-to-end.",
+        "Where_it_is_used": "String operations.",
+        "When_it_is_used": "Building complex strings.",
+        "Analogy": "Gluing words together.",
+        "Pros": [
+            "Composition"
+        ],
+        "Cons": [
+            "None"
+        ]
+    },
+    "Union": {
+        "Category": "Regular Languages",
+        "Meaning": "Combining two languages (A or B).",
+        "Where_it_is_used": "Closure properties.",
+        "When_it_is_used": "Allowing alternatives.",
+        "Analogy": "Road fork.",
+        "Pros": [
+            "Flexibility"
+        ],
+        "Cons": [
+            "None"
+        ]
+    },
+    "Intersection": {
+        "Category": "Regular Languages",
+        "Meaning": "Strings common to both languages.",
+        "Where_it_is_used": "Closure properties.",
+        "When_it_is_used": "Filtering.",
+        "Analogy": "Common ground.",
+        "Pros": [
+            "Specificity"
+        ],
+        "Cons": [
+            "None"
+        ]
+    },
+    "Complement": {
+        "Category": "Regular Languages",
+        "Meaning": "All strings not in the language.",
+        "Where_it_is_used": "Closure properties.",
+        "When_it_is_used": "Defining 'everything else'.",
+        "Analogy": "The negative space.",
+        "Pros": [
+            "Inversion"
+        ],
+        "Cons": [
+            "Hard in NFA"
+        ]
+    },
+    "Epsilon_(Lambda)": {
+        "Category": "Introduction",
+        "Meaning": "The empty string (length 0).",
+        "Where_it_is_used": "Base cases, NFA moves.",
+        "When_it_is_used": "Representing 'nothing'.",
+        "Analogy": "Zero in math.",
+        "Pros": [
+            "Identity element"
+        ],
+        "Cons": [
+            "Invisible"
+        ]
+    },
+    "Unit_Production": {
+        "Category": "Context-Free Grammars",
+        "Meaning": "A production rule of the form A -> B.",
+        "Where_it_is_used": "CFG simplification.",
+        "When_it_is_used": "Often removed for CNF.",
+        "Analogy": "Bureaucracy (passing the buck).",
+        "Pros": [
+            "None"
+        ],
+        "Cons": [
+            "Inefficient"
+        ]
+    },
+    "Linear_Bounded_Automaton": {
+        "Category": "Context-Sensitive Languages",
+        "Meaning": "A Turing Machine with tape bounded by input size.",
+        "Where_it_is_used": "Context-sensitive languages.",
+        "When_it_is_used": "Modeling constrained resources.",
+        "Analogy": "A computer with fixed RAM.",
+        "Pros": [
+            "More realistic"
+        ],
+        "Cons": [
+            "Still complex"
+        ]
+    },
+    "Unrestricted_Grammar": {
+        "Category": "Turing Machines",
+        "Meaning": "A grammar with no restrictions on productions (Type 0).",
+        "Where_it_is_used": "Generating RE languages.",
+        "When_it_is_used": "Theoretical modeling.",
+        "Analogy": "Free writing.",
+        "Pros": [
+            "Max power"
+        ],
+        "Cons": [
+            "Undecidable parsing"
+        ]
+    },
+    "Decidability": {
+        "Category": "Turing Machines",
+        "Meaning": "If a problem can be solved by an algorithm that halts.",
+        "Where_it_is_used": "Classifying problems.",
+        "When_it_is_used": "Checking feasibility.",
+        "Analogy": "Solvability.",
+        "Pros": [
+            "Guarantee"
+        ],
+        "Cons": [
+            "Rare for complex logic"
+        ]
+    },
+    "Equivalent_Machines": {
+        "Category": "Finite Automata",
+        "Meaning": "Two machines accepting the exact same language.",
+        "Where_it_is_used": "Minimization, NFA to DFA.",
+        "When_it_is_used": "Optimizing.",
+        "Analogy": "Two roads to the same destination.",
+        "Pros": [
+            "Optimization"
+        ],
+        "Cons": [
+            "Hard to prove"
+        ]
+    },
+    "Star_Closure": {
+        "Category": "Introduction",
+        "Meaning": "The set of all possible strings over an alphabet.",
+        "Where_it_is_used": "Defining the universe of discourse.",
+        "When_it_is_used": "Universal set.",
+        "Analogy": "Everything that can be written.",
+        "Pros": [
+            "Completeness"
+        ],
+        "Cons": [
+            "Infinite"
+        ]
+    },
+    "Church-Turing_Thesis": {
+        "Category": "Turing Machines",
+        "Meaning": "The hypothesis that any physically computable function can be computed by a Turing Machine.",
+        "Where_it_is_used": "Foundational CS.",
+        "When_it_is_used": "Defining 'computable'.",
+        "Analogy": "Speed of light limit for computation.",
+        "Pros": [
+            "Standard model"
+        ],
+        "Cons": [
+            "Unprovable"
+        ]
+    },
+    "State_Diagram": {
+        "Category": "Finite Automata",
+        "Meaning": "A directed graph representing an automaton.",
+        "Where_it_is_used": "Visualizing automata.",
+        "When_it_is_used": "Designing machines.",
+        "Analogy": "A flow chart.",
+        "Pros": [
+            "Visual"
+        ],
+        "Cons": [
+            "Cluttered for large systems"
+        ]
+    }
+}

@@ -1,0 +1,197 @@
+---
+
+---
+
+<div class="screen" id="flashcardScreen">
+    <div class="header">
+        <h1>🃏 Flashcards</h1>
+        <div class="progress-container fc-progress-container">
+            <div class="progress-bar" id="fcProgressBar" style="width:0%"></div>
+        </div>
+        <p id="fcProgressText">Card 1 / 20</p>
+    </div>
+
+    <div
+        class="container"
+        style="display:flex;flex-direction:column;align-items:center;min-height:50vh"
+    >
+        <div class="flashcard-scene">
+            <div
+                class="flashcard-inner"
+                id="currentFlashcard"
+                onclick="window.game.flipFlashcard()"
+            >
+                <div class="flashcard-face flashcard-front-face">
+                    <h2 id="fcTerm" class="fc-term-title">Term Name</h2>
+                    <p class="fc-tap-hint">(Tap to flip)</p>
+                </div>
+                <div class="flashcard-face flashcard-back-face">
+                    <div id="fcContent" class="fc-content-text">
+                        Definition text...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="fc-controls" id="fcControls">
+            <button
+                class="btn btn-secondary fc-btn-bad"
+                onclick="window.game.nextFlashcard('missed')">Bad 😡</button
+            >
+            <button
+                class="btn btn-secondary fc-btn-hard"
+                onclick="window.game.nextFlashcard('hard')">Hard 😐</button
+            >
+            <button
+                class="btn btn-secondary fc-btn-good"
+                onclick="window.game.nextFlashcard('good')">Good 🙂</button
+            >
+            <button
+                class="btn btn-secondary fc-btn-easy"
+                onclick="window.game.nextFlashcard('easy')">Easy 🤩</button
+            >
+        </div>
+
+        <button
+            class="btn btn-outline"
+            onclick="window.game.goHome()"
+            style="margin-top:30px">Exit Study Mode</button
+        >
+    </div>
+</div>
+
+<script>
+    import type { SubjectData as Subject } from "../../data/subjects/Subject";
+
+    // Self-contained Flashcard Controller
+    class FlashcardController {
+        private subject: Subject;
+        private flashcards: any[] = [];
+        private currentIndex: number = 0;
+        private isFlipped: boolean = false;
+
+        constructor() {
+            // @ts-ignore
+            this.subject = window.subjectData;
+            this.bindEvents();
+        }
+
+        private bindEvents() {
+            // Attach global access for legacy onclicks (can be refactored to addEventListener later)
+            // @ts-ignore
+            window.game = window.game || {};
+            // @ts-ignore
+            window.game.startFlashcards = this.start.bind(this);
+            // @ts-ignore
+            window.game.flipFlashcard = this.flip.bind(this);
+            // @ts-ignore
+            window.game.nextFlashcard = this.next.bind(this);
+        }
+
+        start(mode: "terminology" | "questionBank") {
+            this.currentIndex = 0;
+            this.isFlipped = false;
+
+            this.showScreen("flashcardScreen");
+
+            if (mode === "terminology") {
+                this.flashcards = Object.entries(this.subject.terminology).map(
+                    ([term, data]) => ({
+                        front: term.replace(/_/g, " "),
+                        back: data.Meaning,
+                        type: "term",
+                    }),
+                );
+            } else {
+                // Filter for Question Bank specific logic (e.g., only questions with explanations or specific tag)
+                // For now, using all questions but formatted for flashcards as requested
+                this.flashcards = this.subject.questions.map((q) => {
+                    let answerText = "";
+                    if (q.type === "mcq" && q.options) {
+                        answerText = q.options[q.correct as number];
+                    } else if (q.type === "tf") {
+                        answerText = (q.correct as boolean) ? "TRUE" : "FALSE";
+                    }
+                    return {
+                        front: q.question,
+                        back: `<strong>Answer:</strong> ${answerText}<br><br><em>${q.explanation}</em>`,
+                        type: "question",
+                    };
+                });
+            }
+
+            this.shuffle();
+            this.renderCard();
+        }
+
+        private showScreen(id: string) {
+            document
+                .querySelectorAll(".screen")
+                .forEach((s) => s.classList.remove("active"));
+            document.getElementById(id)?.classList.add("active");
+        }
+
+        private shuffle() {
+            for (let i = this.flashcards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [this.flashcards[i], this.flashcards[j]] = [
+                    this.flashcards[j],
+                    this.flashcards[i],
+                ];
+            }
+        }
+
+        renderCard() {
+            if (this.currentIndex >= this.flashcards.length) {
+                alert("Session Complete!");
+                // @ts-ignore
+                if (window.game.goHome) window.game.goHome();
+                return;
+            }
+
+            const card = this.flashcards[this.currentIndex];
+
+            const termEl = document.getElementById("fcTerm");
+            if (termEl) termEl.textContent = card.front;
+
+            const contentEl = document.getElementById("fcContent");
+            if (contentEl) contentEl.innerHTML = card.back;
+
+            const cardEl = document.getElementById("currentFlashcard");
+            if (cardEl) cardEl.classList.remove("flipped");
+            this.isFlipped = false;
+
+            // Update progress
+            const progressBar = document.getElementById("fcProgressBar");
+            if (progressBar) {
+                const pct =
+                    ((this.currentIndex + 1) / this.flashcards.length) * 100;
+                progressBar.style.width = `${pct}%`;
+            }
+
+            const progressText = document.getElementById("fcProgressText");
+            if (progressText) {
+                progressText.textContent = `Card ${this.currentIndex + 1} / ${this.flashcards.length}`;
+            }
+        }
+
+        flip() {
+            const cardEl = document.getElementById("currentFlashcard");
+            if (cardEl) {
+                this.isFlipped = !this.isFlipped;
+                cardEl.classList.toggle("flipped");
+            }
+        }
+
+        next(rating: string) {
+            // Rating logic could go here
+            this.currentIndex++;
+            this.renderCard();
+        }
+    }
+
+    // Initialize on load
+    document.addEventListener("DOMContentLoaded", () => {
+        new FlashcardController();
+    });
+</script>

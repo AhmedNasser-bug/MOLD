@@ -1,0 +1,26 @@
+{
+    "config": {
+        "title": "Theory of Computation",
+        "description": "Master the mathematical foundations of computing: Automata, Grammars, and Turing Machines.",
+        "version": "1.0.0",
+        "storageKey": "toc_mastery"
+    },
+    "subject": {
+        "name": "Theory of Computation",
+        "id": "theory-of-computation"
+    },
+    "difficulties": [
+        "Easy",
+        "Medium",
+        "Hard",
+        "Undecidable"
+    ],
+    "categories": [
+        "Finite Automata (DFA & NFA)",
+        "Regular Expressions & Grammars",
+        "Properties of Regular Languages",
+        "Context-Free Languages & Grammars",
+        "Pushdown Automata",
+        "Turing Machines"
+    ]
+}

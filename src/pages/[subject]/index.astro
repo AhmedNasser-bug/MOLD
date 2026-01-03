@@ -1,0 +1,45 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Mold from "../../components/Mold.astro";
+import {
+    Subject as SubjectLoader,
+    type SubjectData,
+} from "../../data/subjects/Subject";
+
+// SSR Mode: getStaticPaths is not needed.
+
+const { subject: subjectId } = Astro.params;
+let subject: SubjectData | null = null;
+let error: string | null = null;
+
+try {
+    if (subjectId) {
+        subject = await SubjectLoader.load(subjectId);
+    } else {
+        error = "No subject ID provided";
+    }
+} catch (e: any) {
+    console.error("Failed to load subject", subjectId, e);
+    error = e.message || "Failed to load subject.";
+}
+---
+
+<Layout
+    title={subject ? subject.name : "Error"}
+    description={subject?.config?.description || "Study materials and quizzes"}
+    themeColor={subject?.config?.themeColor}
+>
+    {
+        subject ? (
+            <Mold subject={subject} />
+        ) : (
+            <div style="display:flex;justify-content:center;align-items:center;height:100vh;flex-direction:column;color:white">
+                <h1>Error Loading Subject</h1>
+                <p>{error}</p>
+                <a href="/" style="color:var(--accent);margin-top:20px">
+                    Return Home
+                </a>
+            </div>
+        )
+    }
+</Layout>

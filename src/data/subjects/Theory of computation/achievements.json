@@ -1,0 +1,242 @@
+[
+    {
+        "id": "kleene_apprentice",
+        "title": "Kleene Apprentice",
+        "description": "Solve 20 questions in the Regular Expressions category",
+        "icon": "✳️",
+        "condition": {
+            "type": "stat",
+            "field": "regularExpressionsSolved",
+            "value": 20,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "state_sculptor",
+        "title": "State Sculptor",
+        "description": "Minimize 10 DFAs successfully",
+        "icon": "⭕",
+        "condition": {
+            "type": "stat",
+            "field": "dfaMinimizations",
+            "value": 10,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "subset_summoner",
+        "title": "Subset Summoner",
+        "description": "Convert 8 NFAs to equivalent DFAs (subset construction)",
+        "icon": "🧩",
+        "condition": {
+            "type": "stat",
+            "field": "nfaToDfaConversions",
+            "value": 8,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "epsilon_whisperer",
+        "title": "Epsilon Whisperer",
+        "description": "Correctly trace 15 ε-transitions across NFAs/PDAs",
+        "icon": "ε",
+        "condition": {
+            "type": "stat",
+            "field": "epsilonTracesCorrect",
+            "value": 15,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "regular_royalty",
+        "title": "Regular Royalty",
+        "description": "Score 100% on a Regular Languages quiz",
+        "icon": "👑",
+        "condition": {
+            "type": "stat",
+            "field": "regularLanguagesLastScore",
+            "value": 100,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "arden_alchemist",
+        "title": "Arden’s Alchemist",
+        "description": "Solve 10 Arden’s Theorem equation problems",
+        "icon": "⚗️",
+        "condition": {
+            "type": "stat",
+            "field": "ardensTheoremSolved",
+            "value": 10,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "closure_captain",
+        "title": "Closure Captain",
+        "description": "Answer 25 closure-property questions correctly",
+        "icon": "🔒",
+        "condition": {
+            "type": "stat",
+            "field": "closureCorrect",
+            "value": 25,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "pump_prosecutor",
+        "title": "Pump Prosecutor",
+        "description": "Win 12 Pumping Lemma (non-regular) proofs",
+        "icon": "📌",
+        "condition": {
+            "type": "stat",
+            "field": "pumpingLemmaProofWins",
+            "value": 12,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "trap_state_tamer",
+        "title": "Trap-State Tamer",
+        "description": "Design 6 DFAs that avoid a forbidden substring (trap state used)",
+        "icon": "🕳️",
+        "condition": {
+            "type": "stat",
+            "field": "trapStateDesigns",
+            "value": 6,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "chomsky_cadet",
+        "title": "Chomsky Cadet",
+        "description": "Complete 15 CFG-focused questions",
+        "icon": "📜",
+        "condition": {
+            "type": "stat",
+            "field": "cfgSolved",
+            "value": 15,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "grammar_gardener",
+        "title": "Grammar Gardener",
+        "description": "Simplify 8 CFGs (remove useless/ε/unit productions)",
+        "icon": "🌿",
+        "condition": {
+            "type": "stat",
+            "field": "cfgSimplifications",
+            "value": 8,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "ambiguity_detective",
+        "title": "Ambiguity Detective",
+        "description": "Correctly identify ambiguity in 10 grammars/strings",
+        "icon": "🕵️",
+        "condition": {
+            "type": "stat",
+            "field": "ambiguityChecksCorrect",
+            "value": 10,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "stack_sage",
+        "title": "Stack Sage",
+        "description": "Solve 20 Pushdown Automata questions",
+        "icon": "📚",
+        "condition": {
+            "type": "stat",
+            "field": "pdaSolved",
+            "value": 20,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "push_pop_perfection",
+        "title": "Push/Pop Perfection",
+        "description": "Trace 12 PDA computations with 0 stack-operation mistakes",
+        "icon": "🧱",
+        "condition": {
+            "type": "stat",
+            "field": "pdaPerfectTraces",
+            "value": 12,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "cfl_conductor",
+        "title": "CFL Conductor",
+        "description": "Score 90%+ on a Context-Free Languages quiz",
+        "icon": "🎼",
+        "condition": {
+            "type": "stat",
+            "field": "cflLastScore",
+            "value": 90,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "turing_trainee",
+        "title": "Turing Trainee",
+        "description": "Design 5 Turing Machines that halt and accept correctly",
+        "icon": "🤖",
+        "condition": {
+            "type": "stat",
+            "field": "tmDesignsCorrect",
+            "value": 5,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "tape_traveler",
+        "title": "Tape Traveler",
+        "description": "Simulate 200 total TM head moves in step-by-step traces",
+        "icon": "📼",
+        "condition": {
+            "type": "stat",
+            "field": "tmHeadMovesSimulated",
+            "value": 200,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "unary_adder_artisan",
+        "title": "Unary Adder Artisan",
+        "description": "Complete the unary TM adder challenge 3 times",
+        "icon": "➕",
+        "condition": {
+            "type": "stat",
+            "field": "unaryAdderCompletions",
+            "value": 3,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "church_turing_believer",
+        "title": "Church–Turing Believer",
+        "description": "Finish the full course pathway (all categories)",
+        "icon": "🏁",
+        "condition": {
+            "type": "stat",
+            "field": "categoriesCompleted",
+            "value": 7,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "halting_historian",
+        "title": "Halting Historian",
+        "description": "Answer 10 Undecidability questions correctly",
+        "icon": "⛔",
+        "condition": {
+            "type": "stat",
+            "field": "undecidableCorrect",
+            "value": 10,
+            "operator": ">="
+        }
+    }
+]

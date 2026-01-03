@@ -1,0 +1,143 @@
+---
+
+---
+
+<div class="screen" id="revisionScreen">
+    <div class="header revision-header">
+        <h1 class="revision-title">📖 Full Revision</h1>
+        <p>Encyclopedia</p>
+        <div class="search-container">
+            <input
+                type="text"
+                id="termSearch"
+                placeholder="Search terms..."
+                class="search-input"
+            />
+        </div>
+    </div>
+    <div class="container" style="padding-top:0">
+        <button
+            class="btn btn-secondary"
+            onclick="window.game.goHome()"
+            style="margin-bottom:20px"
+        >
+            ← Back to Home
+        </button>
+        <div id="revisionContent" class="revision-grid"></div>
+    </div>
+</div>
+
+<script>
+    import type { SubjectData as Subject } from "../../data/subjects/Subject";
+
+    class RevisionScreenController {
+        private subject: Subject;
+
+        constructor() {
+            // @ts-ignore
+            this.subject = window.subjectData;
+            this.bindEvents();
+        }
+
+        bindEvents() {
+            // @ts-ignore
+            window.game = window.game || {};
+            // @ts-ignore
+            window.game.showRevisionScreen = this.show.bind(this);
+        }
+
+        show() {
+            this.showScreen("revisionScreen");
+            this.render();
+        }
+
+        showScreen(id: string) {
+            document
+                .querySelectorAll(".screen")
+                .forEach((s) => s.classList.remove("active"));
+            document.getElementById(id)?.classList.add("active");
+        }
+
+        render(): void {
+            const grid = document.getElementById("revisionContent");
+            if (!grid) return;
+
+            // Group by Category
+            const categorized: Record<string, any[]> = {};
+
+            Object.entries(this.subject.terminology).forEach(([key, term]) => {
+                const cat = term.Category || "General";
+                if (!categorized[cat]) categorized[cat] = [];
+                categorized[cat].push({ key, ...term });
+            });
+
+            // Sort categories (optional) and Render
+            const sortedCategories = Object.keys(categorized).sort();
+
+            grid.innerHTML = sortedCategories
+                .map(
+                    (cat) => `
+                <div class="category-section">
+                    <h3 class="category-header">${cat}</h3>
+                    <div class="revision-grid">
+                        ${categorized[cat]
+                            .map(
+                                (term) => `
+                            <div class="term-card" data-term="${term.key.toLowerCase()}">
+                                <div class="term-header">
+                                    <div class="term-title">${term.key.replace(/_/g, " ")}</div>
+                                    <div class="expand-icon">▼</div>
+                                </div>
+                                <div class="term-preview">${term.Meaning.substring(0, 50)}...</div>
+                                <div class="term-details">
+                                    <p><strong>Meaning:</strong> ${term.Meaning}</p>
+                                    ${term.Analogy ? `<div class="analogy-box"><strong>Analogy:</strong> ${term.Analogy}</div>` : ""}
+                                    ${term.Where_it_is_used ? `<p><strong>Where:</strong> ${term.Where_it_is_used}</p>` : ""}
+                                </div>
+                            </div>
+                        `,
+                            )
+                            .join("")}
+                    </div>
+                </div>
+            `,
+                )
+                .join("");
+
+            this.attachEventListeners();
+        }
+
+        private attachEventListeners(): void {
+            // Expand/collapse cards
+            document.querySelectorAll(".term-card").forEach((card) => {
+                card.addEventListener("click", () => {
+                    card.classList.toggle("expanded");
+                });
+            });
+
+            // Search functionality
+            const searchInput = document.getElementById("termSearch");
+            if (searchInput) {
+                searchInput.addEventListener("input", (e: any) => {
+                    const query = e.target.value.toLowerCase();
+                    this.filterTerms(query);
+                });
+            }
+        }
+
+        private filterTerms(query: string): void {
+            document.querySelectorAll(".term-card").forEach((card: any) => {
+                const text = card.dataset.term;
+                // Fix: map uses data-term which is already lowered key.
+                // But we should probably check content if we want deeper search?
+                // Original code checked card.textContent.
+                const content = card.textContent.toLowerCase();
+                card.style.display = content.includes(query) ? "block" : "none";
+            });
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        new RevisionScreenController();
+    });
+</script>

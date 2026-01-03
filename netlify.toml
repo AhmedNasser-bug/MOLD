@@ -1,0 +1,8 @@
+[build]
+  base = "."
+  publish = "dist"
+  command = "npm run build"
+
+[dev]
+  command = "astro dev"
+  publish = "dist"

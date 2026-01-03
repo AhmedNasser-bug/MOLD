@@ -1,10 +1,13 @@
 SUGGESTED FEATURES
-0. Dynamic category 
-1. Better layout and design
-2.Flashcard system rehaul
+1. Improve layout's responsiveness and design overhaul 
+- design color palette and style refrerence: https://www.ricola.com/en-ca/ 
+2.Flashcard system rehaul that includes 
+- Flashcard hinting depending on user's exp (easy, medium, hard... of the card itself)
+- Flashcard show order depends on user's exp on the card, the more exp the user has on the card, the less likely the card is to be shown, the less exp the user has on the card, the more likely the card is to be shown, 
 3. Practical mode and image mcq's 
 - Figures folder in the subject folder interface
-- Practical question type 
-4. Flash card hinting depending on user's exp
-5. Add time estimates for each run
-6.Add survival mode with difficulties that makes you lose once you pass a specific amount of time for each question
+- Practical question type that uses figures and images in the answers adn the questions
+- For the existing subjects, add a template figures folder in the subject folder interface and add a template question type in the questions.json file
+- Add a template image mcq question type in the questions.json file for existing subjects so they don't break 
+4. Add time estimates for finishing a game mode relative to player's previous runs on the game mode 
+5.Add survival mode that makes you lose once you pass a specific amount of time for each question, the time is relative to player's performance stats, the more exp the player has, the less time they have to answer each question, 
