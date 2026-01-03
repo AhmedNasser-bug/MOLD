@@ -1,0 +1,149 @@
+{
+    "name": "Gemini Quiz Generator",
+    "nodes": [
+        {
+            "parameters": {},
+            "name": "Start",
+            "type": "n8n-nodes-base.start",
+            "typeVersion": 1,
+            "position": [
+                240,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "fileSelector": "dist/n8n_config.json"
+            },
+            "name": "Read Config",
+            "type": "n8n-nodes-base.readBinaryFile",
+            "typeVersion": 1,
+            "position": [
+                460,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "jsCode": "const config = JSON.parse(Buffer.from(items[0].binary.data.data, 'base64').toString('utf8'));\nreturn [{json: config}];"
+            },
+            "name": "Parse Config",
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 1,
+            "position": [
+                680,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "fileSelector": "data/raw/input.txt"
+            },
+            "name": "Read Input Info",
+            "type": "n8n-nodes-base.readBinaryFile",
+            "typeVersion": 1,
+            "position": [
+                460,
+                500
+            ]
+        },
+        {
+            "parameters": {
+                "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={{$env.GEMINI_API_KEY}}",
+                "method": "POST",
+                "sendBody": true,
+                "contentType": "json",
+                "bodyParameters": {
+                    "parameters": [
+                        {
+                            "name": "contents",
+                            "value": "={{ {'parts': [{'text': $node[\"Parse Config\"].json.modes.speedrun.promptTemplate.replace('{{context}}', $node[\"Read Input Info\"].binary.data.data.toString())}] } }}"
+                        }
+                    ]
+                }
+            },
+            "name": "Gemini API",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 1,
+            "position": [
+                900,
+                400
+            ]
+        },
+        {
+            "parameters": {
+                "fileName": "data/generated/output_n8n.json",
+                "dataPropertyName": "data"
+            },
+            "name": "Write Output",
+            "type": "n8n-nodes-base.writeBinaryFile",
+            "typeVersion": 1,
+            "position": [
+                1120,
+                400
+            ]
+        }
+    ],
+    "connections": {
+        "Start": {
+            "main": [
+                [
+                    {
+                        "node": "Read Config",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Read Input Info",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Read Config": {
+            "main": [
+                [
+                    {
+                        "node": "Parse Config",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Parse Config": {
+            "main": [
+                [
+                    {
+                        "node": "Gemini API",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Read Input Info": {
+            "main": [
+                [
+                    {
+                        "node": "Gemini API",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Gemini API": {
+            "main": [
+                [
+                    {
+                        "node": "Write Output",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    }
+}

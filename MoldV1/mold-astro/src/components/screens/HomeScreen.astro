@@ -1,0 +1,288 @@
+---
+import { SUBJECT_MODES } from "../../ai/Subject";
+interface Props {
+    subjectName: string;
+    description: string;
+}
+const { subjectName, description } = Astro.props;
+---
+
+<div class="screen active" id="homeScreen">
+    <div class="header">
+        <h1>⛓️ {subjectName.toUpperCase()} MASTERY</h1>
+        <p>{description}</p>
+        <a id="brainrotLink" href="#" style="display:none">Gamified version!!</a
+        >
+    </div>
+
+    <div class="stats-bar">
+        <div class="stat-card">
+            <div class="stat-value" id="totalRuns">0</div>
+            <div class="stat-label">Total Runs</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="bestScore">0%</div>
+            <div class="stat-label">Best Score</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="avgScore">0%</div>
+            <div class="stat-label">Average</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="bestStreak">0</div>
+            <div class="stat-label">Best Streak</div>
+        </div>
+        <div
+            class="stat-card awards-card"
+            onclick="window.game.showAchievements()"
+        >
+            <div class="stat-value" id="totalAwards">🏆</div>
+            <div class="stat-label">Awards</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2 class="section-title">Select Mode</h2>
+        <div class="mode-selector">
+            {
+                Object.values(SUBJECT_MODES).map((mode) => (
+                    <div
+                        class="mode-btn"
+                        data-mode={mode.id}
+                        onclick={
+                            mode.componentId === "FlashcardScreen"
+                                ? `window.game.startFlashcards('${mode.id === "flashcards-bank" ? "questionBank" : "terminology"}')`
+                                : `window.game.selectMode('${mode.id}')`
+                        }
+                    >
+                        <h3>
+                            {mode.icon} {mode.label}
+                        </h3>
+                        <p>{mode.description}</p>
+                    </div>
+                ))
+            }
+        </div>
+
+        <div id="categorySelector" style="display:none">
+            <h3 class="category-selector-title">Choose Category</h3>
+            <div class="category-grid" id="categoryGrid"></div>
+        </div>
+
+        <div class="start-btn-group">
+            <button
+                class="btn btn-secondary btn-lg btn-inline-flex"
+                onclick="window.game.showRevisionScreen()"
+                id="revisionBtn"
+            >
+                📖 Encyclopedia
+            </button>
+            <button
+                class="btn btn-primary btn-lg btn-inline-flex ml-10"
+                onclick="window.game.startQuiz()"
+            >
+                START CHALLENGE
+            </button>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2 style="margin-bottom:20px;color:var(--text-primary)">
+            Run History
+        </h2>
+        <div id="historyContainer">
+            <p style="color:var(--text-muted);text-align:center;padding:20px">
+                No runs yet. Start your first challenge!
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+    import type { SubjectData as Subject } from "../../ai/Subject";
+    import { SUBJECT_MODES } from "../../ai/Subject";
+
+    class HomeScreenController {
+        private subject: Subject;
+        private currentMode: string = "speedrun";
+        private selectedCategory: string | null = null;
+
+        constructor() {
+            // @ts-ignore
+            this.subject = window.subjectData;
+            this.bindEvents();
+            this.init();
+        }
+
+        bindEvents() {
+            // @ts-ignore
+            window.game = window.game || {};
+            // @ts-ignore
+            window.game.selectMode = this.selectMode.bind(this);
+            // @ts-ignore
+            window.game.selectCategory = this.selectCategory.bind(this);
+            // @ts-ignore
+            window.game.updateStats = this.updateStats.bind(this);
+            // @ts-ignore
+            window.game.loadHistory = this.loadHistory.bind(this);
+            // @ts-ignore
+            window.game.goHome = this.goHome.bind(this);
+        }
+
+        goHome() {
+            document
+                .querySelectorAll(".screen")
+                .forEach((s) => s.classList.remove("active"));
+            document.getElementById("homeScreen")?.classList.add("active");
+            this.updateStats();
+            this.loadHistory();
+        }
+
+        init() {
+            this.updateStats();
+            this.loadHistory();
+            this.renderCategories();
+        }
+
+        selectMode(mode: string) {
+            this.currentMode = mode;
+            document.querySelectorAll(".mode-btn").forEach((btn: any) => {
+                btn.classList.toggle("selected", btn.dataset.mode === mode);
+            });
+
+            const categorySelector =
+                document.getElementById("categorySelector");
+            if (categorySelector) {
+                categorySelector.style.display =
+                    mode === "practice" ? "block" : "none";
+            }
+        }
+
+        selectCategory(category: string) {
+            this.selectedCategory = category;
+            document.querySelectorAll(".category-card").forEach((card: any) => {
+                const title = card.querySelector("h3")?.textContent;
+                // @ts-ignore
+                card.style.borderColor =
+                    title === category ? "var(--accent)" : "var(--border)";
+                // @ts-ignore
+                card.style.background =
+                    title === category
+                        ? "rgba(0,183,195,0.1)"
+                        : "var(--bg-input)";
+            });
+        }
+
+        private updateStats() {
+            const data = this.loadProgress();
+
+            const elRuns = document.getElementById("totalRuns");
+            if (elRuns) elRuns.textContent = data.runs.length.toString();
+
+            const elBestScore = document.getElementById("bestScore");
+            if (elBestScore) elBestScore.textContent = data.bestScore + "%";
+
+            const elBestStreak = document.getElementById("bestStreak");
+            if (elBestStreak)
+                elBestStreak.textContent = data.bestStreak.toString();
+
+            if (data.runs.length > 0) {
+                const avg = Math.round(
+                    data.runs.reduce((a: number, b: any) => a + b.score, 0) /
+                        data.runs.length,
+                );
+                const elAvg = document.getElementById("avgScore");
+                if (elAvg) elAvg.textContent = avg + "%";
+            }
+
+            const awardCount = data.achievements ? data.achievements.length : 0;
+            const totalAwards = this.subject.achievements?.length || 0;
+            const awardEl = document.getElementById("totalAwards");
+            if (awardEl)
+                awardEl.textContent = `🏆 ${awardCount}/${totalAwards}`;
+        }
+
+        private loadHistory() {
+            const data = this.loadProgress();
+            const container = document.getElementById("historyContainer");
+            if (!container) return;
+
+            if (data.runs.length === 0) {
+                container.innerHTML =
+                    '<p style="color:var(--text-muted);text-align:center;padding:20px">No runs yet. Start your first challenge!</p>';
+                return;
+            }
+
+            const recentRuns = data.runs.slice(-10).reverse();
+            let html =
+                '<table class="history-table"><thead><tr><th>Date</th><th>Mode</th><th>Score</th><th>Time</th><th>Grade</th></tr></thead><tbody>';
+
+            recentRuns.forEach((run: any) => {
+                const grade = this.getGrade(run.score);
+                const badgeClass =
+                    run.score >= 87
+                        ? "badge-success"
+                        : run.score >= 70
+                          ? "badge-warning"
+                          : "badge-error";
+                html += `<tr><td>${new Date(run.date).toLocaleDateString()}</td><td style="text-transform:capitalize">${run.mode}</td><td><strong>${run.score}%</strong></td><td>${this.formatTime(run.time)}</td><td><span class="badge ${badgeClass}">${grade}</span></td></tr>`;
+            });
+
+            html += "</tbody></table>";
+            container.innerHTML = html;
+        }
+
+        private renderCategories() {
+            const grid = document.getElementById("categoryGrid");
+            if (!grid) return;
+
+            const categories = [
+                ...new Set(this.subject.questions.map((q) => q.category)),
+            ];
+            grid.innerHTML = categories
+                .map((cat) => {
+                    const count = this.subject.questions.filter(
+                        (q) => q.category === cat,
+                    ).length;
+                    return `<div class="category-card" data-cat="${cat}" onclick="window.game.selectCategory('${cat}')"><h3>${cat}</h3><span>${count} questions</span></div>`;
+                })
+                .join("");
+        }
+
+        private loadProgress(): any {
+            // @ts-ignore
+            if (!this.subject.config)
+                return { runs: [], bestScore: 0, bestStreak: 0 };
+            const saved = localStorage.getItem(this.subject.config.storageKey);
+            if (saved) {
+                try {
+                    return JSON.parse(saved);
+                } catch (e) {
+                    console.error(e);
+                }
+            }
+            return { runs: [], bestScore: 0, bestStreak: 0 };
+        }
+
+        private getGrade(score: number): string {
+            if (score >= 97) return "S+";
+            if (score >= 93) return "S";
+            if (score >= 90) return "A+";
+            if (score >= 87) return "A";
+            if (score >= 80) return "B+";
+            if (score >= 70) return "C+";
+            if (score >= 60) return "D+";
+            return "F";
+        }
+
+        private formatTime(secs: number): string {
+            const m = Math.floor(secs / 60);
+            const s = secs % 60;
+            return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        new HomeScreenController();
+    });
+</script>
