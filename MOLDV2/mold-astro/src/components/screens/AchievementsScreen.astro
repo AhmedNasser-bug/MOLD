@@ -1,0 +1,81 @@
+---
+---
+<div class="screen" id="achievementsScreen">
+    <div class="header">
+        <h1>🏆 Achievements</h1>
+        <!-- <p id="achievementStats">0 / 30 Unlocked</p> -->
+    </div>
+    <div class="container">
+        <div id="achievementsList" class="achievements-grid"></div>
+        <button class="btn btn-secondary" onclick="window.game.goHome()" style="margin-top:20px">
+            ← Back to Home
+        </button>
+    </div>
+</div>
+</div>
+
+<script>
+    import type { Subject } from '../../interfaces/Question';
+
+    class AchievementsScreenController {
+        private subject: Subject;
+
+        constructor() {
+            // @ts-ignore
+            this.subject = window.subjectData;
+            this.bindEvents();
+        }
+
+        bindEvents() {
+             // @ts-ignore
+            window.game = window.game || {};
+            // @ts-ignore
+            window.game.showAchievements = this.show.bind(this);
+        }
+
+        show() {
+            this.showScreen('achievementsScreen');
+            this.render();
+        }
+
+        showScreen(id: string) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id)?.classList.add('active');
+        }
+
+        render(): void {
+            const data = this.loadProgress();
+            const unlocked = data.achievements || [];
+            const grid = document.getElementById('achievementsList');
+
+            if (!grid || !this.subject.achievements) return;
+
+            grid.innerHTML = this.subject.achievements.map(ach => {
+                const isUnlocked = unlocked.includes(ach.id);
+                return `
+                    <div class="achievement-card ${isUnlocked ? 'unlocked' : 'locked'}">
+                        <div class="achievement-icon">${ach.icon}</div>
+                        <div class="achievement-info">
+                            <h3>${ach.title}</h3>
+                            <p>${ach.description}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        private loadProgress(): any {
+            // @ts-ignore
+            if (!this.subject.config) return { achievements: [] };
+            const saved = localStorage.getItem(this.subject.config.storageKey);
+            if (saved) {
+                try { return JSON.parse(saved); } catch (e) { console.error(e); }
+            }
+            return { achievements: [] };
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        new AchievementsScreenController();
+    });
+</script>

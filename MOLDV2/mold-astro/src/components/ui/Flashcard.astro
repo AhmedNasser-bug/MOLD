@@ -1,0 +1,24 @@
+---
+/**
+ * Flashcard Component
+ * Renders a flip-card with front/back faces.
+ */
+export interface Props {
+    frontText?: string;
+    backText?: string;
+}
+
+const { frontText = "Term Name", backText = "Definition text..." } = Astro.props;
+---
+
+<div class="flashcard-scene">
+    <div class="flashcard-inner" id="currentFlashcard">
+        <div class="flashcard-face flashcard-front-face">
+            <h2 id="fcTerm" class="fc-term-title">{frontText}</h2>
+            <p class="fc-tap-hint">(Tap to flip)</p>
+        </div>
+        <div class="flashcard-face flashcard-back-face">
+            <div id="fcContent" class="fc-content-text" set:html={backText}></div>
+        </div>
+    </div>
+</div>

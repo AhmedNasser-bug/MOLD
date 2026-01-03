@@ -1,0 +1,10 @@
+SUGGESTED FEATURES
+0. Dynamic category 
+1. Better layout and design
+2.Flashcard system rehaul
+3. Practical mode and image mcq's 
+- Figures folder in the subject folder interface
+- Practical question type 
+4. Flash card hinting depending on user's exp
+5. Add time estimates for each run
+6.Add survival mode with difficulties that makes you lose once you pass a specific amount of time for each question
