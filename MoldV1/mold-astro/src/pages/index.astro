@@ -1,0 +1,34 @@
+import Layout from '../layouts/Layout.astro';
+import { Subject as SubjectLoader } from '../ai/Subject';
+
+const subjects = await SubjectLoader.listAll();
+---
+
+<Layout title="Mold V1 | Subject Selector">
+    <div class="screen active" style="padding-top: 50px;">
+        <div class="header">
+            <h1>🧠 Mold V1</h1>
+            <p>Select a verified subject to begin your mastery.</p>
+        </div>
+
+        <div class="container">
+            <div class="category-grid">
+                {subjects.map(subject => (
+                    <a href={`/${subject.id}`} class="category-card" style="text-decoration:none; display:block">
+                        <h3>{subject.name.toUpperCase()}</h3>
+                        <p>{subject.config.description}</p>
+                        <div style="margin-top:10px; font-size:0.8rem; color:var(--text-muted)">
+                            {subject.questions.length} Questions • {Object.keys(subject.terminology).length} Terms
+                        </div>
+                    </a>
+                ))}
+            </div>
+
+            {subjects.length === 0 && (
+                <div style="text-align:center; padding: 40px; color: var(--text-muted)">
+                    <p>No subjects found. Run the generation script to create one!</p>
+                </div>
+            )}
+        </div>
+    </div>
+</Layout>

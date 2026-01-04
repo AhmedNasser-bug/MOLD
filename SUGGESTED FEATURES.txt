@@ -1,13 +1,16 @@
 SUGGESTED FEATURES
-1. Improve layout's responsiveness and design overhaul 
-- design color palette and style refrerence: https://www.ricola.com/en-ca/ 
-2.Flashcard system rehaul that includes 
+1.Flashcard system rehaul that includes 
 - Flashcard hinting depending on user's exp (easy, medium, hard... of the card itself)
 - Flashcard show order depends on user's exp on the card, the more exp the user has on the card, the less likely the card is to be shown, the less exp the user has on the card, the more likely the card is to be shown, 
-3. Practical mode and image mcq's 
+2. Practical mode and image mcq's 
 - Figures folder in the subject folder interface
 - Practical question type that uses figures and images in the answers adn the questions
 - For the existing subjects, add a template figures folder in the subject folder interface and add a template question type in the questions.json file
 - Add a template image mcq question type in the questions.json file for existing subjects so they don't break 
-4. Add time estimates for finishing a game mode relative to player's previous runs on the game mode 
-5.Add survival mode that makes you lose once you pass a specific amount of time for each question, the time is relative to player's performance stats, the more exp the player has, the less time they have to answer each question, 
+3. Add time estimates for finishing a game mode relative to player's previous runs on the game mode 
+4.Add survival mode that makes you lose once you pass a specific amount of time for each question, the time is relative to player's performance stats, the more exp the player has, the less time they have to answer each question.
+5. Add a feature that allows the player to save their progress and resume it later.
+6. Add a feature that allows the player to play the game offline.
+7. Add exp and leveling system that rewards the player for playing the game and completing quizzes, but the amount of exp gained from a specific category slows down as the player progresses through the game, the amount of exp gained from a specific category also depends on the player's performance stats.
+8. Add a profile button that allows the player to view their progress and stats and exp progression rate for each category.
+9. Add Adventure mode that bottoms up the entire material in a perfect pedagogical order of the material, ex: instead of asking the player 120 separated questions, the questions go on by the order of the material instead, the question should lead the player with perfect bottom up understanding of the material to ensure a 100% pass rate of the Adventure mode.
