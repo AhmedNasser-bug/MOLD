@@ -182,7 +182,29 @@ Manually defined flashcards for **Flashcard** mode.
 ```
 > `type` can be `"term"` or `"question"`.
 
-### 4. Verify
+#### D. `achievements.json` (Gamification)
+This file defines the achievements users can unlock for this subject.
+
+**File Path**: `.../[YourFolder]/achievements.json`
+```json
+[
+  {
+    "id": "master_solver",
+    "title": "Master Solver",
+    "description": "Solve 50 questions correctly",
+    "icon": "🏆",
+    "condition": {
+      "type": "stat",
+      "field": "questionsSolved",
+      "value": 50,
+      "operator": ">="
+    }
+  }
+]
+```
+> **Condition Fields**: `field` can be any statistic tracked by the app.
+
+### 5. Verify
 After adding these files, simply run `npm run dev`. The new subject will appear on the dashboard automatically.
 
 ---
