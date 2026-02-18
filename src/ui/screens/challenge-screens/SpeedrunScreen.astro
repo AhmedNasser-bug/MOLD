@@ -28,9 +28,21 @@ import '../../../styles/screens/speedrun.css';
     import { GameEngine } from "../../../logic/controllers/GameEngine";
     import { Subject } from "../../../logic/entities/Subject";
     import { Player } from "../../../logic/entities/Player";
+    import { BaseScreenController } from "../../controllers/BaseScreenController";
+    import { eventBus } from "../../../infrastructure/events/EventBus";
+    import { componentRegistry } from "../../registry/ComponentRegistry";
 
-    class ChallengeGameController {
-        private engine: GameEngine;
+    /**
+     * ChallengeGameController - Refactored to use BaseScreenController
+     * 
+     * Improvements:
+     * - Extends BaseScreenController for proper lifecycle
+     * - Uses componentRegistry instead of polling
+     * - Uses eventBus instead of window events
+     * - No direct window.game pollution
+     */
+    class ChallengeGameController extends BaseScreenController {
+        private engine: GameEngine | null = null;
         private header: any;
         private footer: any;
         private container: any;
@@ -41,104 +53,132 @@ import '../../../styles/screens/speedrun.css';
         private config: any = {};
 
         constructor() {
-            // Wait for DOM to be fully ready and components to mount
-            window.addEventListener('load', () => this.tryInit());
+            super('speedrun-screen');
         }
 
-        async tryInit() {
-             const screen = document.getElementById('speedrun-screen');
-             if(!screen) return;
+        /**
+         * Lifecycle: Called after screen is mounted and DOM is ready
+         */
+        async onInit(): Promise<void> {
+            console.log("[SpeedrunScreen] Initializing...");
+            
+            // Get components from registry instead of polling
+            this.header = componentRegistry.get('sr-header');
+            this.footer = componentRegistry.get('sr-footer');
+            this.container = componentRegistry.get('sr-question-container');
+            this.streakModule = componentRegistry.get('sr-streak');
 
-             // Poll for dependencies (max 1 second)
-             let attempts = 0;
-             const interval = setInterval(() => {
-                 this.header = (document.getElementById('sr-header') as any)?.headerInstance;
-                 this.footer = (document.getElementById('sr-footer') as any)?.footerInstance;
-                 this.container = (document.getElementById('sr-question-container') as any)?.containerInstance;
-                 this.streakModule = (document.getElementById('sr-streak') as any)?.streakInstance;
+            if (!this.header || !this.footer || !this.container) {
+                console.error("[SpeedrunScreen] Required components not found in registry");
+                return;
+            }
 
-                 // We need at least Header, Footer, and Container
-                 if (this.header && this.footer && this.container) {
-                     clearInterval(interval);
-                     this.init(screen);
-                 } else {
-                     attempts++;
-                     if (attempts > 20) { // 2 seconds timeout
-                         console.error("Critical: Failed to load Game Components", { 
-                             h: !!this.header, f: !!this.footer, c: !!this.container 
-                         });
-                         clearInterval(interval);
-                         // Try init anyway, maybe partial
-                         this.init(screen);
-                     }
-                 }
-             }, 100);
-        }
-
-        init(screen: HTMLElement) {
-            console.log("Game Controller: Components Linked");
-            this.bindEvents(screen);
-            this.registerGlobal();
+            // Subscribe to events
+            this.subscribeToEvents();
+            
+            // Register screen methods
+            this.registerMethods();
+            
+            console.log("[SpeedrunScreen] Ready");
         }
         
-        bindEvents(screen: HTMLElement) {
-            // Screen specific event bubbling
+        /**
+         * Subscribe to game events using eventBus
+         */
+        subscribeToEvents() {
+            const screen = this.getScreenElement();
+            if (!screen) return;
+
+            // DOM events (from components)
             screen.addEventListener('request-submit', () => this.submitAnswer());
             screen.addEventListener('request-next', () => this.nextQuestion());
             screen.addEventListener('request-skip', () => this.handleSkip());
             screen.addEventListener('question-selected', (e: any) => this.handleSelection(e.detail));
-            
-            // Timer Events
             screen.addEventListener('time-up', (e: any) => this.handleTimeEvent(e));
+
+            // Event bus subscriptions
+            eventBus.on('answer:submitted', (data) => {
+                console.log("[SpeedrunScreen] Answer submitted:", data.isCorrect);
+            });
+
+            eventBus.on('game:complete', async (data) => {
+                console.log("[SpeedrunScreen] Game complete:", data);
+                await this.finishGame();
+            });
+
+            eventBus.on('game:stats-update', (data) => {
+                // Update UI with stats
+                if (this.header) {
+                    this.header.setScore(data.score);
+                }
+            });
         }
 
-        registerGlobal() {
+        /**
+         * Register methods to componentRegistry instead of window.game
+         */
+        registerMethods() {
+            componentRegistry.register('speedrun-controller', {
+                start: () => this.startChallenge(),
+                screen: this.screenId,
+            });
+            
+            // For backward compatibility, also register on window.game
+            // TODO: Remove this once HomeScreen is updated
             // @ts-ignore
             window.game = window.game || {};
             // @ts-ignore
             window.game.startSpeedrun = this.startChallenge.bind(this);
             // @ts-ignore
             window.game.startBlitz = this.startChallenge.bind(this);
-            // @ts-ignore
-            window.game.startHardcore = this.startChallenge.bind(this);
-            // @ts-ignore
-            window.game.startExam = this.startChallenge.bind(this);
         }
 
         async startChallenge() {
-            this.activateScreen();
+            console.log("[SpeedrunScreen] Starting challenge...");
+            this.show();
             
-            // 1. Config
+            // 1. Get config from settings panel
             // @ts-ignore
-            this.config = (window as any).getGameConfig ? (window as any).getGameConfig() : { isSurvival: false, timeLimitSeconds: 0 };
-            console.log("Starting Config:", this.config);
+            this.config = (window as any).getGameConfig ? (window as any).getGameConfig() : { 
+                isSurvival: false, 
+                timeLimitSeconds: 0,
+                difficulty: 'medium',
+                timeLimit: 0,
+            };
             
-            // 2. Data
+            // 2. Load subject data
             // @ts-ignore
             const subjectData = window.subjectData;
-            const subject = new Subject(
-                subjectData.id, 
-                subjectData.name
-            );
-            // ENFORCE OFFLINE-FIRST: Load only from DB
+            const subject = new Subject(subjectData.id, subjectData.name);
             await subject.loadFromDB();
             
-            const player = await Player.create("Guest");  
+            // 3. Get or create player
+            const player = await Player.create("Default Player");  
 
-            // 3. Engine
+            // 4. Create engine with new API (no callback)
             this.engine = new GameEngine(
-                subject, player,
-                { subjectId: subject.id, modeType: 'challenge', settings: this.config },
-                (state) => this.renderState(state)
+                subject, 
+                player,
+                { 
+                    mode: 'speedrun',
+                    subjectId: subject.id, 
+                    modeType: 'challenge', 
+                    settings: this.config 
+                }
             );
             
-            // 4. Start Game
+            // 5. Start game
             await this.engine.start();
             
-            // 5. Start Header Timer (Total)
-            if(this.header) {
-                this.header.startTimer(this.config.timeLimitSeconds || 0);
+            // 6. Render initial state
+            this.renderState(this.engine.getState());
+            
+            // 7. Start header timer
+            if (this.header && this.config.timeLimitSeconds) {
+                this.header.startTimer(this.config.timeLimitSeconds);
             }
+            
+            console.log("[SpeedrunScreen] Challenge started");
         }
 
         activateScreen() {
@@ -147,38 +187,46 @@ import '../../../styles/screens/speedrun.css';
         }
 
         renderState(state: any) {
-            if(state.isGameOver) return this.finishGame(state);
+            console.log("[SpeedrunScreen] Rendering state:", state.status);
             
-            this.isAnswered = false;
+            // Check if game is complete
+            if (state.status === 'COMPLETED') {
+                return this.finishGame();
+            }
+            
+            this.isAnswered = state.isAnswered || false;
             this.currentSelection = null;
             
-            // 1. Render Question
-            if(this.container) {
+            // 1. Render question
+            if (this.container && state.currentQuestion) {
                 this.container.render(state.currentQuestion);
                 this.container.enableStressBar(this.config.isSurvival);
-                if(this.config.isSurvival) {
-                    this.container.startStressTimer(15); // Per question
+                
+                if (this.config.isSurvival) {
+                    this.container.startStressTimer(15);
                 } else {
                     this.container.stopStressTimer();
                 }
             }
 
-            // 2. Update Header
-            if(this.header) this.header.setScore(state.score);
+            // 2. Update header score
+            if (this.header) {
+                this.header.setScore(state.stats.score);
+            }
             
-            // 3. Streak Feedback (Every 5)
-            if (state.streak > 0 && state.streak % 5 === 0 && !this.isAnswered) {
-                // Prevent duplicate showing if state re-renders? 
-                // Engine renders on 'nextQuestion' usually.
-                // We might want to show this after Answer, not on render of new question?
-                // Actually internal render is called after answer submission too.
-                if(this.streakModule) this.streakModule.show(state.streak);
+            // 3. Show streak feedback (every 5)
+            if (state.stats.streak > 0 && state.stats.streak % 5 === 0 && this.streakModule) {
+                this.streakModule.show(state.stats.streak);
             }
 
-            // 4. Update Footer
-            if(this.footer) {
-                this.footer.showSubmit();
-                this.footer.enableSubmit(false);
+            // 4. Update footer
+            if (this.footer) {
+                if (state.status === 'FEEDBACK') {
+                    this.footer.showNext();
+                } else {
+                    this.footer.showSubmit();
+                    this.footer.enableSubmit(false);
+                }
             }
         }
         
@@ -189,111 +237,126 @@ import '../../../styles/screens/speedrun.css';
         }
 
         submitAnswer() {
-            console.log("ChallengeController: submitAnswer called", { 
-                isAnswered: this.isAnswered, 
-                hasSelection: !!this.currentSelection 
-            });
-            if (this.isAnswered || !this.currentSelection) {
-                console.warn("ChallengeController: Submit ignored", { isAnswered: this.isAnswered, selection: this.currentSelection });
+            if (!this.engine) {
+                console.warn("[SpeedrunScreen] Cannot submit: engine not initialized");
                 return;
             }
-            this.isAnswered = true;
+
+            if (this.isAnswered || !this.currentSelection) {
+                console.warn("[SpeedrunScreen] Submit ignored", { 
+                    isAnswered: this.isAnswered, 
+                    hasSelection: !!this.currentSelection 
+                });
+                return;
+            }
+
+            console.log("[SpeedrunScreen] Submitting answer...");
             this.processResult();
         }
 
         handleSkip() {
-             if(this.isAnswered) return;
-             this.currentSelection = null; // No selection = incorrect/skip
-             this.isAnswered = true;
-             this.engine.submitAnswer(false); // Count as wrong? Or Engine needs 'skip' method?
-             // Assuming wrong for now
-             if(this.container) {
-                 this.container.stopStressTimer();
-                 this.container.showFeedback(false);
-                 this.container.reveal();
-             }
-             if(this.footer) this.footer.showNext("Next");
+            if (!this.engine || this.isAnswered) return;
+            
+            console.log("[SpeedrunScreen] Skipping question");
+            this.currentSelection = null;
+            this.isAnswered = true;
+            
+            // Stop timer and show feedback
+            if (this.container) {
+                this.container.stopStressTimer();
+                this.container.showFeedback(false);
+                this.container.reveal();
+            }
+            
+            // Submit as incorrect
+            const state = this.engine.getState();
+            this.engine.submitAnswer(null, state.currentQuestion?.correctAnswer, false);
+            
+            // Show next button
+            if (this.footer) {
+                this.footer.showNext("Next");
+            }
         }
 
-        processResult() {
-             if(this.container) {
-                 this.container.stopStressTimer();
-                 const isCorrect = this.container.reveal();
-                 this.container.showFeedback(isCorrect);
-                 this.engine.submitAnswer(isCorrect);
-             }
-             if(this.footer) this.footer.showNext();
+        async processResult() {
+            if (!this.container || !this.engine) return;
+            
+            this.container.stopStressTimer();
+            const isCorrect = this.container.reveal();
+            this.container.showFeedback(isCorrect);
+            
+            const state = this.engine.getState();
+            
+            // Submit answer to engine
+            await this.engine.submitAnswer(
+                this.currentSelection,
+                state.currentQuestion?.correctAnswer,
+                isCorrect
+            );
+            
+            // Update state and show next button
+            this.renderState(this.engine.getState());
         }
 
-        nextQuestion() {
-            // Engine auto-advances? No, we manually get next from engine?
-            // Engine typically advances on submit? 
-            // Wait, existing GameEngine calls `renderState` implicitly?
-            // If Engine auto-calls renderState after submit, we don't need to do anything but wait.
-            // BUT, usually we want a "Review" state (UI waits). 
-            // So we trigger engine.next()? 
-            // Let's assume Engine needs a trigger if it's not auto. 
-            // Actually, existing Engine implementation (seen in other files) usually calls callback immediately.
-            // If we want a 'Pause', the Engine shouldn't auto-advance.
-            // Checking GameEngine.ts (not visible now, but based on past context), it likely advances immediately.
-            // If it advances immediately, we might be rendering the NEXT question already?
-            // We need to decouple rendering.
+        async nextQuestion() {
+            if (!this.engine) return;
             
-            // For now, let's assume Engine has `nextQuestion()` method or we just re-render?
-            // Actually, standard practice: submit -> result -> callback(nextQuestion). 
-            // If render is called immediately, the user sees next question immediately.
-            // We want to see Feedback first. 
-            // So RenderState should differentiate 'Feedback State' vs 'Question State'?
-            // Simplest hack: The engine.submitAnswer is called. It updates score. It fetches next question. It calls render.
-            // We can block the render if we want? 
-            // Better: Engine.next() should be separate.
-            
-            // I'll assume standard Engine behaves: submit -> result -> callback(nextQuestion).
-            // To pause, we can store the 'nextState' and only apply it when nextQuestion() is called.
-            // But let's stick to simple implementation first.
-             this.engine.nextQuestion(); // Assuming this exists or is needed.
+            console.log("[SpeedrunScreen] Loading next question");
+            await this.engine.nextQuestion();
+            this.renderState(this.engine.getState());
         }
 
         handleTimeEvent(e: any) {
-            // Differentiate local vs global
-            // QuestionContainer (Local Stress) vs header (Global Stopwatch)
-            
-            // Component structure: 
-            // Header -> Stopwatch
-            // Container -> StressBarwrapper -> StressBar
-            
-            // We can check e.target ID or class
             const targetId = (e.target as HTMLElement).id;
             
-            if(targetId.includes('stopwatch')) {
-                // Global Time Up
-                 console.log("Game Over: Time Limit");
-                 this.finishGame(this.engine.getState());
+            if (targetId.includes('stopwatch')) {
+                // Global time limit reached
+                console.log("[SpeedrunScreen] Global time limit reached");
+                if (this.engine) {
+                    this.engine.endGame();
+                }
             } else {
-                // Local Stress Bar
-                console.log("Question Time Limit");
-                this.handleSkip(); 
-                // Show feedback "Time's Up"
-                // Then show Next button
+                // Per-question time limit (stress bar)
+                console.log("[SpeedrunScreen] Question time limit reached");
+                this.handleSkip();
             }
         }
         
-        finishGame(state: any) {
-             if(this.header) this.header.stopTimer();
-             if(this.container) this.container.stopStressTimer();
-             
-             // @ts-ignore
-             if (window.game.showResults) {
+        async finishGame() {
+            if (!this.engine) return;
+            
+            console.log("[SpeedrunScreen] Finishing game");
+            
+            // Stop all timers
+            if (this.header) this.header.stopTimer();
+            if (this.container) this.container.stopStressTimer();
+            
+            const state = this.engine.getState();
+            
+            // Show results screen
+            // @ts-ignore
+            if (window.game.showResults) {
                 // @ts-ignore
                 window.game.showResults({
-                    score: state.correctCount,
-                    total: state.totalQuestions,
-                    time: 0, // Get from stopwatch?
+                    score: state.stats.correct,
+                    total: state.stats.totalQuestions,
+                    time: state.stats.endTime ? 
+                        (state.stats.endTime - state.stats.startTime) / 1000 : 0,
                     answers: [],
-                    maxStreak: state.maxStreak,
-                    mode: 'challenge'
+                    maxStreak: state.stats.streak,
+                    mode: 'speedrun'
                 });
-             }
+            }
+        }
+
+        /**
+         * Lifecycle: Cleanup on unmount
+         */
+        async onDestroy(): Promise<void> {
+            if (this.engine) {
+                this.engine.destroy();
+            }
+            console.log("[SpeedrunScreen] Destroyed");
         }
     }
 
