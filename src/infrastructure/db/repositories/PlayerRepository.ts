@@ -68,4 +68,47 @@ export class PlayerRepository {
             );
         }
     }
+
+    /**
+     * Get all players from database
+     */
+    public async getAllPlayers(): Promise<any[]> {
+        const db = await this.getDB();
+        const players = await db.query("SELECT * FROM player ORDER BY exp DESC");
+        return players || [];
+    }
+
+    /**
+     * Delete a player by ID
+     */
+    public async deletePlayer(id: number): Promise<void> {
+        const db = await this.getDB();
+        
+        // Delete player stats first (foreign key constraint)
+        await db.run("DELETE FROM player_stats WHERE player_id = ?", [id]);
+        
+        // Delete player
+        await db.run("DELETE FROM player WHERE id = ?", [id]);
+    }
+
+    /**
+     * Get player by name
+     */
+    public async getPlayerByName(name: string): Promise<any | null> {
+        const db = await this.getDB();
+        const res = await db.query("SELECT * FROM player WHERE name = ?", [name]);
+        return res && res.length > 0 ? res[0] : null;
+    }
+
+    /**
+     * Get all stats for a player across all subjects
+     */
+    public async getAllPlayerStats(playerId: number): Promise<any[]> {
+        const db = await this.getDB();
+        const stats = await db.query(
+            "SELECT * FROM player_stats WHERE player_id = ?",
+            [playerId]
+        );
+        return stats || [];
+    }
 }

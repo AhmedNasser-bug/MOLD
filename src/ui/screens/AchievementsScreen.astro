@@ -15,22 +15,36 @@
 
 
 <script>
+    import { AchievementRepository } from "../../infrastructure/db/repositories/AchievementRepository";
+    import { PlayerRepository } from "../../infrastructure/db/repositories/PlayerRepository";
+    import { uiStore } from "../../logic/state/UIStore";
 
     interface SubjectData {
         id: string;
         name: string;
         achievements?: any[];
-        config?: { storageKey: string };
     }
-
 
     class AchievementsScreenController {
         private subject: SubjectData;
+        private currentPlayerId: number = 1;
 
         constructor() {
             // @ts-ignore
             this.subject = window.subjectData;
+            this.loadCurrentPlayer();
             this.bindEvents();
+        }
+
+        async loadCurrentPlayer() {
+            const playerRepo = PlayerRepository.getInstance();
+            let player = await playerRepo.getPlayerByName('Default Player');
+            
+            if (!player) {
+                player = await playerRepo.createPlayer('Default Player');
+            }
+            
+            this.currentPlayerId = player.id;
         }
 
         bindEvents() {
@@ -40,9 +54,9 @@
             window.game.showAchievements = this.show.bind(this);
         }
 
-        show() {
+        async show() {
             this.showScreen('achievementsScreen');
-            this.render();
+            await this.render();
         }
 
         showScreen(id: string) {
@@ -50,18 +64,29 @@
             document.getElementById(id)?.classList.add('active');
         }
 
-        render(): void {
-            const data = this.loadProgress();
-            const unlocked = data.achievements || [];
+        async render(): Promise<void> {
+            const achievementRepo = AchievementRepository.getInstance();
             const grid = document.getElementById('achievementsList');
 
-            if (!grid || !this.subject.achievements) return;
+            if (!grid) return;
 
-            grid.innerHTML = this.subject.achievements.map(ach => {
-                const isUnlocked = unlocked.includes(ach.id);
+            // Get all achievements for this subject
+            const allAchievements = await achievementRepo.getAchievementsBySubject(this.subject.id);
+            
+            // Get player's unlocked achievements
+            const unlockedAchievements = await achievementRepo.getPlayerAchievements(this.currentPlayerId);
+            const unlockedIds = unlockedAchievements.map(a => a.achievementId);
+
+            if (allAchievements.length === 0) {
+                grid.innerHTML = '<p class="empty-message">No achievements available for this subject.</p>';
+                return;
+            }
+
+            grid.innerHTML = allAchievements.map(ach => {
+                const isUnlocked = unlockedIds.includes(ach.id);
                 return `
                     <div class="achievement-card ${isUnlocked ? 'unlocked' : 'locked'}">
-                        <div class="achievement-icon">${ach.icon}</div>
+                        <div class="achievement-icon">${ach.icon || '🏆'}</div>
                         <div class="achievement-info">
                             <h3>${ach.title}</h3>
                             <p>${ach.description}</p>
@@ -69,16 +94,6 @@
                     </div>
                 `;
             }).join('');
-        }
-
-        private loadProgress(): any {
-            // @ts-ignore
-            if (!this.subject.config) return { achievements: [] };
-            const saved = localStorage.getItem(this.subject.config.storageKey);
-            if (saved) {
-                try { return JSON.parse(saved); } catch (e) { console.error(e); }
-            }
-            return { achievements: [] };
         }
     }
 

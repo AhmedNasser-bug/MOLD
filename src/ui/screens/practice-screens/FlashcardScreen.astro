@@ -203,11 +203,10 @@ import '../../../styles/screens/practice.css';
         }
         
         markResult(known: boolean) {
-            // Store result in LocalStorage for now (Mastery System Lite)
-            const item = this.items[this.currentIndex];
-            const key = `fc_${this.mode}_${item.id}_mastery`;
-            const val = known ? 1 : 0; // Simple boolean for now
-            localStorage.setItem(key, val.toString());
+            // TODO: Implement database-backed flashcard progress tracking
+            // For now, we just navigate to next card
+            // Future: Use FlashcardProgressRepository to track mastery level
+            console.log(`[FlashcardScreen] Card ${this.items[this.currentIndex].id}: ${known ? 'Known' : 'Study Again'}`);
             
             this.navigate(1);
         }

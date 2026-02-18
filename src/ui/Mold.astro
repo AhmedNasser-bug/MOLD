@@ -48,6 +48,8 @@ const { subject } = Astro.props;
 
 <script>
     import { Subject } from "../logic/entities/Subject";
+    import { migrationService } from "../infrastructure/db/MigrationService";
+    import { eventBus } from "../infrastructure/events/EventBus";
     
     // Pass subject data from SSR to client logic
     const subjectData = window.subjectData; 
@@ -61,26 +63,46 @@ const { subject } = Astro.props;
         }
 
         try {
-            // Instantiate with ID from SSR
+            // Step 1: Run localStorage migration if needed
+            if (statusEl) statusEl.textContent = "Checking for data migration...";
+            const migrationComplete = await migrationService.isMigrationComplete();
+            
+            if (!migrationComplete) {
+                if (statusEl) statusEl.textContent = "Migrating localStorage data to database...";
+                await migrationService.migrate();
+            }
+
+            // Step 2: Instantiate subject with ID from SSR
             const subject = new Subject(subjectData.id, subjectData.name);
             
             if (statusEl) statusEl.textContent = `Syncing ${subject.name}...`;
             
-            // Perform Sync (API -> DB if missing)
+            // Step 3: Perform Sync (API -> DB if missing)
+            await eventBus.emit('data:sync-start', { syncType: 'subjects' });
             const success = await subject.sync();
             
             if (success) {
-                // Load Data into Memory (and window.subjectData for legacy screens)
+                // Step 4: Load Data into Memory (and window.subjectData for legacy screens)
                 await subject.loadFromDB();
                 
-                // Hide loader, show game
+                await eventBus.emit('data:sync-complete', { 
+                    syncType: 'subjects',
+                    itemsProcessed: 1,
+                });
+
+                // Step 5: Emit database ready event
+                await eventBus.emit('database:ready', { 
+                    hasExistingData: true 
+                });
+                
+                // Step 6: Hide loader, show game
                 const overlay = document.getElementById('loading-overlay');
                 const container = document.getElementById('game-container');
                 if (overlay) overlay.style.display = 'none';
                 if (container) container.style.display = 'block';
-                console.log("Assets loaded and synced.");
+                console.log("[Mold] Assets loaded and synced successfully.");
                 
-                // Dispatch Event for Components (Revision, Flashcards, etc)
+                // Legacy event for backward compatibility (will be removed)
                 window.dispatchEvent(new CustomEvent('game-assets-ready', { 
                     detail: window.subjectData 
                 }));
@@ -88,7 +110,7 @@ const { subject } = Astro.props;
                 if (statusEl) statusEl.textContent = "Failed to sync assets. Are you online?";
             }
         } catch (e) {
-            console.error("Asset load error:", e);
+            console.error("[Mold] Asset load error:", e);
             if (statusEl) statusEl.textContent = "Critical Error loading assets.";
         }
     }
