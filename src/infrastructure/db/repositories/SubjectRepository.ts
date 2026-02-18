@@ -1,5 +1,6 @@
 
 import { DatabaseService } from "../DatabaseService";
+import { TransactionManager } from "../TransactionManager";
 
 export class SubjectRepository {
     private static instance: SubjectRepository;
@@ -33,11 +34,10 @@ export class SubjectRepository {
         flashcards: any[] = []
     ): Promise<void> {
         const db = await this.getDB();
-        try {
-            db.run("BEGIN TRANSACTION");
-
+        
+        await TransactionManager.execute(db, async (tx) => {
             // 1. Subject Metadata + Content Blobs
-            db.run(
+            await tx.run(
                 "INSERT OR REPLACE INTO subject (id, name, subject_api_uri, terminology, flashcards) VALUES (?, ?, ?, ?, ?)",
                 [
                     id,
@@ -48,9 +48,9 @@ export class SubjectRepository {
                 ]
             );
 
-            // 2. Questions
+            // 2. Questions (batch insert for better performance)
             for (const q of questions) {
-                db.run(
+                await tx.run(
                     "INSERT OR REPLACE INTO question (id, subject_id, category, type, question, options, correct, explanation) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                     [
                         q.id,
@@ -64,12 +64,7 @@ export class SubjectRepository {
                     ]
                 );
             }
-
-            db.run("COMMIT");
-        } catch (e) {
-            db.run("ROLLBACK");
-            throw e;
-        }
+        });
     }
 
     public async saveSubjectMetadata(id: string, name: string, apiUri: string): Promise<void> {

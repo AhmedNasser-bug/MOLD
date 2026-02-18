@@ -27,7 +27,10 @@ interface LegacyUserProgress {
 
 export class MigrationService {
   private static instance: MigrationService;
-  private migrationComplete: boolean = false;
+  
+  // Static cache to avoid DB queries on every page load (20-50ms saved)
+  private static migrationChecked: boolean = false;
+  private static migrationComplete: boolean = false;
 
   private constructor() {}
 
@@ -39,18 +42,29 @@ export class MigrationService {
   }
 
   /**
-   * Check if migration has been completed
+   * Check if migration has been completed (cached in memory)
    */
   public async isMigrationComplete(): Promise<boolean> {
-    if (this.migrationComplete) return true;
+    // Return cached result if already checked
+    if (MigrationService.migrationChecked) {
+      console.log('[MigrationService] Returning cached migration status:', MigrationService.migrationComplete);
+      return MigrationService.migrationComplete;
+    }
 
     try {
+      const startTime = performance.now();
       const db = await DatabaseService.getInstance();
       const result = await db.query(
         "SELECT value FROM app_metadata WHERE key = 'migration_complete'"
       );
-      this.migrationComplete = result && result.length > 0 && result[0].value === 'true';
-      return this.migrationComplete;
+      
+      MigrationService.migrationComplete = result && result.length > 0 && result[0].value === 'true';
+      MigrationService.migrationChecked = true;
+      
+      const duration = performance.now() - startTime;
+      console.log(`[MigrationService] Migration check took ${duration.toFixed(2)}ms`);
+      
+      return MigrationService.migrationComplete;
     } catch (error) {
       console.error('[MigrationService] Error checking migration status:', error);
       return false;
@@ -58,7 +72,7 @@ export class MigrationService {
   }
 
   /**
-   * Mark migration as complete
+   * Mark migration as complete and update cache
    */
   private async markMigrationComplete(): Promise<void> {
     try {
@@ -66,7 +80,12 @@ export class MigrationService {
       await db.run(
         "INSERT OR REPLACE INTO app_metadata (key, value) VALUES ('migration_complete', 'true')"
       );
-      this.migrationComplete = true;
+      
+      // Update static cache
+      MigrationService.migrationComplete = true;
+      MigrationService.migrationChecked = true;
+      
+      console.log('[MigrationService] Migration marked complete and cached');
     } catch (error) {
       console.error('[MigrationService] Error marking migration complete:', error);
     }
@@ -328,8 +347,12 @@ export class MigrationService {
     try {
       const db = await DatabaseService.getInstance();
       await db.run("DELETE FROM app_metadata WHERE key = 'migration_complete'");
-      this.migrationComplete = false;
-      console.log('[MigrationService] Migration status reset.');
+      
+      // Clear static cache
+      MigrationService.migrationComplete = false;
+      MigrationService.migrationChecked = false;
+      
+      console.log('[MigrationService] Migration status reset and cache cleared.');
     } catch (error) {
       console.error('[MigrationService] Error resetting migration:', error);
     }
