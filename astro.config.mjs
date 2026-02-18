@@ -2,7 +2,7 @@
 import { defineConfig } from 'astro/config';
 
 // Use Vercel adapter for Vercel deployment
-import vercel from '@astrojs/vercel/serverless';
+import vercel from '@astrojs/vercel';
 
 // https://astro.build/config
 export default defineConfig({
