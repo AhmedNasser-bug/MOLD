@@ -1,14 +1,14 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
-// https://astro.build/config
-import netlify from '@astrojs/netlify';
+// Use Vercel adapter for Vercel deployment
+import vercel from '@astrojs/vercel/serverless';
 
 // https://astro.build/config
 export default defineConfig({
     base: "/",
     output: "server",
-    adapter: netlify(),
+    adapter: vercel(),
     build: {
         format: "file",
     },
