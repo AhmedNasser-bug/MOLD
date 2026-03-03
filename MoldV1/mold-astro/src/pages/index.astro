@@ -1,6 +1,6 @@
-import Layout from '../layouts/Layout.astro';
-import { Subject as SubjectLoader } from '../ai/Subject';
-
+---
+import Layout from "../layouts/Layout.astro";
+import { Subject as SubjectLoader } from "../data/subjects/Subject";
 const subjects = await SubjectLoader.listAll();
 ---
 
@@ -13,22 +13,34 @@ const subjects = await SubjectLoader.listAll();
 
         <div class="container">
             <div class="category-grid">
-                {subjects.map(subject => (
-                    <a href={`/${subject.id}`} class="category-card" style="text-decoration:none; display:block">
-                        <h3>{subject.name.toUpperCase()}</h3>
-                        <p>{subject.config.description}</p>
-                        <div style="margin-top:10px; font-size:0.8rem; color:var(--text-muted)">
-                            {subject.questions.length} Questions • {Object.keys(subject.terminology).length} Terms
-                        </div>
-                    </a>
-                ))}
+                {
+                    subjects.map((subject) => (
+                        <a
+                            href={`/${subject.id}`}
+                            class="category-card"
+                            style="text-decoration:none; display:block"
+                        >
+                            <h3>{subject.name.toUpperCase()}</h3>
+                            <p>{subject.config.description}</p>
+                            <div style="margin-top:10px; font-size:0.8rem; color:var(--text-muted)">
+                                {subject.questions.length} Questions •{" "}
+                                {Object.keys(subject.terminology).length} Terms
+                            </div>
+                        </a>
+                    ))
+                }
             </div>
 
-            {subjects.length === 0 && (
-                <div style="text-align:center; padding: 40px; color: var(--text-muted)">
-                    <p>No subjects found. Run the generation script to create one!</p>
-                </div>
-            )}
+            {
+                subjects.length === 0 && (
+                    <div style="text-align:center; padding: 40px; color: var(--text-muted)">
+                        <p>
+                            No subjects found. Run the generation script to
+                            create one!
+                        </p>
+                    </div>
+                )
+            }
         </div>
     </div>
 </Layout>

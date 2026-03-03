@@ -1,4 +1,4 @@
-
+import { subjectState } from "../state/SubjectState";
 import { DataSyncService } from "../services/DataSyncService";
 import { SubjectRepository } from "../../infrastructure/db/repositories/SubjectRepository";
 import { DatabaseService } from "../../infrastructure/db/DatabaseService";
@@ -42,17 +42,16 @@ export class Subject {
 
                 console.log(`[Subject] Loaded for '${this.id}': ${this._questions.length} questions, ${(this as any)._terminology.length} terms.`);
 
-                // ALWAYS populate window.subjectData if data was found, regardless of question count
+                // ALWAYS populate subjectState if data was found, regardless of question count
                 // This ensures Encyclopedia words even if questions are broken/empty
-                // @ts-ignore
-                window.subjectData = {
+                subjectState.setSubject({
                     id: this.id,
                     name: this.name,
                     questions: this._questions,
                     terminology: (this as any)._terminology,
                     flashcards: (this as any)._flashcards,
                     meta: {}
-                };
+                });
 
                 if (this._questions.length > 0) {
                     return this._questions;

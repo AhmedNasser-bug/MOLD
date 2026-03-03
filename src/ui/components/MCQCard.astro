@@ -20,6 +20,8 @@ const { id, options, correctIndex } = Astro.props;
 </div>
 
 <script>
+    import { subjectState } from "../../logic/state/SubjectState";
+
     export class MCQCard {
         private container: HTMLElement;
         private options: NodeListOf<HTMLButtonElement>;
@@ -44,7 +46,7 @@ const { id, options, correctIndex } = Astro.props;
         private loadById(id: string) {
             // "Acquire current data of the question"
             // @ts-ignore
-            const subject = window.subjectData;
+            const subject = subjectState.getSubject();
             const q = subject?.questions.find((q: any) => q.id === id); // Assuming ID exists or we use index?
             // Actually our data might not have unique string IDs for all questions in JSON yet.
             // If ID is index-based or unique, we handle it.
