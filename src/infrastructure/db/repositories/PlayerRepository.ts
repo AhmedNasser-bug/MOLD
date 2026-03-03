@@ -1,5 +1,6 @@
 
 import { DatabaseService } from "../DatabaseService";
+import { TransactionManager } from "../TransactionManager";
 
 export class PlayerRepository {
     private static instance: PlayerRepository;
@@ -55,17 +56,65 @@ export class PlayerRepository {
 
     public async saveStats(playerId: number, subjectId: string, highScore: number, totalRuns: number): Promise<void> {
         const db = await this.getDB();
-        const existing = await this.getStats(playerId, subjectId);
-        if (existing) {
-            db.run(
-                "UPDATE player_stats SET high_score = ?, total_runs = ? WHERE id = ?",
-                [highScore, totalRuns, existing.id]
-            );
-        } else {
-            db.run(
-                "INSERT INTO player_stats (player_id, subject_id, high_score, total_runs) VALUES (?, ?, ?, ?)",
-                [playerId, subjectId, highScore, totalRuns]
-            );
-        }
+        
+        await TransactionManager.execute(db, async (tx) => {
+            const existing = await this.getStats(playerId, subjectId);
+            if (existing) {
+                await tx.run(
+                    "UPDATE player_stats SET high_score = ?, total_runs = ? WHERE id = ?",
+                    [highScore, totalRuns, existing.id]
+                );
+            } else {
+                await tx.run(
+                    "INSERT INTO player_stats (player_id, subject_id, high_score, total_runs) VALUES (?, ?, ?, ?)",
+                    [playerId, subjectId, highScore, totalRuns]
+                );
+            }
+        });
+    }
+
+    /**
+     * Get all players from database
+     */
+    public async getAllPlayers(): Promise<any[]> {
+        const db = await this.getDB();
+        const players = await db.query("SELECT * FROM player ORDER BY exp DESC");
+        return players || [];
+    }
+
+    /**
+     * Delete a player by ID (wrapped in transaction)
+     */
+    public async deletePlayer(id: number): Promise<void> {
+        const db = await this.getDB();
+        
+        await TransactionManager.execute(db, async (tx) => {
+            // Delete player stats first (foreign key constraint)
+            await tx.run("DELETE FROM player_stats WHERE player_id = ?", [id]);
+            
+            // Delete player
+            await tx.run("DELETE FROM player WHERE id = ?", [id]);
+        });
+    }
+
+    /**
+     * Get player by name
+     */
+    public async getPlayerByName(name: string): Promise<any | null> {
+        const db = await this.getDB();
+        const res = await db.query("SELECT * FROM player WHERE name = ?", [name]);
+        return res && res.length > 0 ? res[0] : null;
+    }
+
+    /**
+     * Get all stats for a player across all subjects
+     */
+    public async getAllPlayerStats(playerId: number): Promise<any[]> {
+        const db = await this.getDB();
+        const stats = await db.query(
+            "SELECT * FROM player_stats WHERE player_id = ?",
+            [playerId]
+        );
+        return stats || [];
     }
 }

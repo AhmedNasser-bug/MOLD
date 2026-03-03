@@ -3,12 +3,14 @@ import sqlite3InitModule from '@sqlite.org/sqlite-wasm';
 
 export class DatabaseService {
     private static instance: DatabaseService;
+    private static initPromise: Promise<void> | null = null;
     private db: any;
 
     private constructor() { }
 
     public static async getInstance(): Promise<DatabaseService> {
         if (!DatabaseService.instance) {
+            console.log('[v0] DatabaseService: Creating new instance...');
             DatabaseService.instance = new DatabaseService();
             await DatabaseService.instance.init();
         }
@@ -16,6 +18,25 @@ export class DatabaseService {
     }
 
     private async init() {
+        // Deduplicate concurrent init requests
+        if (DatabaseService.initPromise) {
+            console.log('[v0] DatabaseService: Waiting for existing initialization...');
+            await DatabaseService.initPromise;
+            return;
+        }
+
+        console.log('[v0] DatabaseService: Starting SQLite WASM initialization...');
+        DatabaseService.initPromise = this.doInit();
+        
+        try {
+            await DatabaseService.initPromise;
+            console.log('[v0] DatabaseService: Initialization complete');
+        } finally {
+            DatabaseService.initPromise = null;
+        }
+    }
+
+    private async doInit() {
         try {
             const sqlite3 = await sqlite3InitModule({
                 print: console.log,
@@ -26,14 +47,14 @@ export class DatabaseService {
             // Try OPFS first, fall back to memory if not supported
             if ('opfs' in sqlite3) {
                 this.db = new sqlite3.oo1.OpfsDb('/game_data.sqlite3');
-                console.log('Database initialized with OPFS persistence.');
+                console.log('[v0] DatabaseService: OPFS persistence enabled');
             } else {
-                console.warn("OPFS not available, falling back to transient memory DB.");
+                console.warn('[v0] DatabaseService: OPFS not available, using in-memory DB');
                 this.db = new sqlite3.oo1.DB('/game_data.sqlite3', 'ct');
             }
             this.migrate();
         } catch (e) {
-            console.error("Failed to initialize database:", e);
+            console.error('[v0] DatabaseService: Initialization failed:', e);
             throw e;
         }
     }

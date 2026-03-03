@@ -1,6 +1,7 @@
 
 import { DataSyncService } from "../services/DataSyncService";
 import { SubjectRepository } from "../../infrastructure/db/repositories/SubjectRepository";
+import { DatabaseService } from "../../infrastructure/db/DatabaseService";
 
 export class Subject {
     private _questions: any[] = [];

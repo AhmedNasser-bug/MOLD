@@ -68,18 +68,37 @@ const { subjectName, description } = Astro.props;
 <script>
     import type { SubjectData as Subject } from "../../data/subjects/Subject";
     import { SUBJECT_MODES } from "../../data/subjects/Subject";
+    import { GameHistoryRepository } from "../../infrastructure/db/repositories/GameHistoryRepository";
+    import { PlayerRepository } from "../../infrastructure/db/repositories/PlayerRepository";
+    import { AchievementRepository } from "../../infrastructure/db/repositories/AchievementRepository";
+    import { uiStore } from "../../logic/state/UIStore";
 
     class HomeScreenController {
         private subject: Subject;
         private currentMode: string = "speedrun";
         private selectedCategory: string | null = null;
         private settingsPanel: any; // Instance of GameSettingsPanel
+        private currentPlayerId: number = 1; // Default player ID
 
         constructor() {
             // @ts-ignore
             this.subject = window.subjectData;
+            this.loadCurrentPlayer();
             this.bindEvents();
             this.init();
+        }
+
+        async loadCurrentPlayer() {
+            // Get or create default player
+            const playerRepo = PlayerRepository.getInstance();
+            let player = await playerRepo.getPlayerByName('Default Player');
+            
+            if (!player) {
+                player = await playerRepo.createPlayer('Default Player');
+            }
+            
+            this.currentPlayerId = player.id;
+            uiStore.setPlayer(player.id, player.name, player.exp);
         }
 
         bindEvents() {
@@ -213,59 +232,70 @@ const { subjectName, description } = Astro.props;
             });
         }
 
-        private updateStats() {
-            const data = this.loadProgress();
+        private async updateStats() {
+            const historyRepo = GameHistoryRepository.getInstance();
+            const achievementRepo = AchievementRepository.getInstance();
 
+            // Get stats from database
+            const stats = await historyRepo.getPlayerStats(this.currentPlayerId, this.subject.id);
+            
             const elRuns = document.getElementById("totalRuns");
-            if (elRuns) elRuns.textContent = data.runs.length.toString();
+            if (elRuns) elRuns.textContent = stats.totalGames.toString();
 
             const elBestScore = document.getElementById("bestScore");
-            if (elBestScore) elBestScore.textContent = data.bestScore + "%";
+            if (elBestScore) elBestScore.textContent = stats.accuracy + "%";
 
             const elBestStreak = document.getElementById("bestStreak");
-            if (elBestStreak)
-                elBestStreak.textContent = data.bestStreak.toString();
+            if (elBestStreak) elBestStreak.textContent = stats.highScore.toString();
 
-            if (data.runs.length > 0) {
-                const avg = Math.round(
-                    data.runs.reduce((a: number, b: any) => a + b.score, 0) /
-                        data.runs.length,
-                );
-                const elAvg = document.getElementById("avgScore");
-                if (elAvg) elAvg.textContent = avg + "%";
-            }
+            const elAvg = document.getElementById("avgScore");
+            if (elAvg) elAvg.textContent = stats.averageScore + "%";
 
-            const awardCount = data.achievements ? data.achievements.length : 0;
-            const totalAwards = this.subject.achievements?.length || 0;
+            // Get achievement progress
+            const achievementProgress = await achievementRepo.getPlayerProgress(
+                this.currentPlayerId,
+                this.subject.id
+            );
+            
             const awardEl = document.getElementById("totalAwards");
-            if (awardEl)
-                awardEl.textContent = `🏆 ${awardCount}/${totalAwards}`;
+            if (awardEl) {
+                awardEl.textContent = `🏆 ${achievementProgress.unlocked}/${achievementProgress.total}`;
+            }
         }
 
-        private loadHistory() {
-            const data = this.loadProgress();
+        private async loadHistory() {
+            const historyRepo = GameHistoryRepository.getInstance();
             const container = document.getElementById("historyContainer");
             if (!container) return;
 
-            if (data.runs.length === 0) {
+            // Get recent game history from database
+            const recentRuns = await historyRepo.getSubjectHistory(
+                this.currentPlayerId,
+                this.subject.id,
+                10
+            );
+
+            if (recentRuns.length === 0) {
                 container.innerHTML =
                     '<p class="empty-history">No runs yet. Start your first challenge!</p>';
                 return;
             }
 
-            const recentRuns = data.runs.slice(-10).reverse();
             let html =
                 '<table class="history-table"><thead><tr><th>Date</th><th>Mode</th><th>Score</th><th>Time</th><th>Grade</th></tr></thead><tbody>';
 
             recentRuns.forEach((run: any) => {
-                const grade = this.getGrade(run.score);
+                const accuracy = run.correct > 0 
+                    ? Math.round((run.correct / (run.correct + run.incorrect)) * 100)
+                    : 0;
+                const grade = this.getGrade(accuracy);
                 const badgeClass =
-                    run.score >= 87
+                    accuracy >= 87
                         ? "badge-success"
-                        : run.score >= 70
+                        : accuracy >= 70
                           ? "badge-warning"
                           : "badge-error";
-                html += `<tr><td>${new Date(run.date).toLocaleDateString()}</td><td style="text-transform:capitalize">${run.mode}</td><td><strong>${run.score}%</strong></td><td>${this.formatTime(run.time)}</td><td><span class="badge ${badgeClass}">${grade}</span></td></tr>`;
+                html += `<tr><td>${new Date(run.timestamp).toLocaleDateString()}</td><td style="text-transform:capitalize">${run.mode}</td><td><strong>${accuracy}%</strong></td><td>${this.formatTime(run.timeTaken || 0)}</td><td><span class="badge ${badgeClass}">${grade}</span></td></tr>`;
             });
 
             html += "</tbody></table>";
@@ -289,22 +319,7 @@ const { subjectName, description } = Astro.props;
                 .join("");
         }
 
-        private loadProgress(): any {
-            // @ts-ignore
-            if (!this.subject.config)
-                return { runs: [], bestScore: 0, bestStreak: 0 };
-            const saved = localStorage.getItem(
-                this.subject.config.storageKey || this.subject.id,
-            );
-            if (saved) {
-                try {
-                    return JSON.parse(saved);
-                } catch (e) {
-                    console.error(e);
-                }
-            }
-            return { runs: [], bestScore: 0, bestStreak: 0 };
-        }
+
 
         private getGrade(score: number): string {
             if (score >= 97) return "S+";

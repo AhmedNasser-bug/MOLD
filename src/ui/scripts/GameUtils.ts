@@ -37,9 +37,10 @@ export const GameUtils = {
 
     /**
      * Dispatches a custom event from the window object.
-     * Useful for cross-component communication where direct reference is hard.
+     * @deprecated Use eventBus from EventBus.ts instead for type safety
      */
     emit(eventName: string, detail: any = {}) {
+        console.warn('[GameUtils] emit() is deprecated. Use eventBus from EventBus.ts instead.');
         window.dispatchEvent(new CustomEvent(eventName, { detail }));
     }
 };

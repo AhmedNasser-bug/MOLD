@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",
-    "@astrojs/netlify": "^6.6.3",
+    "@astrojs/vercel": "^8.0.0",
     "@sqlite.org/sqlite-wasm": "^3.51.1-build2",
     "@types/he": "^1.2.3",
     "astro": "^5.16.6",
