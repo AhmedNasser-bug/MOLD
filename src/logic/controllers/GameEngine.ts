@@ -20,6 +20,7 @@ export class GameEngine {
     private stateMachine: GameStateMachine;
     private maxStreak: number = 0;
     private unsubscribeState?: () => void;
+    private db: DatabaseService | null = null;
 
     constructor(
         private readonly subject: Subject,
@@ -42,6 +43,9 @@ export class GameEngine {
     }
 
     public async start() {
+        // Initialize database instance
+        this.db = await DatabaseService.getInstance();
+
         // Load questions based on mode
         this.questions = await this.subject.loadQuestions();
 
@@ -216,7 +220,8 @@ export class GameEngine {
             await this.player.addExp(score);
 
             // Save stats to database
-            const db = await DatabaseService.getInstance();
+            this.db ??= await DatabaseService.getInstance();
+            const db = this.db;
             const stats = await db.query(
                 "SELECT * FROM player_stats WHERE player_id = ? AND subject_id = ?",
                 [this.player.id, this.subject.id]
