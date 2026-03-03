@@ -1,5 +1,7 @@
 # build output
 dist/
+coverage/
+
 # generated types
 .astro/
 
@@ -27,3 +29,8 @@ pnpm-debug.log*
 .netlify
 
 llms-full.txt
+GEMINI.md
+.specify
+.gemini/
+
+MoldV1/

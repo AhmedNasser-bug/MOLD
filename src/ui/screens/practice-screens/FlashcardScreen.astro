@@ -64,6 +64,8 @@ import '../../../styles/screens/practice.css';
 </style>
 
 <script>
+    import { subjectState } from "../../../logic/state/SubjectState";
+
     import { GameUtils } from "../../scripts/GameUtils";
     import { Subject } from '../../../logic/entities/Subject';
     // We don't import UserProgress anymore. We use DB or Transiet state via GameUtils/Player?
@@ -129,13 +131,13 @@ import '../../../styles/screens/practice.css';
             this.activateScreen();
             
             // @ts-ignore
-            const sd = window.subjectData;
+            const sd = subjectState.getSubject();
             // API-like fetch from local data or new Subject Entity
             // Ideally we use: 
             // const subject = new Subject(sd.id, sd.name, ...);
             // const questions = await subject.loadQuestions();
             
-            // For transition, we use window.subjectData which is already loaded by Layout
+            // For transition, we use subjectState.getSubject() which is already loaded by Layout
             this.items = mode === 'questionBank' ? sd.questions : sd.terminology;
             
             // Transform terminology to unified interface if needed

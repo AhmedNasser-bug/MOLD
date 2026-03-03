@@ -1,5 +1,5 @@
 ---
-import { SUBJECT_MODES } from "../../ai/Subject";
+import { SUBJECT_MODES } from "../../data/subjects/Subject";
 interface Props {
     subjectName: string;
     description: string;
@@ -99,8 +99,8 @@ const { subjectName, description } = Astro.props;
 </div>
 
 <script>
-    import type { SubjectData as Subject } from "../../ai/Subject";
-    import { SUBJECT_MODES } from "../../ai/Subject";
+    import type { SubjectData as Subject } from "../../data/subjects/Subject";
+    import { SUBJECT_MODES } from "../../data/subjects/Subject";
 
     class HomeScreenController {
         private subject: Subject;

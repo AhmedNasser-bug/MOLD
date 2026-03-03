@@ -1,7 +1,10 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import Mold from "../../components/Mold.astro";
-import { Subject as SubjectLoader, type SubjectData } from "../../ai/Subject";
+import {
+    Subject as SubjectLoader,
+    type SubjectData,
+} from "../../data/subjects/Subject";
 
 export async function getStaticPaths() {
     const subjects = await SubjectLoader.listAll();

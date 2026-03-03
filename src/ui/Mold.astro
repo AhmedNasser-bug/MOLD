@@ -47,12 +47,14 @@ const { subject } = Astro.props;
 </div>
 
 <script>
+    import { subjectState } from "../logic/state/SubjectState";
+
     import { Subject } from "../logic/entities/Subject";
     import { migrationService } from "../infrastructure/db/MigrationService";
     import { eventBus } from "../infrastructure/events/EventBus";
     
     // Pass subject data from SSR to client logic
-    const subjectData = window.subjectData; 
+    const subjectData = subjectState.getSubject(); 
 
     async function initAssets() {
         const statusEl = document.getElementById('loading-status');
@@ -82,7 +84,7 @@ const { subject } = Astro.props;
             const success = await subject.sync();
             
             if (success) {
-                // Step 4: Load Data into Memory (and window.subjectData for legacy screens)
+                // Step 4: Load Data into Memory (and subjectState.getSubject() for legacy screens)
                 await subject.loadFromDB();
                 
                 await eventBus.emit('data:sync-complete', { 
@@ -104,7 +106,7 @@ const { subject } = Astro.props;
                 
                 // Legacy event for backward compatibility (will be removed)
                 window.dispatchEvent(new CustomEvent('game-assets-ready', { 
-                    detail: window.subjectData 
+                    detail: subjectState.getSubject() 
                 }));
             } else {
                 if (statusEl) statusEl.textContent = "Failed to sync assets. Are you online?";
@@ -120,5 +122,5 @@ const { subject } = Astro.props;
 </script>
 
 <script is:inline define:vars={{ subject }}>
-    window.subjectData = subject;
+    subjectState.setSubject(subject);
 </script>

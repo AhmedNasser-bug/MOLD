@@ -8,7 +8,7 @@
 import { eventBus } from '../../infrastructure/events/EventBus';
 import { componentRegistry } from '../registry/ComponentRegistry';
 
-export type ScreenName = 
+export type ScreenName =
   | 'home'
   | 'speedrun'
   | 'blitz'
@@ -78,6 +78,15 @@ class ScreenManager {
     // Update history
     if (from && !preserveState) {
       this.screenHistory.push(from);
+    }
+
+    // Destroy the previous screen if it exists to prevent memory leaks (don't cache game instances)
+    if (from && from !== 'home') {
+      const prevComponent = componentRegistry.get(from);
+      if (prevComponent && prevComponent.destroy) {
+        console.log(`[ScreenManager] Destroying previous screen: ${from}`);
+        componentRegistry.unregister(from);
+      }
     }
 
     // Show the new screen via registry

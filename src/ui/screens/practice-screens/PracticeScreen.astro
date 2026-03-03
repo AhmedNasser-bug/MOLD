@@ -20,6 +20,8 @@ import '../../../styles/screens/practice.css';
 </div>
 
 <script>
+    import { subjectState } from "../../../logic/state/SubjectState";
+
     import { GameEngine } from "../../../logic/controllers/GameEngine";
     import { Subject } from "../../../logic/entities/Subject";
     import { Player } from "../../../logic/entities/Player";
@@ -64,7 +66,7 @@ import '../../../styles/screens/practice.css';
             this.activateScreen();
             
             // @ts-ignore
-            const subjectData = window.subjectData;
+            const subjectData = subjectState.getSubject();
             const subject = new Subject(
                 subjectData.id, 
                 subjectData.name

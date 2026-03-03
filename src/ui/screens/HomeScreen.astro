@@ -2,7 +2,7 @@
 import SetupPanel from "../components/modules/SetupPanel.astro";
 import ModeSelector from "../components/modules/ModeSelector.astro";
 import OperationLogs from "../components/modules/OperationLogs.astro";
-import '../../styles/screens/home.css';
+import "../../styles/screens/home.css";
 interface Props {
     subjectName: string;
     description: string;
@@ -14,7 +14,7 @@ const { subjectName, description } = Astro.props;
     <div style="max-width: 1200px; margin: 0 auto; padding: 40px;">
         <div class="header">
             <h1 class="hero-title">{subjectName.toUpperCase()}</h1>
-             <div class="hero-subtitle-container">
+            <div class="hero-subtitle-container">
                 <div class="separator-line"></div>
                 <p class="subtitle-text">MASTERY PROTOCOL V2</p>
             </div>
@@ -26,9 +26,11 @@ const { subjectName, description } = Astro.props;
 
         <div class="card selector-container">
             <h2 class="section-title">SELECT OPERATIONAL MODE</h2>
-            
+
             {/* New Mode Selector Component */}
-            <ModeSelector onSelect={(mode) => console.log('Mode selected', mode)} />
+            <ModeSelector
+                onSelect={(mode) => console.log("Mode selected", mode)}
+            />
 
             <div id="categorySelector" class="category-selector-container">
                 <h3 class="category-selector-title">TARGET SECTOR</h3>
@@ -62,18 +64,20 @@ const { subjectName, description } = Astro.props;
 
 <!-- Settings Panel Overlay -->
 
-
-
-
 <script>
+    import { subjectState } from "../../logic/state/SubjectState";
+
     import type { SubjectData as Subject } from "../../data/subjects/Subject";
     import { SUBJECT_MODES } from "../../data/subjects/Subject";
-    import { GameHistoryRepository } from "../../infrastructure/db/repositories/GameHistoryRepository";
-    import { PlayerRepository } from "../../infrastructure/db/repositories/PlayerRepository";
-    import { AchievementRepository } from "../../infrastructure/db/repositories/AchievementRepository";
+    import { gameApi } from "../../logic/api/GameApi";
+    import { playerApi } from "../../logic/api/PlayerApi";
+    import { achievementApi } from "../../logic/api/AchievementApi";
     import { uiStore } from "../../logic/state/UIStore";
+    import { BaseScreenController } from "../controllers/BaseScreenController";
+    import { Screen } from "../registry/ComponentRegistry";
 
-    class HomeScreenController {
+    @Screen("home")
+    export class HomeScreenController extends BaseScreenController {
         private subject: Subject;
         private currentMode: string = "speedrun";
         private selectedCategory: string | null = null;
@@ -81,27 +85,33 @@ const { subjectName, description } = Astro.props;
         private currentPlayerId: number = 1; // Default player ID
 
         constructor() {
+            super("homeScreen");
             // @ts-ignore
-            this.subject = window.subjectData;
+            this.subject = subjectState.getSubject();
             this.loadCurrentPlayer();
-            this.bindEvents();
-            this.init();
+        }
+
+        protected async onInit(): Promise<void> {
+            this.updateStats();
+            this.loadHistory();
+            this.renderCategories();
         }
 
         async loadCurrentPlayer() {
             // Get or create default player
-            const playerRepo = PlayerRepository.getInstance();
-            let player = await playerRepo.getPlayerByName('Default Player');
-            
+            let player = await playerApi.getPlayerByName("Default Player");
+
             if (!player) {
-                player = await playerRepo.createPlayer('Default Player');
+                player = await playerApi.createPlayer({
+                    name: "Default Player",
+                });
             }
-            
+
             this.currentPlayerId = player.id;
             uiStore.setPlayer(player.id, player.name, player.exp);
         }
 
-        bindEvents() {
+        protected bindEvents(): void {
             // Bind global methods for legacy/inline calls if any (though we prefer listeners)
             // @ts-ignore
             window.game = window.game || {};
@@ -119,24 +129,48 @@ const { subjectName, description } = Astro.props;
             window.game.goHome = this.goHome.bind(this);
             // @ts-ignore
             window.game.showRevisionScreen = () => {
-                 this.currentMode = 'full-revision'; // Just a fallback
-                 // We need to implement actual screen switching if 'RevisionScreen' is a separate component
-                 document.getElementById('homeScreen')?.classList.remove('active');
-                 document.getElementById('revisionScreen')?.classList.add('active');
+                this.currentMode = "full-revision"; // Just a fallback
+                // We need to implement actual screen switching if 'RevisionScreen' is a separate component
+                document
+                    .getElementById("homeScreen")
+                    ?.classList.remove("active");
+                document
+                    .getElementById("revisionScreen")
+                    ?.classList.add("active");
             };
 
-            // Attach explicit listeners for robustness
-            // We listen to the Custom Event dispatched by ModeSelector component
-            document.addEventListener('mode-selected', (e: any) => {
-                 if(e.detail) {
-                     this.selectMode(e.detail);
-                 }
+            // Attach explicit listeners for robustness utilizing BaseScreenController's auto-cleanup
+            this.addEventListener(document.body, "mode-selected", (e: any) => {
+                if (e.detail) {
+                    this.selectMode(e.detail);
+                }
             });
-            
-            document.getElementById('revisionBtn')?.addEventListener('click', () => {
-                 // @ts-ignore
-                 window.game.showRevisionScreen();
+
+            this.addEventListener("#revisionBtn", "click", () => {
+                // @ts-ignore
+                window.game.showRevisionScreen();
             });
+        }
+
+        protected onDestroy(): void {
+            // Clean up global references to prevent memory leaks if component is disposed
+            // @ts-ignore
+            if (window.game) {
+                // @ts-ignore
+                delete window.game.startQuiz;
+                // @ts-ignore
+                delete window.game.selectMode;
+                // @ts-ignore
+                delete window.game.selectCategory;
+                // @ts-ignore
+                delete window.game.updateStats;
+                // @ts-ignore
+                delete window.game.loadHistory;
+                // @ts-ignore
+                delete window.game.goHome;
+                // @ts-ignore
+                delete window.game.showRevisionScreen;
+            }
         }
 
         goHome() {
@@ -150,9 +184,11 @@ const { subjectName, description } = Astro.props;
 
         startChallenge() {
             // Read config from SetupPanel
-            const config = (window as any).getGameConfig ? (window as any).getGameConfig() : { isSurvival: false, timeLimitSeconds: 0 };
-            
-            // Store config globally or pass it? 
+            const config = (window as any).getGameConfig
+                ? (window as any).getGameConfig()
+                : { isSurvival: false, timeLimitSeconds: 0 };
+
+            // Store config globally or pass it?
             // For transition, we'll attach it to the game object so specific screens can read it
             // until we fully refactor them to use GameEngine directly.
             (window as any).currentGameConfig = config;
@@ -162,37 +198,41 @@ const { subjectName, description } = Astro.props;
 
             // Simple "Launch" for now as requested "Prepare interface", maybe not enforce it yet?
             // User: "Prepare the interface of each mode for a settings pattern refactor"
-            // I will Launch directly for now to preserve existing behavior, 
+            // I will Launch directly for now to preserve existing behavior,
             // BUT I will modify this to support a "Setup Phase".
-            
+
             // Let's just Launch the Mode. The Settings Panel exists in DOM now.
             // Wiring it up completely might break "Quick Start" if user didn't ask for mandatory settings.
-            
-            switch(this.currentMode) {
-                case 'speedrun':
-                    if(game.startSpeedrun) game.startSpeedrun();
+
+            switch (this.currentMode) {
+                case "speedrun":
+                    if (game.startSpeedrun) game.startSpeedrun();
                     break;
-                case 'blitz':
-                    if(game.startBlitz) game.startBlitz();
+                case "blitz":
+                    if (game.startBlitz) game.startBlitz();
                     break;
-                case 'hardcore':
-                    if(game.startHardcore) game.startHardcore();
+                case "hardcore":
+                    if (game.startHardcore) game.startHardcore();
                     break;
-                case 'full-revision':
-                    if(game.startExam) game.startExam();
+                case "full-revision":
+                    if (game.startExam) game.startExam();
                     break;
-                case 'practice':
-                    if(game.startPractice) game.startPractice(this.selectedCategory);
+                case "practice":
+                    if (game.startPractice)
+                        game.startPractice(this.selectedCategory);
                     break;
-                case 'flashcards':
+                case "flashcards":
                     // Legacy fallback
-                    if(game.startFlashcards) game.startFlashcards('questionBank');
+                    if (game.startFlashcards)
+                        game.startFlashcards("questionBank");
                     break;
-                case 'terminology':
-                    if(game.startFlashcards) game.startFlashcards('terminology');
+                case "terminology":
+                    if (game.startFlashcards)
+                        game.startFlashcards("terminology");
                     break;
-                case 'question-bank':
-                    if(game.startFlashcards) game.startFlashcards('questionBank');
+                case "question-bank":
+                    if (game.startFlashcards)
+                        game.startFlashcards("questionBank");
                     break;
                 default:
                     console.warn("Unknown mode:", this.currentMode);
@@ -208,7 +248,7 @@ const { subjectName, description } = Astro.props;
         selectMode(mode: string) {
             this.currentMode = mode;
             // Visual state handled by ModeSelector component
-            
+
             const categorySelector =
                 document.getElementById("categorySelector");
             if (categorySelector) {
@@ -233,12 +273,12 @@ const { subjectName, description } = Astro.props;
         }
 
         private async updateStats() {
-            const historyRepo = GameHistoryRepository.getInstance();
-            const achievementRepo = AchievementRepository.getInstance();
-
             // Get stats from database
-            const stats = await historyRepo.getPlayerStats(this.currentPlayerId, this.subject.id);
-            
+            const stats = await gameApi.getPlayerStats(
+                this.currentPlayerId,
+                this.subject.id,
+            );
+
             const elRuns = document.getElementById("totalRuns");
             if (elRuns) elRuns.textContent = stats.totalGames.toString();
 
@@ -246,17 +286,18 @@ const { subjectName, description } = Astro.props;
             if (elBestScore) elBestScore.textContent = stats.accuracy + "%";
 
             const elBestStreak = document.getElementById("bestStreak");
-            if (elBestStreak) elBestStreak.textContent = stats.highScore.toString();
+            if (elBestStreak)
+                elBestStreak.textContent = stats.highScore.toString();
 
             const elAvg = document.getElementById("avgScore");
             if (elAvg) elAvg.textContent = stats.averageScore + "%";
 
             // Get achievement progress
-            const achievementProgress = await achievementRepo.getPlayerProgress(
+            const achievementProgress = await achievementApi.getPlayerProgress(
                 this.currentPlayerId,
-                this.subject.id
+                this.subject.id,
             );
-            
+
             const awardEl = document.getElementById("totalAwards");
             if (awardEl) {
                 awardEl.textContent = `🏆 ${achievementProgress.unlocked}/${achievementProgress.total}`;
@@ -264,15 +305,14 @@ const { subjectName, description } = Astro.props;
         }
 
         private async loadHistory() {
-            const historyRepo = GameHistoryRepository.getInstance();
             const container = document.getElementById("historyContainer");
             if (!container) return;
 
             // Get recent game history from database
-            const recentRuns = await historyRepo.getSubjectHistory(
+            const recentRuns = await gameApi.getSubjectHistory(
                 this.currentPlayerId,
                 this.subject.id,
-                10
+                10,
             );
 
             if (recentRuns.length === 0) {
@@ -285,9 +325,13 @@ const { subjectName, description } = Astro.props;
                 '<table class="history-table"><thead><tr><th>Date</th><th>Mode</th><th>Score</th><th>Time</th><th>Grade</th></tr></thead><tbody>';
 
             recentRuns.forEach((run: any) => {
-                const accuracy = run.correct > 0 
-                    ? Math.round((run.correct / (run.correct + run.incorrect)) * 100)
-                    : 0;
+                const accuracy =
+                    run.correct > 0
+                        ? Math.round(
+                              (run.correct / (run.correct + run.incorrect)) *
+                                  100,
+                          )
+                        : 0;
                 const grade = this.getGrade(accuracy);
                 const badgeClass =
                     accuracy >= 87
@@ -318,8 +362,6 @@ const { subjectName, description } = Astro.props;
                 })
                 .join("");
         }
-
-
 
         private getGrade(score: number): string {
             if (score >= 97) return "S+";
