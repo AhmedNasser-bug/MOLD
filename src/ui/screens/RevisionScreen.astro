@@ -20,6 +20,8 @@ import '../../styles/screens/revision.css';
 
 
 <script>
+    import { subjectState } from "../../logic/state/SubjectState";
+
     class RevisionController {
         private content: HTMLElement;
         private search: HTMLInputElement;
@@ -34,7 +36,7 @@ import '../../styles/screens/revision.css';
         
         init() {
             // @ts-ignore
-            const sd = window.subjectData;
+            const sd = subjectState.getSubject();
             console.log("Revision Screen Init. Subject Data:", sd);
             
             if(!sd) {
@@ -61,7 +63,7 @@ import '../../styles/screens/revision.css';
             window.addEventListener('game-assets-ready', (e: any) => {
                  console.log("RevisionScreen: Data Refreshed");
                  // @ts-ignore
-                 const sd = window.subjectData;
+                 const sd = subjectState.getSubject();
                  if(sd && sd.terminology) {
                      this.items = sd.terminology;
                      // Reset "No data" message if present

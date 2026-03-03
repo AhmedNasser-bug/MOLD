@@ -62,6 +62,8 @@ import '../../styles/screens/results.css';
 
 
 <script>
+    import { subjectState } from "../../logic/state/SubjectState";
+
     import { DatabaseService } from '../../infrastructure/db/DatabaseService';
     // We can also import Player or specific Stats entity if we had it.
     // For now, let's assume we save runs via DB service or Player Logic.
@@ -95,7 +97,7 @@ import '../../styles/screens/results.css';
             
             // SAVE PROGRESS (DB)
             // @ts-ignore
-            const subjectId = window.subjectData.id;
+            const subjectId = subjectState.getSubject().id;
             const run = {
                 player_id: 1, // Default Guest
                 subject_id: subjectId,

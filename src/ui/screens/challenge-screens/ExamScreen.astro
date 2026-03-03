@@ -16,6 +16,8 @@ import '../../../styles/screens/exam.css';
 </div>
 
 <script>
+    import { subjectState } from "../../../logic/state/SubjectState";
+
     import { GameUtils } from '../../scripts/GameUtils';
     import type { SubjectData, Question } from '../../../data/subjects/Subject';
 
@@ -30,7 +32,7 @@ import '../../../styles/screens/exam.css';
 
         constructor() {
             // @ts-ignore
-            this.subject = window.subjectData;
+            this.subject = subjectState.getSubject();
             this.init();
         }
 
