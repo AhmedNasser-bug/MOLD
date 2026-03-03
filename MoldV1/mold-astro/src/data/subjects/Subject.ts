@@ -218,6 +218,9 @@ export class Subject {
 
             return {
                 id: subjectId,
+                name: config.title,
+                description: config.description,
+                terminology: config.terminology,
                 config,
                 questions,
                 flashcards

@@ -21,6 +21,8 @@ const { id, isTrue } = Astro.props;
 </div>
 
 <script>
+    import { subjectState } from "../../logic/state/SubjectState";
+
     export class TFCard {
         private container: HTMLElement;
         private options: NodeListOf<HTMLButtonElement>;
@@ -44,7 +46,7 @@ const { id, isTrue } = Astro.props;
         
         private loadById(id: string) {
             // @ts-ignore
-            const subject = window.subjectData;
+            const subject = subjectState.getSubject();
             const q = subject?.questions.find((q: any) => q.id === id);
             if(q) {
                 this.correctVal = q.correct;

@@ -27,7 +27,7 @@ export class DatabaseService {
 
         console.log('[v0] DatabaseService: Starting SQLite WASM initialization...');
         DatabaseService.initPromise = this.doInit();
-        
+
         try {
             await DatabaseService.initPromise;
             console.log('[v0] DatabaseService: Initialization complete');
@@ -59,7 +59,14 @@ export class DatabaseService {
         }
     }
 
+    private static migrationsRun: boolean = false;
+
     private migrate() {
+        if (DatabaseService.migrationsRun) {
+            console.log('[v0] DatabaseService: Migrations already applied in this lifecycle.');
+            return;
+        }
+
         this.db.exec(`
             CREATE TABLE IF NOT EXISTS player (id INTEGER PRIMARY KEY, name TEXT, exp INTEGER);
             CREATE TABLE IF NOT EXISTS subject (
@@ -104,6 +111,8 @@ export class DatabaseService {
         try {
             this.db.exec("ALTER TABLE subject ADD COLUMN flashcards TEXT;");
         } catch (e) { }
+
+        DatabaseService.migrationsRun = true;
     }
 
     // Generic query wrapper

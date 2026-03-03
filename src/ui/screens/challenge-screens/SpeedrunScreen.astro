@@ -25,6 +25,8 @@ import '../../../styles/screens/speedrun.css';
 </div>
 
 <script>
+    import { subjectState } from "../../../logic/state/SubjectState";
+
     import { GameEngine } from "../../../logic/controllers/GameEngine";
     import { Subject } from "../../../logic/entities/Subject";
     import { Player } from "../../../logic/entities/Player";
@@ -148,7 +150,7 @@ import '../../../styles/screens/speedrun.css';
             
             // 2. Load subject data
             // @ts-ignore
-            const subjectData = window.subjectData;
+            const subjectData = subjectState.getSubject();
             const subject = new Subject(subjectData.id, subjectData.name);
             await subject.loadFromDB();
             
