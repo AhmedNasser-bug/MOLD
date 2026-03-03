@@ -1,0 +1,350 @@
+[
+    {
+        "id": "hello_world",
+        "title": "Hello, World!",
+        "description": "Answer your very first question.",
+        "icon": "👋",
+        "condition": {
+            "type": "stat",
+            "field": "total_questions",
+            "value": 1,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "warm_cache",
+        "title": "Warm Cache",
+        "description": "Answer 10 total questions.",
+        "icon": "🔥",
+        "condition": {
+            "type": "stat",
+            "field": "total_questions",
+            "value": 10,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "syntax_snacker",
+        "title": "Syntax Snacker",
+        "description": "Answer 25 total questions.",
+        "icon": "🍪",
+        "condition": {
+            "type": "stat",
+            "field": "total_questions",
+            "value": 25,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "stack_starter",
+        "title": "Stack Starter",
+        "description": "Answer 50 total questions.",
+        "icon": "🥞",
+        "condition": {
+            "type": "stat",
+            "field": "total_questions",
+            "value": 50,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "dev_grindset",
+        "title": "Dev Grindset",
+        "description": "Answer 100 total questions.",
+        "icon": "🏋️",
+        "condition": {
+            "type": "stat",
+            "field": "total_questions",
+            "value": 100,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "byte_sized_beast",
+        "title": "Byte-Sized Beast",
+        "description": "Answer 250 total questions.",
+        "icon": "🧠",
+        "condition": {
+            "type": "stat",
+            "field": "total_questions",
+            "value": 250,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "production_ready",
+        "title": "Production Ready(ish)",
+        "description": "Answer 500 total questions.",
+        "icon": "🚀",
+        "condition": {
+            "type": "stat",
+            "field": "total_questions",
+            "value": 500,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "thousand_commit_club",
+        "title": "1,000-Commit Club",
+        "description": "Answer 1000 total questions.",
+        "icon": "🏆",
+        "condition": {
+            "type": "stat",
+            "field": "total_questions",
+            "value": 1000,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "daily_deploy",
+        "title": "Daily Deploy",
+        "description": "Maintain a 3-day study streak.",
+        "icon": "📅",
+        "condition": {
+            "type": "stat",
+            "field": "streak",
+            "value": 3,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "no_days_off",
+        "title": "No Days Off (Except Maintenance)",
+        "description": "Maintain a 7-day study streak.",
+        "icon": "🛠️",
+        "condition": {
+            "type": "stat",
+            "field": "streak",
+            "value": 7,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "two_week_uptime",
+        "title": "Two-Week Uptime",
+        "description": "Maintain a 14-day study streak.",
+        "icon": "🟩",
+        "condition": {
+            "type": "stat",
+            "field": "streak",
+            "value": 14,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "monthly_marathon",
+        "title": "30-Day Marathon",
+        "description": "Maintain a 30-day study streak.",
+        "icon": "🏃",
+        "condition": {
+            "type": "stat",
+            "field": "streak",
+            "value": 30,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "green_checkmarks",
+        "title": "Green Checkmarks Only",
+        "description": "Reach 80% overall accuracy.",
+        "icon": "✅",
+        "condition": {
+            "type": "stat",
+            "field": "accuracy",
+            "value": 80,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "lint_free_life",
+        "title": "Lint-Free Life",
+        "description": "Reach 90% overall accuracy.",
+        "icon": "🧹",
+        "condition": {
+            "type": "stat",
+            "field": "accuracy",
+            "value": 90,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "zero_bugs_found",
+        "title": "Zero Bugs Found (Allegedly)",
+        "description": "Reach 95% overall accuracy.",
+        "icon": "🧪",
+        "condition": {
+            "type": "stat",
+            "field": "accuracy",
+            "value": 95,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "perfect_build",
+        "title": "Perfect Build",
+        "description": "Reach 100% overall accuracy (at least once).",
+        "icon": "💯",
+        "condition": {
+            "type": "stat",
+            "field": "accuracy",
+            "value": 100,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "high_score_70",
+        "title": "Ship It (Beta)",
+        "description": "Achieve a high score of 70 or more on a quiz.",
+        "icon": "📦",
+        "condition": {
+            "type": "stat",
+            "field": "high_score",
+            "value": 70,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "high_score_85",
+        "title": "Merge Approved",
+        "description": "Achieve a high score of 85 or more on a quiz.",
+        "icon": "🔀",
+        "condition": {
+            "type": "stat",
+            "field": "high_score",
+            "value": 85,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "high_score_95",
+        "title": "Code Review Ninja",
+        "description": "Achieve a high score of 95 or more on a quiz.",
+        "icon": "🥷",
+        "condition": {
+            "type": "stat",
+            "field": "high_score",
+            "value": 95,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "high_score_100",
+        "title": "Flawless Victory (No Console Errors)",
+        "description": "Achieve a perfect high score of 100.",
+        "icon": "🎯",
+        "condition": {
+            "type": "stat",
+            "field": "high_score",
+            "value": 100,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "blitz_initiate",
+        "title": "Blitz Initiate",
+        "description": "Complete 5 Blitz runs.",
+        "icon": "⚡",
+        "condition": {
+            "type": "stat",
+            "field": "speed_run_count",
+            "value": 5,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "async_sprinter",
+        "title": "Async Sprinter",
+        "description": "Complete 15 Blitz runs.",
+        "icon": "🏎️",
+        "condition": {
+            "type": "stat",
+            "field": "speed_run_count",
+            "value": 15,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "race_conditioned",
+        "title": "Race Conditioned",
+        "description": "Complete 30 Blitz runs.",
+        "icon": "🏁",
+        "condition": {
+            "type": "stat",
+            "field": "speed_run_count",
+            "value": 30,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "latency_slayer",
+        "title": "Latency Slayer",
+        "description": "Complete 50 Blitz runs.",
+        "icon": "🗡️",
+        "condition": {
+            "type": "stat",
+            "field": "speed_run_count",
+            "value": 50,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "dom_domination",
+        "title": "DOM-ination",
+        "description": "Maintain a correct-answer streak of 20.",
+        "icon": "🌳",
+        "condition": {
+            "type": "stat",
+            "field": "streak",
+            "value": 20,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "div_soup_survivor",
+        "title": "Div Soup Survivor",
+        "description": "Answer 150 total questions (HTML grind).",
+        "icon": "🥣",
+        "condition": {
+            "type": "stat",
+            "field": "total_questions",
+            "value": 150,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "important_energy",
+        "title": "!important Energy",
+        "description": "Reach 88% overall accuracy (CSS energy).",
+        "icon": "🎨",
+        "condition": {
+            "type": "stat",
+            "field": "accuracy",
+            "value": 88,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "callback_king",
+        "title": "Callback King (Without the Tears)",
+        "description": "Answer 300 total questions (JS endurance).",
+        "icon": "👑",
+        "condition": {
+            "type": "stat",
+            "field": "total_questions",
+            "value": 300,
+            "operator": ">="
+        }
+    },
+    {
+        "id": "echo_chamber",
+        "title": "Echo Chamber",
+        "description": "Achieve a high score of 90 or more (PHP power).",
+        "icon": "🐘",
+        "condition": {
+            "type": "stat",
+            "field": "high_score",
+            "value": 90,
+            "operator": ">="
+        }
+    }
+]

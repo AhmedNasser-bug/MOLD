@@ -1,0 +1,26 @@
+{
+    "config": {
+        "title": "Web Programming",
+        "description": "Master the core technologies of the web: HTML, CSS, JavaScript, and PHP.",
+        "version": "1.0.0",
+        "storageKey": "web_prog_mastery"
+    },
+    "subject": {
+        "name": "Web Programming",
+        "id": "web-programming"
+    },
+    "difficulties": [
+        "Novice",
+        "Intermediate",
+        "Advanced",
+        "Full Stack"
+    ],
+    "categories": [
+        "HTML Fundamentals",
+        "CSS & Responsive Design",
+        "JavaScript Core",
+        "JavaScript DOM & Events",
+        "PHP Basics",
+        "PHP Database & State"
+    ]
+}

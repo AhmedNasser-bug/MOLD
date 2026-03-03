@@ -1,0 +1,340 @@
+[
+  {
+    "id": "run_1",
+    "title": "Hello World",
+    "description": "Complete your first run",
+    "icon": "👋",
+    "condition": {
+      "type": "stat",
+      "field": "totalRuns",
+      "value": 1,
+      "operator": ">="
+    }
+  },
+  {
+    "id": "run_5",
+    "title": "Block Builder",
+    "description": "Complete 5 runs",
+    "icon": "🧱",
+    "condition": {
+      "type": "stat",
+      "field": "totalRuns",
+      "value": 5,
+      "operator": ">="
+    }
+  },
+  {
+    "id": "run_10",
+    "title": "Chain Reaction",
+    "description": "Complete 10 runs",
+    "icon": "🔗",
+    "condition": {
+      "type": "stat",
+      "field": "totalRuns",
+      "value": 10,
+      "operator": ">="
+    }
+  },
+  {
+    "id": "run_25",
+    "title": "Node Operator",
+    "description": "Complete 25 runs",
+    "icon": "🖥️",
+    "condition": {
+      "type": "stat",
+      "field": "totalRuns",
+      "value": 25,
+      "operator": ">="
+    }
+  },
+  {
+    "id": "run_50",
+    "title": "Miner Status",
+    "description": "Complete 50 runs",
+    "icon": "⛏️",
+    "condition": {
+      "type": "stat",
+      "field": "totalRuns",
+      "value": 50,
+      "operator": ">="
+    }
+  },
+  {
+    "id": "run_100",
+    "title": "Consensus Keeper",
+    "description": "Complete 100 runs",
+    "icon": "🛡️",
+    "condition": {
+      "type": "stat",
+      "field": "totalRuns",
+      "value": 100,
+      "operator": ">="
+    }
+  },
+  {
+    "id": "streak_5",
+    "title": "Verified Transaction",
+    "description": "Achieve a streak of 5",
+    "icon": "✅",
+    "condition": {
+      "type": "stat",
+      "field": "bestStreak",
+      "value": 5,
+      "operator": ">="
+    }
+  },
+  {
+    "id": "streak_10",
+    "title": "Confirmed Block",
+    "description": "Achieve a streak of 10",
+    "icon": "⛓️",
+    "condition": {
+      "type": "stat",
+      "field": "bestStreak",
+      "value": 10,
+      "operator": ">="
+    }
+  },
+  {
+    "id": "streak_20",
+    "title": "Hash Chain",
+    "description": "Achieve a streak of 20",
+    "icon": "📝",
+    "condition": {
+      "type": "stat",
+      "field": "bestStreak",
+      "value": 20,
+      "operator": ">="
+    }
+  },
+  {
+    "id": "streak_30",
+    "title": "Immutable Record",
+    "description": "Achieve a streak of 30",
+    "icon": "🗿",
+    "condition": {
+      "type": "stat",
+      "field": "bestStreak",
+      "value": 30,
+      "operator": ">="
+    }
+  },
+  {
+    "id": "streak_50",
+    "title": "Byzantine General",
+    "description": "Achieve a streak of 50",
+    "icon": "⚔️",
+    "condition": {
+      "type": "stat",
+      "field": "bestStreak",
+      "value": 50,
+      "operator": ">="
+    }
+  },
+  {
+    "id": "streak_100",
+    "title": "Satoshi's Vision",
+    "description": "Achieve a streak of 100",
+    "icon": "👀",
+    "condition": {
+      "type": "stat",
+      "field": "bestStreak",
+      "value": 100,
+      "operator": ">="
+    }
+  },
+  {
+    "id": "score_50",
+    "title": "Seed Phrase",
+    "description": "Score 50% or higher in a run",
+    "icon": "🌱",
+    "condition": {
+      "type": "stat",
+      "field": "lastScore",
+      "value": 50,
+      "operator": ">="
+    }
+  },
+  {
+    "id": "score_75",
+    "title": "Public Key",
+    "description": "Score 75% or higher in a run",
+    "icon": "🔑",
+    "condition": {
+      "type": "stat",
+      "field": "lastScore",
+      "value": 75,
+      "operator": ">="
+    }
+  },
+  {
+    "id": "score_90",
+    "title": "Private Key",
+    "description": "Score 90% or higher in a run",
+    "icon": "🔐",
+    "condition": {
+      "type": "stat",
+      "field": "lastScore",
+      "value": 90,
+      "operator": ">="
+    }
+  },
+  {
+    "id": "score_100",
+    "title": "Genesis Block",
+    "description": "Score 100% in a run",
+    "icon": "🏆",
+    "condition": {
+      "type": "stat",
+      "field": "lastScore",
+      "value": 100,
+      "operator": ">="
+    }
+  },
+  {
+    "id": "speed_20m",
+    "title": "Scalable Solution",
+    "description": "Finish Speedrun in under 20 minutes",
+    "icon": "⚡",
+    "condition": {
+      "type": "speed",
+      "mode": "speedrun",
+      "time": 1200
+    }
+  },
+  {
+    "id": "speed_15m",
+    "title": "Lightning Network",
+    "description": "Finish Speedrun in under 15 minutes",
+    "icon": "🌩️",
+    "condition": {
+      "type": "speed",
+      "mode": "speedrun",
+      "time": 900
+    }
+  },
+  {
+    "id": "speed_10m",
+    "title": "Zero Confirmation",
+    "description": "Finish Speedrun in under 10 minutes",
+    "icon": "🚀",
+    "condition": {
+      "type": "speed",
+      "mode": "speedrun",
+      "time": 600
+    }
+  },
+  {
+    "id": "mode_practice",
+    "title": "White Paper Reader",
+    "description": "Complete a Practice session",
+    "icon": "📖",
+    "condition": {
+      "type": "mode",
+      "value": "practice"
+    }
+  },
+  {
+    "id": "mode_blitz",
+    "title": "Hot Wallet",
+    "description": "Complete a Blitz run",
+    "icon": "🔥",
+    "condition": {
+      "type": "mode",
+      "value": "blitz"
+    }
+  },
+  {
+    "id": "mode_flashcards",
+    "title": "Memory Pool",
+    "description": "Complete a Flashcard session",
+    "icon": "🧠",
+    "condition": {
+      "type": "mode",
+      "value": "flashcards"
+    }
+  },
+  {
+    "id": "mode_hardcore",
+    "title": "Cypherpunk",
+    "description": "Complete a Hardcore run",
+    "icon": "🕶️",
+    "condition": {
+      "type": "mode",
+      "value": "hardcore"
+    }
+  },
+  {
+    "id": "fail_fast",
+    "title": "Soft Fork",
+    "description": "Get a score below 20% (It happens)",
+    "icon": "📉",
+    "condition": {
+      "type": "stat",
+      "field": "lastScore",
+      "value": 20,
+      "operator": "<"
+    }
+  },
+  {
+    "id": "perfect_hardcore",
+    "title": "Smart Contract Auditor",
+    "description": "Get 100% on Hardcore Mode",
+    "icon": "🕵️",
+    "condition": {
+      "type": "perfect",
+      "mode": "hardcore"
+    }
+  },
+  {
+    "id": "collector",
+    "title": "Wallet Watcher",
+    "description": "Earn 10 achievements",
+    "icon": "💼",
+    "condition": {
+      "type": "stat",
+      "field": "totalAchievements",
+      "value": 10,
+      "operator": ">="
+    }
+  },
+  {
+    "id": "whale",
+    "title": "Whale Alert",
+    "description": "Earn 20 achievements",
+    "icon": "🐋",
+    "condition": {
+      "type": "stat",
+      "field": "totalAchievements",
+      "value": 20,
+      "operator": ">="
+    }
+  },
+  {
+    "id": "completionist",
+    "title": "Full Node",
+    "description": "Try all game modes",
+    "icon": "🌐",
+    "condition": {
+      "type": "completionist",
+      "modes": [
+        "speedrun",
+        "practice",
+        "blitz",
+        "hardcore"
+      ]
+    }
+  },
+  {
+    "id": "grandmaster",
+    "title": "Al-Jāmiʿ fī ʿUlūm al-Blockchayn",
+    "description": "The Compendium of Blockchain Sciences: Earn all other achievements",
+    "icon": "👑",
+    "condition": {
+      "type": "stat",
+      "field": "totalAchievements",
+      "value": 29,
+      "operator": ">="
+    }
+  }
+]

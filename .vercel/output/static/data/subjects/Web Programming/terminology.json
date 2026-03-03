@@ -1,0 +1,602 @@
+{
+    "<meta>": {
+        "Category": "HTML",
+        "Meaning": "An element that provides metadata about the HTML document (not displayed).",
+        "Where_it_is_used": "Inside the <head> tag.",
+        "When_it_is_used": "When setting description/keywords/author/charset or other metadata for browsers and search engines.",
+        "Analogy": "Like the cover page notes on a report that tell librarians what the book is about without being part of the story.",
+        "Pros": [
+            "Helps SEO and previews (description)",
+            "Controls encoding and compatibility"
+        ],
+        "Cons": [
+            "Misconfigured meta can harm indexing",
+            "Some meta keywords are ignored by modern search engines"
+        ]
+    },
+    "charset=utf-8": {
+        "Category": "HTML",
+        "Meaning": "A character encoding that supports most world languages and symbols.",
+        "Where_it_is_used": "In <meta charset=\"UTF-8\"> or <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">.",
+        "When_it_is_used": "When you want text to render correctly across languages and devices.",
+        "Analogy": "Like choosing a universal alphabet so every reader sees the same letters.",
+        "Pros": [
+            "Prevents garbled characters",
+            "Widely supported default on the web"
+        ],
+        "Cons": [
+            "Mismatch with server encoding can still break text",
+            "Easy to forget in older templates"
+        ]
+    },
+    "<p>": {
+        "Category": "HTML",
+        "Meaning": "A paragraph element for blocks of text.",
+        "Where_it_is_used": "Inside <body> for content text.",
+        "When_it_is_used": "When you need readable, separated text blocks.",
+        "Analogy": "Like starting a new paragraph in an essay to organize ideas.",
+        "Pros": [
+            "Improves readability and structure",
+            "Works well with CSS styling"
+        ],
+        "Cons": [
+            "Using ALIGN attribute is outdated (use CSS)",
+            "Overusing <p> for layout can be semantically wrong"
+        ]
+    },
+    "<h1>-<h6>": {
+        "Category": "HTML",
+        "Meaning": "Heading elements that represent content hierarchy from most to least important.",
+        "Where_it_is_used": "Inside <body> as section titles.",
+        "When_it_is_used": "When structuring a page for users, SEO, and accessibility.",
+        "Analogy": "Like chapter and section titles in a textbook.",
+        "Pros": [
+            "Creates clear document outline",
+            "Helps screen readers and SEO"
+        ],
+        "Cons": [
+            "Skipping levels can confuse structure",
+            "Using headings only for sizing is poor practice"
+        ]
+    },
+    "<img>": {
+        "Category": "HTML",
+        "Meaning": "An element that embeds an image resource into the page.",
+        "Where_it_is_used": "Inside <body> with attributes like src, alt, width, height.",
+        "When_it_is_used": "When presenting visual content such as photos, icons, or diagrams.",
+        "Analogy": "Like hanging a picture on a wall using its file as the canvas.",
+        "Pros": [
+            "Enhances communication and UI",
+            "Supports responsive behavior with CSS"
+        ],
+        "Cons": [
+            "Large images can slow pages",
+            "Missing alt harms accessibility"
+        ]
+    },
+    "alt": {
+        "Category": "HTML",
+        "Meaning": "Alternative text describing an image for accessibility and fallback.",
+        "Where_it_is_used": "As the alt attribute on <img>.",
+        "When_it_is_used": "When images may not load or for screen reader users.",
+        "Analogy": "Like a caption read aloud when someone can’t see the photo.",
+        "Pros": [
+            "Improves accessibility",
+            "Helps SEO and context when images fail"
+        ],
+        "Cons": [
+            "Bad alt text can confuse users",
+            "Often omitted or misused"
+        ]
+    },
+    "<a href>": {
+        "Category": "HTML",
+        "Meaning": "A hyperlink that navigates to another URL or location.",
+        "Where_it_is_used": "Inside <body> as <a href=\"...\">link</a>.",
+        "When_it_is_used": "When you want navigation, references, or actions like mailto links.",
+        "Analogy": "Like a door label that tells you where the hallway leads.",
+        "Pros": [
+            "Core navigation mechanism",
+            "Supports bookmarks and deep linking"
+        ],
+        "Cons": [
+            "Broken links harm UX",
+            "Styling/behavior can be inconsistent without CSS/JS"
+        ]
+    },
+    "Bookmark (name/id)": {
+        "Category": "HTML",
+        "Meaning": "An in-page target identified by id (or legacy name) that links can jump to.",
+        "Where_it_is_used": "id on an element and href=\"#id\" in an anchor.",
+        "When_it_is_used": "When creating table-of-contents jumps or “Back to top” links.",
+        "Analogy": "Like placing a sticky tab in a book so you can jump to a chapter instantly.",
+        "Pros": [
+            "Improves navigation on long pages",
+            "Simple and fast (no JS needed)"
+        ],
+        "Cons": [
+            "Requires unique ids",
+            "Scrolling offsets can be tricky with fixed headers"
+        ]
+    },
+    "<ol>": {
+        "Category": "HTML",
+        "Meaning": "An ordered list that numbers items in sequence.",
+        "Where_it_is_used": "Inside <body> with <li> items.",
+        "When_it_is_used": "When order matters (steps, rankings).",
+        "Analogy": "Like a numbered checklist you follow in order.",
+        "Pros": [
+            "Communicates sequence clearly",
+            "Supports start/type variations"
+        ],
+        "Cons": [
+            "Over-customizing type can reduce consistency",
+            "For purely visual numbering CSS may be preferable"
+        ]
+    },
+    "<ul>": {
+        "Category": "HTML",
+        "Meaning": "An unordered list that groups items without implying order.",
+        "Where_it_is_used": "Inside <body> with <li> items.",
+        "When_it_is_used": "When listing related items (menus, features).",
+        "Analogy": "Like bullet points on a meeting agenda.",
+        "Pros": [
+            "Great for navigation menus and lists",
+            "Accessible structure for screen readers"
+        ],
+        "Cons": [
+            "Default bullets may need styling",
+            "Misuse for layout can reduce semantic clarity"
+        ]
+    },
+    "<table>": {
+        "Category": "HTML",
+        "Meaning": "A structure for displaying tabular data in rows and columns.",
+        "Where_it_is_used": "Inside <body> with <tr>, <td>, <th>, <caption>.",
+        "When_it_is_used": "When presenting data like schedules, reports, or comparisons.",
+        "Analogy": "Like a spreadsheet grid printed on paper.",
+        "Pros": [
+            "Best semantic choice for tabular data",
+            "Supports headers and captions for accessibility"
+        ],
+        "Cons": [
+            "Not intended for page layout (legacy practice)",
+            "Complex tables can be hard to make responsive"
+        ]
+    },
+    "colspan": {
+        "Category": "HTML",
+        "Meaning": "An attribute that makes a table cell span multiple columns.",
+        "Where_it_is_used": "On <td> or <th> inside a <table>.",
+        "When_it_is_used": "When a cell should cover multiple columns (merged header).",
+        "Analogy": "Like merging cells in a spreadsheet to create a wide title bar.",
+        "Pros": [
+            "Enables complex table layouts for data",
+            "Useful for grouped headers"
+        ],
+        "Cons": [
+            "Can complicate accessibility if misused",
+            "Makes responsive reflow harder"
+        ]
+    },
+    "<form>": {
+        "Category": "HTML",
+        "Meaning": "A container that collects user inputs and defines submission behavior.",
+        "Where_it_is_used": "Inside <body> around inputs/selects/textareas with method and action.",
+        "When_it_is_used": "When sending user data to a server-side script (e.g., PHP).",
+        "Analogy": "Like a paper form you fill out and submit at a counter.",
+        "Pros": [
+            "Standard, accessible data submission",
+            "Works even if JavaScript is disabled"
+        ],
+        "Cons": [
+            "Default submits reload/navigate page",
+            "Needs careful validation and security handling"
+        ]
+    },
+    "method=\"POST\"": {
+        "Category": "HTML",
+        "Meaning": "A submission method that sends form data in the HTTP request body.",
+        "Where_it_is_used": "As method on <form>.",
+        "When_it_is_used": "When sending sensitive or larger data (login, registration).",
+        "Analogy": "Like sending documents in a sealed envelope instead of writing them on the outside.",
+        "Pros": [
+            "Data not exposed in URL",
+            "Supports larger payloads than GET"
+        ],
+        "Cons": [
+            "Not bookmarkable/shareable by URL",
+            "Still requires HTTPS for real confidentiality"
+        ]
+    },
+    "<input type=\"password\">": {
+        "Category": "HTML",
+        "Meaning": "An input field that masks typed characters for password entry.",
+        "Where_it_is_used": "Inside a <form> as <input type=\"password\" ...>.",
+        "When_it_is_used": "When collecting credentials or secret tokens from users.",
+        "Analogy": "Like typing a PIN on a keypad that hides the digits from bystanders.",
+        "Pros": [
+            "Reduces shoulder-surfing risk",
+            "Works with browser password managers"
+        ],
+        "Cons": [
+            "Does not encrypt data by itself",
+            "Users may reuse weak passwords without guidance"
+        ]
+    },
+    "<select multiple>": {
+        "Category": "HTML",
+        "Meaning": "A selection control that allows choosing multiple options.",
+        "Where_it_is_used": "Inside <form> as <select multiple> with <option> children.",
+        "When_it_is_used": "When users must pick several items (skills, interests).",
+        "Analogy": "Like selecting multiple toppings on a pizza order form.",
+        "Pros": [
+            "Compact multi-choice UI",
+            "Sends structured values to server"
+        ],
+        "Cons": [
+            "Not always mobile-friendly",
+            "Requires clear instructions to users"
+        ]
+    },
+    "CSS Class Selector (.myinfo)": {
+        "Category": "CSS",
+        "Meaning": "A selector that targets elements by their class attribute (e.g., .myinfo).",
+        "Where_it_is_used": "In CSS stylesheets or <style> blocks.",
+        "When_it_is_used": "When applying reusable styles across multiple elements.",
+        "Analogy": "Like giving multiple employees the same uniform so they’re recognized as a group.",
+        "Pros": [
+            "Reusable and scalable styling",
+            "Low specificity compared to IDs"
+        ],
+        "Cons": [
+            "Class name collisions can happen",
+            "Overusing classes can clutter HTML"
+        ]
+    },
+    "CSS ID Selector (#p1)": {
+        "Category": "CSS",
+        "Meaning": "A selector that targets a single element by its unique id attribute.",
+        "Where_it_is_used": "In CSS as #idName { ... }.",
+        "When_it_is_used": "When a one-off element needs a specific style or anchor target.",
+        "Analogy": "Like a unique license plate identifying one car.",
+        "Pros": [
+            "Precisely targets one element",
+            "Useful for anchors and scripting hooks"
+        ],
+        "Cons": [
+            "High specificity can make overrides harder",
+            "IDs must be unique or behavior becomes unpredictable"
+        ]
+    },
+    "Universal Selector (*)": {
+        "Category": "CSS",
+        "Meaning": "A selector that matches all elements on the page.",
+        "Where_it_is_used": "In CSS as * { ... }.",
+        "When_it_is_used": "When applying global rules like box-sizing or default font-weight.",
+        "Analogy": "Like a building-wide announcement that applies to every room.",
+        "Pros": [
+            "Fast way to set consistent defaults",
+            "Reduces repetition"
+        ],
+        "Cons": [
+            "Can unintentionally affect third-party widgets",
+            "Overuse can impact performance and maintainability"
+        ]
+    },
+    "background-image": {
+        "Category": "CSS",
+        "Meaning": "A property that sets an image as an element’s background.",
+        "Where_it_is_used": "In CSS rules, commonly on body or containers.",
+        "When_it_is_used": "When adding decorative textures, watermarks, or hero backgrounds.",
+        "Analogy": "Like choosing wallpaper behind furniture rather than placing a picture on the table.",
+        "Pros": [
+            "Decorative without extra HTML",
+            "Can be positioned/repeated for effects"
+        ],
+        "Cons": [
+            "Can reduce text readability",
+            "Large images can hurt performance if unoptimized"
+        ]
+    },
+    "list-style-type": {
+        "Category": "CSS",
+        "Meaning": "A property that controls bullet/number style for lists (e.g., disc, circle, lower-roman).",
+        "Where_it_is_used": "On ol/ul elements in CSS.",
+        "When_it_is_used": "When customizing list markers for design or clarity.",
+        "Analogy": "Like choosing whether a checklist uses dots, squares, or Roman numerals.",
+        "Pros": [
+            "Simple list customization",
+            "Improves visual hierarchy"
+        ],
+        "Cons": [
+            "Too many custom styles can confuse users",
+            "Some markers may not fit all fonts/locales"
+        ]
+    },
+    "Bootstrap .container": {
+        "Category": "Bootstrap",
+        "Meaning": "A fixed-width responsive wrapper that centers content and adds horizontal padding.",
+        "Where_it_is_used": "On a top-level <div class=\"container\">.",
+        "When_it_is_used": "When building a responsive layout with standard breakpoints.",
+        "Analogy": "Like a picture frame that keeps content neatly centered within a room.",
+        "Pros": [
+            "Consistent responsive spacing",
+            "Works seamlessly with grid rows/columns"
+        ],
+        "Cons": [
+            "Not full-bleed; limits width",
+            "Depends on including Bootstrap CSS correctly"
+        ]
+    },
+    "Bootstrap .row": {
+        "Category": "Bootstrap",
+        "Meaning": "A grid row that groups columns and manages horizontal gutters.",
+        "Where_it_is_used": "Inside .container/.container-fluid as <div class=\"row\">.",
+        "When_it_is_used": "When laying out columns using Bootstrap’s grid system.",
+        "Analogy": "Like a shelf level that holds multiple labeled bins side by side.",
+        "Pros": [
+            "Enables consistent grid alignment",
+            "Gutter system simplifies spacing"
+        ],
+        "Cons": [
+            "Nesting rows incorrectly can break layout",
+            "Requires correct column structure"
+        ]
+    },
+    "Bootstrap .col-sm-4": {
+        "Category": "Bootstrap",
+        "Meaning": "A grid column that spans 4/12 width on small screens and above (Bootstrap 3).",
+        "Where_it_is_used": "Inside a .row as <div class=\"col-sm-4\">.",
+        "When_it_is_used": "When designing multi-column layouts that stack on extra-small screens.",
+        "Analogy": "Like allocating 4 seats out of a 12-seat table section for one group.",
+        "Pros": [
+            "Responsive behavior with minimal CSS",
+            "Consistent across components"
+        ],
+        "Cons": [
+            "Tied to Bootstrap’s breakpoint system",
+            "Can be limiting for highly custom designs"
+        ]
+    },
+    "Bootstrap .btn.btn-primary": {
+        "Category": "Bootstrap",
+        "Meaning": "Predefined button styling for a primary action.",
+        "Where_it_is_used": "On <button> or <input type=\"button/submit\"> via class attribute.",
+        "When_it_is_used": "When highlighting the main call-to-action (e.g., Save, Submit).",
+        "Analogy": "Like a bright “Main Entrance” sign guiding people to the correct door.",
+        "Pros": [
+            "Consistent UI styling quickly",
+            "Includes hover/focus states by default"
+        ],
+        "Cons": [
+            "Overuse makes pages look generic",
+            "Must ensure accessibility contrast in customized themes"
+        ]
+    },
+    "document.getElementById()": {
+        "Category": "JS",
+        "Meaning": "A DOM method that returns the element with a given id.",
+        "Where_it_is_used": "In JavaScript interacting with page elements: document.getElementById(\"id\").",
+        "When_it_is_used": "When reading/updating a specific element (value, text, style).",
+        "Analogy": "Like looking up a person by unique passport number in a registry.",
+        "Pros": [
+            "Fast and widely supported",
+            "Simple way to target a specific element"
+        ],
+        "Cons": [
+            "Fails if id is missing/duplicated",
+            "Can encourage tightly coupled code to markup"
+        ]
+    },
+    "onSubmit": {
+        "Category": "JS",
+        "Meaning": "An event that fires when a form is submitted (can be handled to validate or prevent submission).",
+        "Where_it_is_used": "As an HTML attribute (onsubmit) or via addEventListener('submit',...).",
+        "When_it_is_used": "When validating form inputs before sending data to the server.",
+        "Analogy": "Like a security checkpoint that inspects paperwork before it leaves the building.",
+        "Pros": [
+            "Enables client-side validation/UX improvements",
+            "Can prevent unnecessary server requests"
+        ],
+        "Cons": [
+            "Must not replace server-side validation",
+            "Inline handlers can mix concerns and reduce maintainability"
+        ]
+    },
+    "alert()": {
+        "Category": "JS",
+        "Meaning": "A built-in function that shows a blocking dialog with a message.",
+        "Where_it_is_used": "In JavaScript code executed in the browser.",
+        "When_it_is_used": "When you need quick debugging or a simple user notification.",
+        "Analogy": "Like a fire alarm that stops everything until you acknowledge it.",
+        "Pros": [
+            "Very simple to use",
+            "Good for quick demos/debugging"
+        ],
+        "Cons": [
+            "Blocks the UI and feels intrusive",
+            "Not customizable and often discouraged in production"
+        ]
+    },
+    "if...else": {
+        "Category": "JS",
+        "Meaning": "A control structure that conditionally executes code based on a boolean condition.",
+        "Where_it_is_used": "In JavaScript logic for decisions and branching.",
+        "When_it_is_used": "When behavior should differ based on user input or state.",
+        "Analogy": "Like a fork in the road: if it’s raining take the covered path, else take the scenic route.",
+        "Pros": [
+            "Clear decision-making structure",
+            "Supported in all JS environments"
+        ],
+        "Cons": [
+            "Deep nesting reduces readability",
+            "Complex conditions can become hard to test"
+        ]
+    },
+    "for loop": {
+        "Category": "JS",
+        "Meaning": "A loop that repeats code with initialization, condition, and increment steps.",
+        "Where_it_is_used": "In JavaScript for iterating a specific number of times.",
+        "When_it_is_used": "When processing arrays by index or repeating actions predictably.",
+        "Analogy": "Like doing 10 laps: start at 0, keep going while <10, increase by 1 each lap.",
+        "Pros": [
+            "Compact iteration pattern",
+            "Good performance and control"
+        ],
+        "Cons": [
+            "Off-by-one errors are common",
+            "Less expressive than array methods for some tasks"
+        ]
+    },
+    "<?php ... ?>": {
+        "Category": "PHP",
+        "Meaning": "PHP opening and closing tags that embed server-side code within a file.",
+        "Where_it_is_used": "In .php files processed by a PHP-enabled server.",
+        "When_it_is_used": "When generating dynamic HTML or handling backend logic.",
+        "Analogy": "Like a kitchen door: inside is where cooking happens; outside is what diners see.",
+        "Pros": [
+            "Enables dynamic content generation",
+            "Integrates easily with HTML templates"
+        ],
+        "Cons": [
+            "Requires server setup to run",
+            "Mixing logic and presentation can get messy without structure"
+        ]
+    },
+    "echo": {
+        "Category": "PHP",
+        "Meaning": "A language construct that outputs text to the response.",
+        "Where_it_is_used": "In PHP scripts to send content (HTML/text) to the browser.",
+        "When_it_is_used": "When rendering values, building templates, or debugging output.",
+        "Analogy": "Like speaking into a microphone so the audience hears the words immediately.",
+        "Pros": [
+            "Fast and simple output",
+            "Can output multiple strings/variables"
+        ],
+        "Cons": [
+            "Can break headers if used too early",
+            "Debug echo can leak sensitive info in production"
+        ]
+    },
+    "$_POST": {
+        "Category": "PHP",
+        "Meaning": "A superglobal array containing form data sent with HTTP POST.",
+        "Where_it_is_used": "In PHP scripts handling form submissions: $_POST['field'].",
+        "When_it_is_used": "When submitting sensitive data like passwords or larger payloads via forms.",
+        "Analogy": "A sealed envelope delivered to the clerk (vs GET as a postcard).",
+        "Pros": [
+            "Not visible in the URL",
+            "Supports larger request bodies"
+        ],
+        "Cons": [
+            "Still visible to server logs/tools if mishandled",
+            "Requires validation/sanitization to prevent attacks"
+        ]
+    },
+    "$_GET": {
+        "Category": "PHP",
+        "Meaning": "A superglobal array containing query string parameters sent via HTTP GET.",
+        "Where_it_is_used": "In PHP scripts reading URL parameters: $_GET['q'].",
+        "When_it_is_used": "When building search/filter pages or shareable links.",
+        "Analogy": "Like writing instructions on the outside of a package so anyone can read them.",
+        "Pros": [
+            "Easy to bookmark/share",
+            "Simple debugging by inspecting the URL"
+        ],
+        "Cons": [
+            "Exposes data in URL/history/logs",
+            "Limited length for parameters"
+        ]
+    },
+    "isset()": {
+        "Category": "PHP",
+        "Meaning": "A function that checks whether a variable is set and not NULL.",
+        "Where_it_is_used": "In PHP conditionals, especially around form submission checks.",
+        "When_it_is_used": "When guarding against undefined indexes and optional inputs.",
+        "Analogy": "Like checking whether a mailbox has a letter before trying to read it.",
+        "Pros": [
+            "Prevents undefined variable notices",
+            "Useful for form submit detection"
+        ],
+        "Cons": [
+            "Does not validate correctness of data",
+            "Can hide logical issues if overused"
+        ]
+    },
+    "session_start()": {
+        "Category": "PHP",
+        "Meaning": "A function that starts/resumes a session so $_SESSION can be used.",
+        "Where_it_is_used": "At the top of PHP scripts before any output.",
+        "When_it_is_used": "When tracking logged-in users or multi-page state.",
+        "Analogy": "Like opening a tab at a café so purchases can be tracked under one account.",
+        "Pros": [
+            "Enables persistent state across pages",
+            "Simple server-managed user data store"
+        ],
+        "Cons": [
+            "Must be called before output or headers fail",
+            "Session fixation/hijacking risks if not secured"
+        ]
+    },
+    "setcookie()": {
+        "Category": "PHP",
+        "Meaning": "A function that sends a Set-Cookie header to store data on the client.",
+        "Where_it_is_used": "In PHP before output, to set browser cookies.",
+        "When_it_is_used": "When remembering preferences or lightweight identifiers across visits.",
+        "Analogy": "Like giving a visitor a stamped hand mark so they’re recognized when returning.",
+        "Pros": [
+            "Persists across browser restarts (if expiry set)",
+            "Useful for preferences and lightweight state"
+        ],
+        "Cons": [
+            "User can delete/block cookies",
+            "Sensitive data should not be stored directly in cookies"
+        ]
+    },
+    "mysqli_connect()": {
+        "Category": "PHP",
+        "Meaning": "A function that opens a connection to a MySQL database server using MySQLi.",
+        "Where_it_is_used": "In PHP database scripts before running queries.",
+        "When_it_is_used": "When your app needs to read/write data from MySQL.",
+        "Analogy": "Like dialing a phone number to establish a call with a database operator.",
+        "Pros": [
+            "Required first step for MySQL operations",
+            "Works widely on shared hosting"
+        ],
+        "Cons": [
+            "Connection errors must be handled carefully",
+            "Credentials must be protected (env/config)"
+        ]
+    },
+    "mysqli_query()": {
+        "Category": "PHP",
+        "Meaning": "A function that sends an SQL query to the MySQL server and returns a result/boolean.",
+        "Where_it_is_used": "After establishing a MySQLi connection to run SELECT/INSERT/UPDATE/DELETE.",
+        "When_it_is_used": "When executing database commands based on application needs.",
+        "Analogy": "Like submitting a request form to an archive clerk to retrieve records.",
+        "Pros": [
+            "Straightforward way to run SQL",
+            "Supports many SQL operations"
+        ],
+        "Cons": [
+            "Vulnerable to SQL injection if inputs aren’t parameterized",
+            "Error handling can be overlooked"
+        ]
+    },
+    "mysqli_fetch_assoc()": {
+        "Category": "PHP",
+        "Meaning": "A function that fetches one row from a result set as an associative array keyed by column names.",
+        "Where_it_is_used": "In loops processing SELECT query results.",
+        "When_it_is_used": "When you want readable access like $row['id'] instead of numeric indexes.",
+        "Analogy": "Like receiving a labeled folder where each document has a tab name you can grab quickly.",
+        "Pros": [
+            "Readable key-based access",
+            "Works well with while loops for result iteration"
+        ],
+        "Cons": [
+            "Slight overhead vs numeric arrays",
+            "Requires correct column names and aliasing"
+        ]
+    }
+}
