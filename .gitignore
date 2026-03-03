@@ -29,8 +29,6 @@ pnpm-debug.log*
 .netlify
 
 llms-full.txt
-GEMINI.md
-.specify
-.gemini/
+
 
 MoldV1/
