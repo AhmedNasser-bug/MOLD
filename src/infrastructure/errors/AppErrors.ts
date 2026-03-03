@@ -93,13 +93,17 @@ export class AppError extends Error {
   getUserMessage(): string {
     switch (this.code) {
       case ErrorCode.DB_CONNECTION_FAILED:
-        return 'Unable to connect to database. Please try again.';
+        return 'Unable to connect to the database. Please check your connection and try again.';
       case ErrorCode.DATA_NOT_FOUND:
-        return `${this.context.entityType || 'Data'} not found.`;
+        return `We couldn't find the ${this.context.entityType?.toLowerCase() || 'data'} you were looking for.`;
       case ErrorCode.VALIDATION_FAILED:
-        return 'Invalid input. Please check your data.';
+        return 'Some information is invalid. Please review your input and try again.';
+      case ErrorCode.DATA_SYNC_FAILED:
+        return 'Failed to sync your progress. Your data is saved locally and will sync later.';
+      case ErrorCode.GAME_STATE_INVALID:
+        return 'The mission state got corrupted. Please restart the mission to continue.';
       default:
-        return 'An error occurred. Please try again.';
+        return `An unexpected error occurred (Code: ${this.code}). If this persists, please try refreshing.`;
     }
   }
 }
