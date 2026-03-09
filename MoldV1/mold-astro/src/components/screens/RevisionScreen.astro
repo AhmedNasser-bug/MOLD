@@ -28,7 +28,7 @@
 </div>
 
 <script>
-    import type { SubjectData as Subject } from "../../ai/Subject";
+    import type { SubjectData as Subject } from "../../data/subjects/Subject";
 
     class RevisionScreenController {
         private subject: Subject;
@@ -127,12 +127,8 @@
 
         private filterTerms(query: string): void {
             document.querySelectorAll(".term-card").forEach((card: any) => {
-                const text = card.dataset.term;
-                // Fix: map uses data-term which is already lowered key.
-                // But we should probably check content if we want deeper search?
-                // Original code checked card.textContent.
-                const content = card.textContent.toLowerCase();
-                card.style.display = content.includes(query) ? "block" : "none";
+                const text = card.dataset.term || "";
+                card.style.display = text.includes(query) ? "block" : "none";
             });
         }
     }
