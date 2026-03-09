@@ -282,6 +282,14 @@ export class MigrationService {
         player = await playerRepo.createPlayer('Legacy Player');
       }
 
+      // Pre-fetch all existing flashcard progress for this player
+      const existingProgress = await db.query(
+        "SELECT flashcard_id FROM flashcard_progress WHERE player_id = ?",
+        [player.id]
+      );
+      const existingFlashcardIds = new Set<string>();
+      existingProgress?.forEach((row: any) => existingFlashcardIds.add(row.flashcard_id));
+
       for (const key of flashcardKeys) {
         try {
           const data = localStorage.getItem(key);
@@ -291,12 +299,7 @@ export class MigrationService {
           const flashcardId = key.replace('flashcard_', '');
 
           // Check if progress already exists
-          const existing = await db.query(
-            "SELECT id FROM flashcard_progress WHERE player_id = ? AND flashcard_id = ?",
-            [player.id, flashcardId]
-          );
-
-          if (existing && existing.length === 0) {
+          if (!existingFlashcardIds.has(flashcardId)) {
             await db.run(
               `INSERT INTO flashcard_progress 
               (player_id, flashcard_id, mastery_level, last_reviewed, next_review) 
