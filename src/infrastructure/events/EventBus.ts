@@ -18,7 +18,7 @@ export class EventBus {
 
   private constructor() {
     // Enable debug mode in development
-    if (import.meta.env.DEV) {
+    if (typeof import.meta.env !== "undefined" && import.meta.env.DEV) {
       this.debugMode = true;
     }
   }
