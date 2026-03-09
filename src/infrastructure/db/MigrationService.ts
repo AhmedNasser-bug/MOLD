@@ -151,16 +151,27 @@ export class MigrationService {
 
       console.log(`[MigrationService] Migrating ${history.length} game records...`);
 
+      // Fetch all existing timestamps for this player to avoid N+1 query problem
+      const existingTimestampsSet = new Set<number>();
+      try {
+        const existingRecords = await db.query(
+          "SELECT timestamp FROM game_history WHERE player_id = ?",
+          [player.id]
+        );
+        if (existingRecords) {
+          for (const row of existingRecords) {
+            existingTimestampsSet.add(row.timestamp);
+          }
+        }
+      } catch (err) {
+        console.error('[MigrationService] Error fetching existing game history:', err);
+      }
+
       for (const record of history) {
         try {
-          // Check if this game already exists (by timestamp)
-          const existing = await db.query(
-            "SELECT id FROM game_history WHERE player_id = ? AND timestamp = ?",
-            [player.id, record.timestamp]
-          );
-
-          if (existing && existing.length > 0) {
-            continue; // Skip duplicates
+          // Skip if we already migrated this record
+          if (existingTimestampsSet.has(record.timestamp)) {
+            continue;
           }
 
           // Insert game record
