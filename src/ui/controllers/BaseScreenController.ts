@@ -13,6 +13,7 @@ export abstract class BaseScreenController implements ScreenController {
   protected isInitialized: boolean = false;
   protected isVisible: boolean = false;
   protected cleanupFunctions: Array<() => void> = [];
+  protected cachedScreens: NodeListOf<Element> | null = null;
 
   constructor(screenId: string) {
     this.screenId = screenId;
@@ -60,8 +61,13 @@ export abstract class BaseScreenController implements ScreenController {
       return;
     }
 
+    // Cache screens if not already cached
+    if (!this.cachedScreens) {
+      this.cachedScreens = document.querySelectorAll('.screen');
+    }
+
     // Hide all other screens
-    document.querySelectorAll('.screen').forEach(s => {
+    this.cachedScreens.forEach(s => {
       if (s.id !== this.screenId) {
         s.classList.remove('active');
       }
