@@ -127,12 +127,8 @@
 
         private filterTerms(query: string): void {
             document.querySelectorAll(".term-card").forEach((card: any) => {
-                const text = card.dataset.term;
-                // Fix: map uses data-term which is already lowered key.
-                // But we should probably check content if we want deeper search?
-                // Original code checked card.textContent.
-                const content = card.textContent.toLowerCase();
-                card.style.display = content.includes(query) ? "block" : "none";
+                const term = card.dataset.term || "";
+                card.style.display = term.includes(query) ? "block" : "none";
             });
         }
     }
