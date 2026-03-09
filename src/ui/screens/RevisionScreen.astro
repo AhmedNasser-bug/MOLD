@@ -5,7 +5,7 @@ import '../../styles/screens/revision.css';
 
 <div class="screen revision-screen" id="revisionScreen">
     <div class="revision-header">
-        <button class="back-btn" onclick="window.game.goHome()">← HOME</button>
+        <button class="back-btn" id="revBackBtn">← HOME</button>
         <h2>ENCYCLOPEDIA</h2>
         <div class="search-bar">
             <input type="text" id="revSearch" placeholder="Search terms or questions...">
@@ -20,6 +20,8 @@ import '../../styles/screens/revision.css';
 
 
 <script>
+    import { escapeHtml } from '../scripts/utils';
+
     class RevisionController {
         private content: HTMLElement;
         private search: HTMLInputElement;
@@ -57,6 +59,17 @@ import '../../styles/screens/revision.css';
             
             this.search.addEventListener('input', () => this.render());
             
+            const backBtn = document.getElementById('revBackBtn');
+            if (backBtn) {
+                backBtn.addEventListener('click', () => {
+                    // @ts-ignore
+                    if (window.game && window.game.goHome) {
+                        // @ts-ignore
+                        window.game.goHome();
+                    }
+                });
+            }
+
             // Listen for late-loaded data
             window.addEventListener('game-assets-ready', (e: any) => {
                  console.log("RevisionScreen: Data Refreshed");
@@ -79,8 +92,8 @@ import '../../styles/screens/revision.css';
             
             this.content.innerHTML = filtered.map((t: any) => `
                 <div class="rev-item">
-                    <div class="rev-term">${t.term}</div>
-                    <div class="rev-def">${t.definition}</div>
+                    <div class="rev-term">${escapeHtml(t.term)}</div>
+                    <div class="rev-def">${escapeHtml(t.definition)}</div>
                 </div>
             `).join('');
         }
