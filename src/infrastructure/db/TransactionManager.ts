@@ -9,7 +9,6 @@
  */
 
 import { DatabaseService } from './DatabaseService';
-import { TransactionError, ErrorLogger } from '../errors/AppErrors';
 
 export class TransactionManager {
     /**
