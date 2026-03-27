@@ -167,44 +167,76 @@ export class MigrationService {
         console.error('[MigrationService] Error fetching existing game history:', err);
       }
 
+      // Group records for bulk insert and calculate stats per subject
+      const recordsToInsert = [];
+      const subjectStats = new Map<string, { highScore: number; newRuns: number }>();
+
       for (const record of history) {
-        try {
-          // Skip if we already migrated this record
-          if (existingTimestampsSet.has(record.timestamp)) {
-            continue;
-          }
+        // Skip if we already migrated this record
+        if (existingTimestampsSet.has(record.timestamp)) {
+          continue;
+        }
 
-          // Insert game record
-          await db.run(
-            `INSERT INTO game_history 
-            (player_id, subject_id, mode, score, correct, incorrect, timestamp) 
-            VALUES (?, ?, ?, ?, ?, ?, ?)`,
-            [
-              player.id,
-              record.subject,
-              record.mode,
-              record.score,
-              record.correct,
-              record.incorrect,
-              record.timestamp
-            ]
-          );
+        recordsToInsert.push(record);
 
-          // Update player stats for this subject
-          const stats = await playerRepo.getStats(player.id, record.subject);
-          if (stats) {
-            const newHighScore = Math.max(stats.high_score, record.score);
-            await playerRepo.saveStats(
-              player.id,
-              record.subject,
-              newHighScore,
-              stats.total_runs + 1
+        // Aggregate stats in memory
+        const stats = subjectStats.get(record.subject) || { highScore: 0, newRuns: 0 };
+        stats.highScore = Math.max(stats.highScore, record.score);
+        stats.newRuns += 1;
+        subjectStats.set(record.subject, stats);
+      }
+
+      if (recordsToInsert.length > 0) {
+        // Insert game records in batches to avoid SQLite parameter limits
+        const batchSize = 50;
+        for (let i = 0; i < recordsToInsert.length; i += batchSize) {
+          const batch = recordsToInsert.slice(i, i + batchSize);
+          const placeholders = batch.map(() => '(?, ?, ?, ?, ?, ?, ?)').join(', ');
+          const values = batch.flatMap(record => [
+            player.id,
+            record.subject,
+            record.mode,
+            record.score,
+            record.correct,
+            record.incorrect,
+            record.timestamp
+          ]);
+
+          try {
+            await db.run(
+              `INSERT INTO game_history
+              (player_id, subject_id, mode, score, correct, incorrect, timestamp)
+              VALUES ${placeholders}`,
+              values
             );
-          } else {
-            await playerRepo.saveStats(player.id, record.subject, record.score, 1);
+          } catch (error) {
+            console.error('[MigrationService] Error during bulk insert batch:', error);
           }
-        } catch (error) {
-          console.error('[MigrationService] Error migrating game record:', error);
+        }
+
+        // Apply aggregated stats per subject
+        for (const [subjectId, newStats] of subjectStats.entries()) {
+          try {
+            const existingStats = await playerRepo.getStats(player.id, subjectId);
+            if (existingStats) {
+              const mergedHighScore = Math.max(existingStats.high_score, newStats.highScore);
+              await playerRepo.saveStats(
+                player.id,
+                subjectId,
+                mergedHighScore,
+                existingStats.total_runs + newStats.newRuns
+              );
+            } else {
+              await playerRepo.saveStats(
+                player.id,
+                subjectId,
+                newStats.highScore,
+                newStats.newRuns
+              );
+            }
+          } catch (error) {
+            console.error(`[MigrationService] Error updating stats for subject ${subjectId}:`, error);
+          }
         }
       }
 
