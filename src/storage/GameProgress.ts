@@ -87,7 +87,6 @@ export class GameProgressService {
             if (id.includes('first') && allData.runs.length === 1) qualified = true;
 
             // Simple condition mapping - expandable in future
-            // if (ach.condition && eval(ach.condition)) qualified = true; // (Example)
 
             if (qualified) {
                 newUnlocks.push(ach.id);
