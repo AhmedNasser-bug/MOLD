@@ -49,10 +49,13 @@ export class SubjectRepository {
             );
 
             // 2. Questions (batch insert for better performance)
-            for (const q of questions) {
-                await tx.run(
-                    "INSERT OR REPLACE INTO question (id, subject_id, category, type, question, options, correct, explanation) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                    [
+            const CHUNK_SIZE = 100;
+            for (let i = 0; i < questions.length; i += CHUNK_SIZE) {
+                const chunk = questions.slice(i, i + CHUNK_SIZE);
+                const placeholders = chunk.map(() => "(?, ?, ?, ?, ?, ?, ?, ?)").join(", ");
+                const params: any[] = [];
+                for (const q of chunk) {
+                    params.push(
                         q.id,
                         id,
                         q.category,
@@ -61,7 +64,11 @@ export class SubjectRepository {
                         JSON.stringify(q.options || []),
                         JSON.stringify(q.correct),
                         q.explanation || ""
-                    ]
+                    );
+                }
+                await tx.run(
+                    `INSERT OR REPLACE INTO question (id, subject_id, category, type, question, options, correct, explanation) VALUES ${placeholders}`,
+                    params
                 );
             }
         });
@@ -78,10 +85,13 @@ export class SubjectRepository {
     public async saveQuestions(subjectId: string, questions: any[]): Promise<void> {
         const db = await this.getDB();
         await TransactionManager.execute(db, async (tx) => {
-            for (const q of questions) {
-                await tx.run(
-                    "INSERT OR REPLACE INTO question (id, subject_id, category, type, question, options, correct, explanation) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                    [
+            const CHUNK_SIZE = 100;
+            for (let i = 0; i < questions.length; i += CHUNK_SIZE) {
+                const chunk = questions.slice(i, i + CHUNK_SIZE);
+                const placeholders = chunk.map(() => "(?, ?, ?, ?, ?, ?, ?, ?)").join(", ");
+                const params: any[] = [];
+                for (const q of chunk) {
+                    params.push(
                         q.id,
                         subjectId,
                         q.category,
@@ -90,7 +100,11 @@ export class SubjectRepository {
                         JSON.stringify(q.options || []),
                         JSON.stringify(q.correct),
                         q.explanation || ""
-                    ]
+                    );
+                }
+                await tx.run(
+                    `INSERT OR REPLACE INTO question (id, subject_id, category, type, question, options, correct, explanation) VALUES ${placeholders}`,
+                    params
                 );
             }
         });
