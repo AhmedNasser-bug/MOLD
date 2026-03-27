@@ -281,9 +281,20 @@ const { subjectName, description } = Astro.props;
                 return;
             }
 
-            let html =
-                '<table class="history-table"><thead><tr><th>Date</th><th>Mode</th><th>Score</th><th>Time</th><th>Grade</th></tr></thead><tbody>';
+            const table = document.createElement("table");
+            table.className = "history-table";
 
+            const thead = document.createElement("thead");
+            const headerRow = document.createElement("tr");
+            ["Date", "Mode", "Score", "Time", "Grade"].forEach(text => {
+                const th = document.createElement("th");
+                th.textContent = text;
+                headerRow.appendChild(th);
+            });
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+
+            const tbody = document.createElement("tbody");
             recentRuns.forEach((run: any) => {
                 const accuracy = run.correct > 0 
                     ? Math.round((run.correct / (run.correct + run.incorrect)) * 100)
@@ -295,11 +306,41 @@ const { subjectName, description } = Astro.props;
                         : accuracy >= 70
                           ? "badge-warning"
                           : "badge-error";
-                html += `<tr><td>${new Date(run.timestamp).toLocaleDateString()}</td><td style="text-transform:capitalize">${run.mode}</td><td><strong>${accuracy}%</strong></td><td>${this.formatTime(run.timeTaken || 0)}</td><td><span class="badge ${badgeClass}">${grade}</span></td></tr>`;
-            });
 
-            html += "</tbody></table>";
-            container.innerHTML = html;
+                const tr = document.createElement("tr");
+
+                const tdDate = document.createElement("td");
+                tdDate.textContent = new Date(run.timestamp).toLocaleDateString();
+                tr.appendChild(tdDate);
+
+                const tdMode = document.createElement("td");
+                tdMode.style.textTransform = "capitalize";
+                tdMode.textContent = run.mode;
+                tr.appendChild(tdMode);
+
+                const tdScore = document.createElement("td");
+                const strongScore = document.createElement("strong");
+                strongScore.textContent = accuracy + "%";
+                tdScore.appendChild(strongScore);
+                tr.appendChild(tdScore);
+
+                const tdTime = document.createElement("td");
+                tdTime.textContent = this.formatTime(run.timeTaken || 0);
+                tr.appendChild(tdTime);
+
+                const tdGrade = document.createElement("td");
+                const spanBadge = document.createElement("span");
+                spanBadge.className = "badge " + badgeClass;
+                spanBadge.textContent = grade;
+                tdGrade.appendChild(spanBadge);
+                tr.appendChild(tdGrade);
+
+                tbody.appendChild(tr);
+            });
+            table.appendChild(tbody);
+
+            container.innerHTML = "";
+            container.appendChild(table);
         }
 
         private renderCategories() {
@@ -309,14 +350,30 @@ const { subjectName, description } = Astro.props;
             const categories = [
                 ...new Set(this.subject.questions.map((q) => q.category)),
             ];
-            grid.innerHTML = categories
-                .map((cat) => {
-                    const count = this.subject.questions.filter(
-                        (q) => q.category === cat,
-                    ).length;
-                    return `<div class="category-card" data-cat="${cat}" onclick="window.game.selectCategory('${cat}')"><h3>${cat}</h3><span>${count} questions</span></div>`;
-                })
-                .join("");
+            grid.innerHTML = "";
+            categories.forEach(cat => {
+                const count = this.subject.questions.filter(
+                    (q) => q.category === cat,
+                ).length;
+
+                const card = document.createElement("div");
+                card.className = "category-card";
+                card.dataset.cat = String(cat);
+                card.addEventListener("click", () => {
+                    // @ts-ignore
+                    window.game.selectCategory(String(cat));
+                });
+
+                const h3 = document.createElement("h3");
+                h3.textContent = String(cat);
+                card.appendChild(h3);
+
+                const span = document.createElement("span");
+                span.textContent = count + " questions";
+                card.appendChild(span);
+
+                grid.appendChild(card);
+            });
         }
 
 
