@@ -126,6 +126,7 @@ const { id = "questionDisplay" } = Astro.props;
 </style>
 
 <script>
+    import DOMPurify from "dompurify";
     // We import Card Classes. 
     // In a full refactor, these would be exported from the .astro files or separate .ts files.
     // Assuming global availability for now as per existng pattern or we could dynamic import.
@@ -189,7 +190,7 @@ const { id = "questionDisplay" } = Astro.props;
             textContent.className = 'q-text-content';
             textContent.textContent = question.question; // Use textContent for safety
             // If question has HTML needs (e.g. code blocks), we might need innerHTML but sanitized.
-             this.textEl.innerHTML = question.question;
+             this.textEl.innerHTML = DOMPurify.sanitize(question.question);
 
             // Clear Area
             this.cardArea.innerHTML = '';
@@ -278,7 +279,7 @@ const { id = "questionDisplay" } = Astro.props;
                  return `
                     <div class="mmcq-instruction">Select all that apply</div>
                     ${question.options.map((opt: string, i: number) => `
-                        <button class="mmcq-option" data-index="${i}"><div class="checkbox-indicator"></div><span>${opt}</span></button>
+                        <button class="mmcq-option" data-index="${i}"><div class="checkbox-indicator"></div><span>${DOMPurify.sanitize(opt)}</span></button>
                     `).join('')}
                  `;
              } else {
@@ -286,7 +287,7 @@ const { id = "questionDisplay" } = Astro.props;
                   return question.options.map((opt: string, i: number) => `
                         <button class="mcq-option" data-index="${i}">
                              <div class="option-marker">${String.fromCharCode(65 + i)}</div>
-                             <span class="option-text">${opt}</span>
+                             <span class="option-text">${DOMPurify.sanitize(opt)}</span>
                         </button>
                     `).join('');
              }
@@ -316,7 +317,7 @@ const { id = "questionDisplay" } = Astro.props;
             this.feedbackEl.classList.remove('hidden');
             this.feedbackEl.classList.add(isCorrect ? 'correct' : 'incorrect');
             const icon = isCorrect ? '🎉 Correct!' : '❌ Incorrect';
-            this.explanationEl.innerHTML = `<strong>${icon}</strong><br/>${explanation}`;
+            this.explanationEl.innerHTML = `<strong>${icon}</strong><br/>${DOMPurify.sanitize(explanation || "")}`;
         }
     }
 
