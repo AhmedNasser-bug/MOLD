@@ -4,7 +4,26 @@ export { renderers } from '../../../../renderers.mjs';
 
 const GET = async ({ params }) => {
   const subjectId = params.id;
-  const dataPath = path.resolve(`./src/data/subjects/${subjectId}/questions.json`);
+  if (!subjectId || typeof subjectId !== "string") {
+    return new Response(JSON.stringify({ error: "Invalid subject ID" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" }
+    });
+  }
+  if (!/^[a-zA-Z0-9_-]+$/.test(subjectId)) {
+    return new Response(JSON.stringify({ error: "Invalid subject ID format" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" }
+    });
+  }
+  const baseDir = path.resolve("./src/data/subjects");
+  const dataPath = path.resolve(baseDir, subjectId, "questions.json");
+  if (!dataPath.startsWith(baseDir)) {
+    return new Response(JSON.stringify({ error: "Invalid path" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" }
+    });
+  }
   try {
     await fs.access(dataPath);
     const fileContent = await fs.readFile(dataPath, "utf-8");
