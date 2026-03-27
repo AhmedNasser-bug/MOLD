@@ -66,12 +66,10 @@ import '../../../styles/screens/practice.css';
 <script>
     import { GameUtils } from "../../scripts/GameUtils";
     import { Subject } from '../../../logic/entities/Subject';
-    // We don't import UserProgress anymore. We use DB or Transiet state via GameUtils/Player?
-    // Or we handle simple local storage for flashcards for now to avoid complex SQL for "Correct/Incorrect" tracking per card?
-    // Let's use simple localStorage for flashcard mastery for speed, or integrate into PlayerStats later.
-    // For now: LocalStorage legacy style but cleaning up the import.
+    import { BaseScreenController } from "../../controllers/BaseScreenController";
+    import { componentRegistry } from "../../registry/ComponentRegistry";
     
-    class FlashcardController {
+    class FlashcardController extends BaseScreenController {
         private subject: Subject;
         private items: any[] = [];
         private currentIndex: number = 0;
@@ -86,15 +84,12 @@ import '../../../styles/screens/practice.css';
         private prevBtn: HTMLElement;
 
         constructor() {
-            this.init();
+            super('flashcard-screen');
         }
 
-        async init() {
+        async onInit() {
              const screen = document.getElementById('flashcard-screen');
              if(!screen) return;
-             
-             // We don't mount manually anymore
-             // this.mountPoint = document.getElementById('fc-mount-point')!;
              
              this.revealBtn = document.getElementById('fc-reveal-btn')!;
              this.knowBtn = document.getElementById('fc-know-btn')!;
@@ -102,26 +97,30 @@ import '../../../styles/screens/practice.css';
              this.nextBtn = document.getElementById('fc-next-btn')!;
              this.prevBtn = document.getElementById('fc-prev-btn')!;
              
-             this.bindEvents();
+             componentRegistry.register('flashcard-controller', {
+                 start: (mode: 'questionBank' | 'terminology') => this.start(mode),
+                 screen: this.screenId
+             });
+
+             this.subscribeEvent('game:start', (data: any) => {
+                 if(data.mode === 'flashcards' || data.mode === 'terminology' || data.mode === 'questionBank') {
+                     const modePayload = data.mode === 'terminology' ? 'terminology' : 'questionBank';
+                     this.start(modePayload);
+                 }
+             });
              
-             // Register global start
-             // @ts-ignore
-             window.game = window.game || {};
-             // @ts-ignore
-             window.game.startFlashcards = this.start.bind(this);
-             
-             window.addEventListener('game-assets-ready', () => {
+             this.addEventListener(window, 'game-assets-ready', () => {
                  console.log("Flashcards: Data Refreshed");
-                 // We don't need to auto-start, just ensure data is available for next start() call
              });
         }
         
         bindEvents() {
-            this.revealBtn.addEventListener('click', () => this.flipCard());
-            this.knowBtn.addEventListener('click', () => this.markResult(true));
-            this.dontKnowBtn.addEventListener('click', () => this.markResult(false));
-            this.nextBtn.addEventListener('click', () => this.navigate(1));
-            this.prevBtn.addEventListener('click', () => this.navigate(-1));
+            if(!this.revealBtn) return;
+            this.addEventListener(this.revealBtn, 'click', () => this.flipCard());
+            this.addEventListener(this.knowBtn, 'click', () => this.markResult(true));
+            this.addEventListener(this.dontKnowBtn, 'click', () => this.markResult(false));
+            this.addEventListener(this.nextBtn, 'click', () => this.navigate(1));
+            this.addEventListener(this.prevBtn, 'click', () => this.navigate(-1));
         }
         
         async start(mode: 'questionBank' | 'terminology') {
@@ -219,5 +218,10 @@ import '../../../styles/screens/practice.css';
         }
     }
     
-    new FlashcardController();
+    // Initialize controller and let it wait for explicit start
+    const controller = new FlashcardController();
+    // Wait for DOM then init
+    document.addEventListener('DOMContentLoaded', () => {
+        controller.initialize().catch(console.error);
+    });
 </script>
