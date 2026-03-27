@@ -39,7 +39,6 @@ export abstract class BaseScreenController implements ScreenController {
       await this.onInit();
 
       this.isInitialized = true;
-      console.log(`[${this.constructor.name}] Initialized successfully`);
     } catch (error) {
       console.error(`[${this.constructor.name}] Initialization failed:`, error);
       throw error;
@@ -80,7 +79,6 @@ export abstract class BaseScreenController implements ScreenController {
     // Call lifecycle hook
     this.onShow();
 
-    console.log(`[${this.constructor.name}] Shown`);
   }
 
   /**
@@ -97,7 +95,6 @@ export abstract class BaseScreenController implements ScreenController {
     // Call lifecycle hook
     this.onHide();
 
-    console.log(`[${this.constructor.name}] Hidden`);
   }
 
   /**
@@ -120,7 +117,6 @@ export abstract class BaseScreenController implements ScreenController {
     this.isInitialized = false;
     this.isVisible = false;
 
-    console.log(`[${this.constructor.name}] Destroyed`);
   }
 
   /**
