@@ -8,6 +8,7 @@
  */
 
 import { DatabaseService } from './DatabaseService';
+import { TransactionManager } from './TransactionManager';
 import { PlayerRepository } from './repositories/PlayerRepository';
 
 interface LegacyProgress {
@@ -310,6 +311,8 @@ export class MigrationService {
       const existingFlashcardIds = new Set<string>();
       existingProgress?.forEach((row: any) => existingFlashcardIds.add(row.flashcard_id));
 
+      // Collect values for bulk insert
+      const rowsToInsert = [];
       for (const key of flashcardKeys) {
         try {
           const data = localStorage.getItem(key);
@@ -318,24 +321,45 @@ export class MigrationService {
           const flashcardData = JSON.parse(data);
           const flashcardId = key.replace('flashcard_', '');
 
-          // Check if progress already exists
           if (!existingFlashcardIds.has(flashcardId)) {
-            await db.run(
-              `INSERT INTO flashcard_progress 
-              (player_id, flashcard_id, mastery_level, last_reviewed, next_review) 
-              VALUES (?, ?, ?, ?, ?)`,
-              [
-                player.id,
-                flashcardId,
-                flashcardData.masteryLevel || 0,
-                flashcardData.lastReviewed || Date.now(),
-                flashcardData.nextReview || Date.now()
-              ]
-            );
+            rowsToInsert.push({
+              player_id: player.id,
+              flashcard_id: flashcardId,
+              mastery_level: flashcardData.masteryLevel || 0,
+              last_reviewed: flashcardData.lastReviewed || Date.now(),
+              next_review: flashcardData.nextReview || Date.now()
+            });
           }
         } catch (error) {
-          console.error('[MigrationService] Error migrating flashcard:', error);
+          console.error('[MigrationService] Error parsing flashcard data:', error);
         }
+      }
+
+      if (rowsToInsert.length > 0) {
+        await TransactionManager.execute(db, async (tx) => {
+          const chunkSize = 100; // 5 columns * 100 rows = 500 parameters (safe for SQLite limits)
+
+          for (let i = 0; i < rowsToInsert.length; i += chunkSize) {
+            const chunk = rowsToInsert.slice(i, i + chunkSize);
+            const placeholders = chunk.map(() => '(?, ?, ?, ?, ?)').join(', ');
+            const params = chunk.flatMap(row => [
+              row.player_id,
+              row.flashcard_id,
+              row.mastery_level,
+              row.last_reviewed,
+              row.next_review
+            ]);
+
+            await tx.run(
+              `INSERT INTO flashcard_progress 
+              (player_id, flashcard_id, mastery_level, last_reviewed, next_review) 
+              VALUES ${placeholders}`,
+              params
+            );
+          }
+        });
+
+        console.log(`[MigrationService] Migrated ${rowsToInsert.length} flashcards via bulk insert.`);
       }
 
       console.log('[MigrationService] Flashcard progress migration complete.');
