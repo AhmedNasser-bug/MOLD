@@ -20,7 +20,6 @@ export class TransactionManager {
         db: DatabaseService,
         operations: (tx: DatabaseService) => Promise<T>
     ): Promise<T> {
-        console.log('[TransactionManager] Starting transaction');
         
         try {
             await db.run('BEGIN TRANSACTION');
@@ -28,7 +27,6 @@ export class TransactionManager {
             const result = await operations(db);
             
             await db.run('COMMIT');
-            console.log('[TransactionManager] Transaction committed successfully');
             
             return result;
         } catch (error) {
@@ -36,7 +34,6 @@ export class TransactionManager {
             
             try {
                 await db.run('ROLLBACK');
-                console.log('[TransactionManager] Rollback successful');
             } catch (rollbackError) {
                 console.error('[TransactionManager] Rollback failed:', rollbackError);
                 throw new Error(`Transaction and rollback both failed: ${error}`);
@@ -64,7 +61,6 @@ export class TransactionManager {
                 lastError = error as Error;
                 
                 if (attempt < maxRetries) {
-                    console.log(`[TransactionManager] Retry ${attempt}/${maxRetries} after ${delayMs}ms`);
                     await new Promise(resolve => setTimeout(resolve, delayMs));
                     delayMs *= 2; // Exponential backoff
                 }

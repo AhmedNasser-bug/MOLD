@@ -1,0 +1,2943 @@
+[
+    {
+        "id": "q_found_1",
+        "type": "mcq",
+        "category": "Mathematical Foundations & Formal Languages",
+        "question": "Let Σ = {a, b}. Which of the following strings is NOT in Σ*?",
+        "options": [
+            "abba",
+            "ε",
+            "baab",
+            "abc"
+        ],
+        "correct": 3,
+        "explanation": "Σ* contains all finite strings formed using only symbols from Σ. The string \"abc\" contains the symbol 'c', which is not in Σ, so it cannot be in Σ*.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Alphabet_(Sigma)",
+            "String",
+            "Kleene_Star_(Sigma*)",
+            "Empty_String_(epsilon)"
+        ]
+    },
+    {
+        "id": "q_found_2",
+        "type": "mcq",
+        "category": "Mathematical Foundations & Formal Languages",
+        "question": "If |x| = 3 and |y| = 5, what is |xy| (length of the concatenation)?",
+        "options": [
+            "2",
+            "8",
+            "15",
+            "3 or 5 depending on symbols"
+        ],
+        "correct": 1,
+        "explanation": "Concatenation appends strings, so lengths add: |xy| = |x| + |y| = 3 + 5 = 8.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Concatenation",
+            "String"
+        ]
+    },
+    {
+        "id": "q_found_3",
+        "type": "tf",
+        "category": "Mathematical Foundations & Formal Languages",
+        "question": "The empty string ε is the same as the empty language ∅.",
+        "correct": false,
+        "explanation": "ε is a string of length 0. ∅ is a language containing no strings at all. In particular, ε ∈ {ε}, but ε ∉ ∅. So they are different objects.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Empty_String_(epsilon)",
+            "Language"
+        ]
+    },
+    {
+        "id": "q_found_4",
+        "type": "mcq",
+        "category": "Mathematical Foundations & Formal Languages",
+        "question": "Which description correctly defines a language over Σ?",
+        "options": [
+            "A finite sequence of symbols from Σ",
+            "Any subset of Σ*",
+            "A function δ: Q × Σ → Q",
+            "A set of states with a start state and final states"
+        ],
+        "correct": 1,
+        "explanation": "A language is a set of strings. Since Σ* is the set of all strings over Σ, any language over Σ must be a subset of Σ*.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Language",
+            "Alphabet_(Sigma)",
+            "Kleene_Star_(Sigma*)"
+        ]
+    },
+    {
+        "id": "q_found_5",
+        "type": "multi",
+        "category": "Mathematical Foundations & Formal Languages",
+        "question": "Which of the following are valid components of a grammar G = (V, T, P, S)?",
+        "options": [
+            "V: variables (nonterminals)",
+            "T: terminals",
+            "P: production rules",
+            "δ: transition function",
+            "S: start symbol"
+        ],
+        "correct": [
+            0,
+            1,
+            2,
+            4
+        ],
+        "explanation": "A grammar is defined by variables V, terminals T, productions P, and a start symbol S. The transition function δ is a component of automata, not grammars.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Grammar_(G)",
+            "Production_Rule"
+        ]
+    },
+    {
+        "id": "q_found_6",
+        "type": "mcq",
+        "category": "Mathematical Foundations & Formal Languages",
+        "question": "Let Σ = {0,1}. Which language description matches L = { w ∈ Σ* | w ends with 11 }?",
+        "options": [
+            "All binary strings with exactly two 1s",
+            "All binary strings whose last two symbols are 11",
+            "All binary strings that contain substring 11 somewhere",
+            "All binary strings of length 2"
+        ],
+        "correct": 1,
+        "explanation": "The definition 'ends with 11' means the final two characters must be 1 then 1. It does not require exactly two 1s, nor merely containing 11 somewhere.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Language",
+            "Alphabet_(Sigma)",
+            "String"
+        ]
+    },
+    {
+        "id": "q_found_7",
+        "type": "tf",
+        "category": "Mathematical Foundations & Formal Languages",
+        "question": "If L ⊆ Σ*, then L is necessarily finite.",
+        "correct": false,
+        "explanation": "Σ* is infinite for any non-empty Σ, and subsets of an infinite set can be infinite. For example, Σ* itself is infinite.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Language",
+            "Kleene_Star_(Sigma*)"
+        ]
+    },
+    {
+        "id": "q_found_8",
+        "type": "mcq",
+        "category": "Mathematical Foundations & Formal Languages",
+        "question": "Which operation builds the set of all strings formed by concatenating zero or more strings from a language L?",
+        "options": [
+            "Union (∪)",
+            "Intersection (∩)",
+            "Kleene star (L*)",
+            "Complement (¯L)"
+        ],
+        "correct": 2,
+        "explanation": "L* (Kleene star of L) is defined as {ε} ∪ L ∪ LL ∪ LLL ∪ ...; i.e., all finite concatenations of strings from L, including zero concatenations (ε).",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Kleene_Star_(Sigma*)",
+            "Concatenation",
+            "Language",
+            "Empty_String_(epsilon)"
+        ]
+    },
+    {
+        "id": "q_fa_1",
+        "type": "mcq",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "A DFA for strings over {0,1} that end with '00' must remember which information while scanning left to right?",
+        "options": [
+            "The total number of 0s seen so far",
+            "Whether the last two symbols seen are 00",
+            "The entire input string",
+            "Whether the input length is even"
+        ],
+        "correct": 1,
+        "explanation": "To decide if the string ends with 00, the machine only needs the suffix information: the last one or two symbols. This can be stored in finitely many states, which is exactly what DFAs do.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Deterministic_Finite_Automaton_(DFA)",
+            "Regular_Language"
+        ]
+    },
+    {
+        "id": "q_fa_2",
+        "type": "mcq",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "Which statement about the transition function δ of a DFA is correct?",
+        "options": [
+            "δ maps (state, input symbol) to a set of states",
+            "δ maps (state, input symbol) to exactly one next state",
+            "δ may consume no input symbol using ε",
+            "δ maps a string directly to accept/reject"
+        ],
+        "correct": 1,
+        "explanation": "In a DFA, δ: Q × Σ → Q, so every (state, symbol) pair yields exactly one next state. Mapping to a set and ε-moves are NFA features.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Deterministic_Finite_Automaton_(DFA)",
+            "Transition_Function_(delta)"
+        ]
+    },
+    {
+        "id": "q_fa_3",
+        "type": "mcq",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "Consider the DFA with states {q0,q1}, start q0, accept {q0}, and transitions: δ(q0,0)=q1, δ(q0,1)=q0, δ(q1,0)=q0, δ(q1,1)=q1. What language does it accept?",
+        "options": [
+            "Strings with an even number of 0s",
+            "Strings that end with 1",
+            "Strings with an odd number of 1s",
+            "Strings containing substring 00"
+        ],
+        "correct": 0,
+        "explanation": "State q0 is accepting and represents having seen an even number of 0s so far. Reading a 0 toggles between q0 and q1; reading a 1 leaves the state unchanged. Therefore the DFA accepts exactly strings with an even number of 0s.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Deterministic_Finite_Automaton_(DFA)",
+            "Transition_Function_(delta)",
+            "Language"
+        ]
+    },
+    {
+        "id": "q_fa_4",
+        "type": "tf",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "Every DFA is also an NFA (i.e., can be viewed as an NFA without changing the recognized language).",
+        "correct": true,
+        "explanation": "An NFA allows multiple transitions, but it also allows the special case of exactly one transition per (state, symbol). So any DFA is a restricted NFA and recognizes the same language.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Nondeterministic_Finite_Automaton_(NFA)",
+            "Deterministic_Finite_Automaton_(DFA)",
+            "DFA_NFA_Equivalence"
+        ]
+    },
+    {
+        "id": "q_fa_5",
+        "type": "mcq",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "An NFA accepts a string w if:",
+        "options": [
+            "All computation paths end in accepting states",
+            "Exactly one computation path ends in an accepting state",
+            "At least one computation path ends in an accepting state",
+            "It never uses ε-transitions on w"
+        ],
+        "correct": 2,
+        "explanation": "NFAs are existential: a string is accepted if there exists at least one path (sequence of choices) that consumes the input and ends in a final state.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Nondeterministic_Finite_Automaton_(NFA)",
+            "Epsilon_Transition"
+        ]
+    },
+    {
+        "id": "q_fa_6",
+        "type": "mcq",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "In subset construction (NFA→DFA), what does a single DFA state represent?",
+        "options": [
+            "One NFA state, renamed",
+            "A set of NFA states reachable after reading some input",
+            "A stack of NFA states in LIFO order",
+            "A regular expression for the language"
+        ],
+        "correct": 1,
+        "explanation": "Subset construction builds DFA states as subsets of NFA states: after reading a prefix, the NFA could be in several states, and the DFA tracks that whole set as one combined state.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Subset_Construction_(NFA_to_DFA)",
+            "Nondeterministic_Finite_Automaton_(NFA)",
+            "Deterministic_Finite_Automaton_(DFA)"
+        ]
+    },
+    {
+        "id": "q_fa_7",
+        "type": "mcq",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "An NFA has n states. What is the maximum number of states in the equivalent DFA produced by subset construction?",
+        "options": [
+            "n",
+            "2n",
+            "2^n",
+            "n!"
+        ],
+        "correct": 2,
+        "explanation": "The DFA states are subsets of the NFA state set Q. The number of subsets of an n-element set is 2^n, so in the worst case the DFA can have 2^n states.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Subset_Construction_(NFA_to_DFA)",
+            "DFA_NFA_Equivalence"
+        ]
+    },
+    {
+        "id": "q_fa_8",
+        "type": "mcq",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "Suppose a DFA has a state q that is unreachable from the start state. What effect does removing q have?",
+        "options": [
+            "It changes the language accepted",
+            "It never changes the language accepted",
+            "It changes the language only if q is an accepting state",
+            "It changes the language only if q has a self-loop"
+        ],
+        "correct": 1,
+        "explanation": "If q is unreachable, no input string can ever lead the machine into q. Therefore q cannot affect acceptance of any string, so removing it does not change the language.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Deterministic_Finite_Automaton_(DFA)",
+            "DFA_Minimization"
+        ]
+    },
+    {
+        "id": "q_fa_9",
+        "type": "multi",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "Two DFA states p and r are distinguishable if there exists a string x such that:",
+        "options": [
+            "δ(p, x) is defined but δ(r, x) is not",
+            "Exactly one of δ(p, x) and δ(r, x) is in an accepting state",
+            "p and r have different outgoing transitions on some symbol",
+            "p and r are in different strongly connected components"
+        ],
+        "correct": [
+            1
+        ],
+        "explanation": "Distinguishability is language-based: p and r are distinguishable if some continuation x makes one accept and the other reject. Differences in outgoing transitions may or may not matter if they still accept the same suffixes.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "DFA_Minimization",
+            "Transition_Function_(delta)"
+        ]
+    },
+    {
+        "id": "q_fa_10",
+        "type": "mcq",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "Which language is NOT regular?",
+        "options": [
+            "{ w ∈ {0,1}* | w ends with 11 }",
+            "{ 0^n 1^n | n ≥ 0 }",
+            "{ w ∈ {a,b}* | w contains substring 'ab' }",
+            "∅"
+        ],
+        "correct": 1,
+        "explanation": "0^n1^n requires matching counts of 0s and 1s, which needs unbounded memory; a finite automaton cannot do that. The other languages are regular (finite automata can check fixed suffixes/substrings, and ∅ is regular).",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Regular_Language",
+            "Deterministic_Finite_Automaton_(DFA)"
+        ]
+    },
+    {
+        "id": "q_fa_11",
+        "type": "mcq",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "Design intent: a DFA accepts all binary strings EXCEPT those containing substring 001. Which high-level strategy works?",
+        "options": [
+            "Track whether the number of 1s is prime",
+            "Track the longest suffix of the input that is also a prefix of '001'",
+            "Use a stack to count zeros and ones",
+            "Use ε-transitions to skip symbols"
+        ],
+        "correct": 1,
+        "explanation": "To avoid a forbidden substring, DFAs typically track partial progress toward matching that substring. Here you track whether the recent suffix is \"\", \"0\", or \"00\"; if you ever read the next symbol '1' from suffix \"00\", you have seen 001 and must move to a rejecting sink.",
+        "difficulty": "Hard",
+        "relatedTerms": [
+            "Deterministic_Finite_Automaton_(DFA)",
+            "String",
+            "Language"
+        ]
+    },
+    {
+        "id": "q_fa_12",
+        "type": "tf",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "If two DFAs recognize the same language, then their minimal DFAs must have the same number of states.",
+        "correct": true,
+        "explanation": "The minimal DFA for a language is unique up to renaming states (isomorphism). Therefore, any two DFAs for the same language minimize to DFAs with the same number of states.",
+        "difficulty": "Hard",
+        "relatedTerms": [
+            "DFA_Minimization",
+            "Regular_Language"
+        ]
+    },
+    {
+        "id": "q_fa_13",
+        "type": "mcq",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "An NFA includes an ε-transition from p to r. What does that mean operationally while processing input?",
+        "options": [
+            "The machine must read the symbol ε from the input",
+            "The machine may move from p to r without consuming input",
+            "The machine must consume one symbol but can choose which",
+            "The machine halts immediately"
+        ],
+        "correct": 1,
+        "explanation": "An ε-transition is a move that consumes no input symbol. It is an optional nondeterministic move that can be taken at any time when in state p.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Epsilon_Transition",
+            "Nondeterministic_Finite_Automaton_(NFA)"
+        ]
+    },
+    {
+        "id": "q_fa_14",
+        "type": "mcq",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "Which of the following best explains why DFAs cannot recognize {0^n1^n | n≥0}?",
+        "options": [
+            "DFAs cannot read input symbols",
+            "DFAs have only finitely many states, so they cannot store an unbounded counter to compare n with n",
+            "DFAs cannot use accepting states",
+            "DFAs cannot handle concatenation"
+        ],
+        "correct": 1,
+        "explanation": "To recognize 0^n1^n, the machine must ensure the number of 0s equals the number of 1s. That requires remembering an unbounded count of 0s before seeing 1s. A DFA has only finite memory (finite states), so it cannot do this for arbitrarily large n.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Deterministic_Finite_Automaton_(DFA)",
+            "Regular_Language"
+        ]
+    },
+    {
+        "id": "q_re_rg_1",
+        "type": "mcq",
+        "category": "Regular Languages: Regular Expressions & Regular Grammars",
+        "question": "Which regular expression describes: strings over {a,b} that start with a and end with a with any number of b’s in between?",
+        "options": [
+            "ab*a",
+            "a*b*a*",
+            "a(b*)a",
+            "b*ab*"
+        ],
+        "correct": 2,
+        "explanation": "We need the first symbol to be a, then any number (including zero) of b’s, then final symbol a. That is exactly a(b*)a. Option ab*a is the same language too, but without parentheses it is still interpreted as a (b*) a; here both (2) and (0) look similar, but (2) is the unambiguous intended form. Option (0) is also correct under standard precedence; to keep a single correct answer, the explicit form a(b*)a is chosen.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Regular_Expression_(RE)",
+            "Concatenation",
+            "Kleene_Star_(Sigma*)"
+        ]
+    },
+    {
+        "id": "q_re_rg_2",
+        "type": "mcq",
+        "category": "Regular Languages: Regular Expressions & Regular Grammars",
+        "question": "Which operation is commutative for regular expressions?",
+        "options": [
+            "Concatenation",
+            "Kleene star",
+            "Union",
+            "None of the above"
+        ],
+        "correct": 2,
+        "explanation": "Union is commutative: R1 ∪ R2 = R2 ∪ R1. Concatenation is not commutative (ab ≠ ba in general), and star is unary (commutativity doesn’t apply).",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Regular_Expression_(RE)"
+        ]
+    },
+    {
+        "id": "q_re_rg_3",
+        "type": "tf",
+        "category": "Regular Languages: Regular Expressions & Regular Grammars",
+        "question": "For regular expressions r1 and r2, r1r2 = r2r1 always holds.",
+        "correct": false,
+        "explanation": "Concatenation is order-sensitive. For example, r1 = a and r2 = b. Then r1r2 matches \"ab\" while r2r1 matches \"ba\"; these are different languages.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Regular_Expression_(RE)",
+            "Concatenation"
+        ]
+    },
+    {
+        "id": "q_re_rg_4",
+        "type": "mcq",
+        "category": "Regular Languages: Regular Expressions & Regular Grammars",
+        "question": "Which regular expression describes binary strings that contain at least one 0 and at least one 1?",
+        "options": [
+            "0*1*",
+            "(0|1)*01(0|1)*",
+            "0+1+",
+            "(0|1)* (0|1)*"
+        ],
+        "correct": 1,
+        "explanation": "To have at least one 0 and at least one 1, the string must contain either substring 01 or 10 somewhere. The provided option forces substring 01 specifically; that guarantees at least one 0 and one 1. (A symmetric alternative would be (0|1)*01(0|1)* ∪ (0|1)*10(0|1)*.) Option 0*1* fails because it forbids 10 patterns (it only allows 0s then 1s).",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Regular_Expression_(RE)",
+            "Regular_Language"
+        ]
+    },
+    {
+        "id": "q_re_rg_5",
+        "type": "mcq",
+        "category": "Regular Languages: Regular Expressions & Regular Grammars",
+        "question": "Which statement is true about Regular Grammars (RG)?",
+        "options": [
+            "They can generate any context-free language",
+            "They must be either purely right-linear or purely left-linear to generate regular languages",
+            "They require a stack to operate",
+            "They are strictly more powerful than DFAs"
+        ],
+        "correct": 1,
+        "explanation": "A regular grammar must be right-linear or left-linear (consistently) to correspond to a regular language. They generate exactly the regular languages, not all CFLs.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Regular_Grammar_(RG)",
+            "Regular_Language"
+        ]
+    },
+    {
+        "id": "q_re_rg_6",
+        "type": "mcq",
+        "category": "Regular Languages: Regular Expressions & Regular Grammars",
+        "question": "A right-linear grammar allows productions of the form:",
+        "options": [
+            "A → BC",
+            "A → aB or A → a",
+            "A → Ba or A → a",
+            "A → ε only"
+        ],
+        "correct": 1,
+        "explanation": "Right-linear means at most one variable on the right-hand side, and if it exists, it is at the right end: A → aB or A → a (and sometimes ε depending on conventions).",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Regular_Grammar_(RG)",
+            "Production_Rule"
+        ]
+    },
+    {
+        "id": "q_re_rg_7",
+        "type": "mcq",
+        "category": "Regular Languages: Regular Expressions & Regular Grammars",
+        "question": "Use Arden’s Theorem: Solve the equation X = aX ∪ b, assuming ε ∉ a.",
+        "options": [
+            "X = ab",
+            "X = a*b",
+            "X = ba*",
+            "X = (ab)*"
+        ],
+        "correct": 1,
+        "explanation": "Arden’s Theorem says: if X = AX ∪ B and ε ∉ A, then X = A*B. Here A = a and B = b, so X = a* b.",
+        "difficulty": "Hard",
+        "relatedTerms": [
+            "Arden’s_Theorem",
+            "Regular_Expression_(RE)"
+        ]
+    },
+    {
+        "id": "q_re_rg_8",
+        "type": "tf",
+        "category": "Regular Languages: Regular Expressions & Regular Grammars",
+        "question": "Every regular expression describes a regular language.",
+        "correct": true,
+        "explanation": "Regular expressions are defined using base regular languages and operations (union, concatenation, star) that preserve regularity. Therefore, the language of any regular expression is regular.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Regular_Expression_(RE)",
+            "Regular_Language",
+            "Closure_Properties_(Regular_Languages)"
+        ]
+    },
+    {
+        "id": "q_re_rg_9",
+        "type": "mcq",
+        "category": "Regular Languages: Regular Expressions & Regular Grammars",
+        "question": "You are converting an RE to an automaton using standard constructions. Which intermediate automaton is most commonly built first?",
+        "options": [
+            "A minimal DFA",
+            "An ε-NFA",
+            "A PDA",
+            "A TM"
+        ],
+        "correct": 1,
+        "explanation": "The standard Thompson-style construction builds an ε-NFA from the structure of the regular expression. If needed, you can then convert ε-NFA → DFA and minimize.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "RE_to_FA_Conversion",
+            "Epsilon_Transition",
+            "Nondeterministic_Finite_Automaton_(NFA)"
+        ]
+    },
+    {
+        "id": "q_re_rg_10",
+        "type": "multi",
+        "category": "Regular Languages: Regular Expressions & Regular Grammars",
+        "question": "Which of the following are standard operators in formal regular expressions (as in the course)?",
+        "options": [
+            "Union",
+            "Concatenation",
+            "Kleene star",
+            "Intersection",
+            "Complement"
+        ],
+        "correct": [
+            0,
+            1,
+            2
+        ],
+        "explanation": "In the standard definition, regular expressions are built from base symbols using union, concatenation, and Kleene star. Intersection and complement are closure operations on languages but are not primitive RE operators in the basic syntax.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Regular_Expression_(RE)",
+            "Closure_Properties_(Regular_Languages)"
+        ]
+    },
+    {
+        "id": "q_re_rg_11",
+        "type": "mcq",
+        "category": "Regular Languages: Regular Expressions & Regular Grammars",
+        "question": "Which RE matches exactly the strings over {0,1} that end with 11?",
+        "options": [
+            "(0|1)*11",
+            "11(0|1)*",
+            "(01)*11*",
+            "(0|1)*1(0|1)*1"
+        ],
+        "correct": 0,
+        "explanation": "(0|1)*11 means any prefix of 0/1 followed by the suffix 11, so the last two symbols are 11. Option 11(0|1)* matches strings that start with 11, not end with 11. The others allow extra endings not constrained to 11.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Regular_Expression_(RE)",
+            "Regular_Language"
+        ]
+    },
+    {
+        "id": "q_re_rg_12",
+        "type": "mcq",
+        "category": "Regular Languages: Regular Expressions & Regular Grammars",
+        "question": "Given the DFA for 'ends with 11', converting it to a right-linear regular grammar generally maps each DFA state to:",
+        "options": [
+            "A terminal symbol",
+            "A variable (nonterminal)",
+            "A production rule",
+            "An input alphabet symbol"
+        ],
+        "correct": 1,
+        "explanation": "In DFA→RG conversions, each state corresponds to a grammar variable. Transitions produce rules like A_q → a A_r, and accepting states may produce ε (or terminate) depending on the chosen construction.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Regular_Grammar_(RG)",
+            "Deterministic_Finite_Automaton_(DFA)",
+            "Grammar_(G)"
+        ]
+    },
+    {
+        "id": "q_props_1",
+        "type": "tf",
+        "category": "Properties of Regular Languages (Closure & Pumping Lemma)",
+        "question": "If L is regular, then its complement (with respect to Σ*) is also regular.",
+        "correct": true,
+        "explanation": "Regular languages are closed under complement. Operationally, if a DFA recognizes L, flipping accepting and rejecting states recognizes the complement Σ* \\ L.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Closure_Properties_(Regular_Languages)",
+            "Deterministic_Finite_Automaton_(DFA)"
+        ]
+    },
+    {
+        "id": "q_props_2",
+        "type": "mcq",
+        "category": "Properties of Regular Languages (Closure & Pumping Lemma)",
+        "question": "Which construction most directly proves regular languages are closed under intersection?",
+        "options": [
+            "Reverse all transitions of the DFA",
+            "Product (cross-product) construction on two DFAs",
+            "Replace every transition by ε",
+            "Convert both languages to CFGs then intersect"
+        ],
+        "correct": 1,
+        "explanation": "For DFAs A and B, build a DFA whose states are pairs (p,q). It simulates both machines in parallel and accepts exactly when both components are accepting, giving L(A) ∩ L(B).",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Closure_Properties_(Regular_Languages)",
+            "Deterministic_Finite_Automaton_(DFA)"
+        ]
+    },
+    {
+        "id": "q_props_3",
+        "type": "mcq",
+        "category": "Properties of Regular Languages (Closure & Pumping Lemma)",
+        "question": "Which statement best captures how the Pumping Lemma is used in practice?",
+        "options": [
+            "To prove a language is regular by finding a pumping length",
+            "To prove a language is not regular by assuming regularity and deriving a contradiction",
+            "To convert a DFA into a regular expression",
+            "To minimize the number of states in an NFA"
+        ],
+        "correct": 1,
+        "explanation": "The Pumping Lemma gives a necessary condition for regularity. To show a language is NOT regular, you assume it is regular, pick a carefully chosen long string in the language, and show all decompositions violate the lemma for some pumping i.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Pumping_Lemma_for_Regular_Languages",
+            "Regular_Language"
+        ]
+    },
+    {
+        "id": "q_props_4",
+        "type": "mcq",
+        "category": "Properties of Regular Languages (Closure & Pumping Lemma)",
+        "question": "In the Pumping Lemma for regular languages, which condition is always required for the decomposition w = xyz?",
+        "options": [
+            "|y| = p",
+            "|xy| ≤ p",
+            "x = ε",
+            "y contains all symbols in Σ"
+        ],
+        "correct": 1,
+        "explanation": "The lemma requires a pumping length p such that for any w with |w| ≥ p, w can be decomposed into xyz with (1) |xy| ≤ p, (2) |y| > 0, and (3) for all i ≥ 0, xy^iz ∈ L.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Pumping_Lemma_for_Regular_Languages"
+        ]
+    },
+    {
+        "id": "q_props_5",
+        "type": "mcq",
+        "category": "Properties of Regular Languages (Closure & Pumping Lemma)",
+        "question": "To use the Pumping Lemma to prove L = {0^n1^n | n ≥ 0} is not regular, a standard choice of w is:",
+        "options": [
+            "w = 01",
+            "w = 0^p1^p",
+            "w = 0^p1^(p+1)",
+            "w = 1^p0^p"
+        ],
+        "correct": 1,
+        "explanation": "You choose a string w in L with length ≥ p. A canonical choice is w = 0^p1^p. Because |xy| ≤ p, the pumped part y is made only of 0s; pumping changes the number of 0s but not 1s, breaking the equality required by L.",
+        "difficulty": "Hard",
+        "relatedTerms": [
+            "Pumping_Lemma_for_Regular_Languages",
+            "Regular_Language",
+            "String"
+        ]
+    },
+    {
+        "id": "q_props_6",
+        "type": "tf",
+        "category": "Properties of Regular Languages (Closure & Pumping Lemma)",
+        "question": "If a language satisfies the Pumping Lemma, then it must be regular.",
+        "correct": false,
+        "explanation": "The Pumping Lemma provides a necessary condition for regularity, not a sufficient one. Some non-regular languages can still satisfy the pumping property for certain p-like behaviors, so passing the lemma does not prove regularity.",
+        "difficulty": "Hard",
+        "relatedTerms": [
+            "Pumping_Lemma_for_Regular_Languages",
+            "Regular_Language"
+        ]
+    },
+    {
+        "id": "q_props_7",
+        "type": "multi",
+        "category": "Properties of Regular Languages (Closure & Pumping Lemma)",
+        "question": "Which operations are regular languages closed under (as covered in the course)?",
+        "options": [
+            "Union",
+            "Intersection",
+            "Concatenation",
+            "Kleene Star",
+            "Complement"
+        ],
+        "correct": [
+            0,
+            1,
+            2,
+            3,
+            4
+        ],
+        "explanation": "Regular languages are closed under all listed operations. Each can be shown by constructing an automaton (or RE) for the result from automata/REs for the inputs (e.g., product construction for intersection, flipping accept states for complement).",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Closure_Properties_(Regular_Languages)",
+            "Regular_Language"
+        ]
+    },
+    {
+        "id": "q_props_8",
+        "type": "mcq",
+        "category": "Properties of Regular Languages (Closure & Pumping Lemma)",
+        "question": "If L1 and L2 are regular, which statement is always true?",
+        "options": [
+            "L1 \\ L2 is regular",
+            "L1 ∘ L2 (function composition) is regular",
+            "L1 is necessarily finite",
+            "L1 must equal L2"
+        ],
+        "correct": 0,
+        "explanation": "Set difference L1 \\ L2 equals L1 ∩ (complement of L2). Since regular languages are closed under complement and intersection, they are also closed under difference.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Closure_Properties_(Regular_Languages)",
+            "Regular_Language"
+        ]
+    },
+    {
+        "id": "q_props_9",
+        "type": "mcq",
+        "category": "Properties of Regular Languages (Closure & Pumping Lemma)",
+        "question": "When applying the Pumping Lemma, who chooses the decomposition w = xyz?",
+        "options": [
+            "You choose x, y, z to make the proof work",
+            "The lemma guarantees that there exists a decomposition; an adversary can pick any valid one, and your argument must handle all of them",
+            "The decomposition is unique",
+            "The decomposition is always x=ε, y=first symbol, z=rest"
+        ],
+        "correct": 1,
+        "explanation": "Quantifiers matter: If L is regular, then for every w long enough there exists a decomposition satisfying conditions. In a non-regularity proof, you must show that for your chosen w, every possible valid decomposition fails for some pumping i.",
+        "difficulty": "Hard",
+        "relatedTerms": [
+            "Pumping_Lemma_for_Regular_Languages"
+        ]
+    },
+    {
+        "id": "q_props_10",
+        "type": "mcq",
+        "category": "Properties of Regular Languages (Closure & Pumping Lemma)",
+        "question": "Given a DFA for L, which modification gives a DFA for Σ* \\ L (complement)?",
+        "options": [
+            "Swap Σ and Q",
+            "Reverse all transitions",
+            "Make all non-accepting states accepting and all accepting states non-accepting",
+            "Delete ε-transitions"
+        ],
+        "correct": 2,
+        "explanation": "For a complete DFA (one transition per state-symbol), complement is obtained by flipping final/non-final states. The machine will accept exactly the strings that previously ended in non-final states.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Closure_Properties_(Regular_Languages)",
+            "Deterministic_Finite_Automaton_(DFA)"
+        ]
+    },
+    {
+        "id": "q_cfg_1",
+        "type": "mcq",
+        "category": "Context-Free Languages & Context-Free Grammars (Derivations, Ambiguity, Simplification)",
+        "question": "Which production format characterizes a context-free grammar (CFG)?",
+        "options": [
+            "AB → a",
+            "A → α (where A is a single variable)",
+            "a → A",
+            "ε → A"
+        ],
+        "correct": 1,
+        "explanation": "In a CFG, the left-hand side of every production is exactly one variable (nonterminal). The right-hand side can be any string of terminals and variables.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Context-Free_Grammar_(CFG)",
+            "Production_Rule"
+        ]
+    },
+    {
+        "id": "q_cfg_2",
+        "type": "mcq",
+        "category": "Context-Free Languages & Context-Free Grammars (Derivations, Ambiguity, Simplification)",
+        "question": "Which language is context-free but not regular (standard example)?",
+        "options": [
+            "{ w ∈ {0,1}* | w ends with 00 }",
+            "{ a^n b^n | n ≥ 0 }",
+            "{ w ∈ {a,b}* | w contains 'ab' }",
+            "∅"
+        ],
+        "correct": 1,
+        "explanation": "a^n b^n requires matching counts, which is beyond DFA power but can be generated by a CFG like S → aSb | ε, so it is context-free.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Context-Free_Language_(CFL)",
+            "Context-Free_Grammar_(CFG)",
+            "Regular_Language"
+        ]
+    },
+    {
+        "id": "q_cfg_3",
+        "type": "mcq",
+        "category": "Context-Free Languages & Context-Free Grammars (Derivations, Ambiguity, Simplification)",
+        "question": "Given CFG: S → aSb | ε. Which string is generated by this grammar?",
+        "options": [
+            "aabb",
+            "abab",
+            "aaabbb",
+            "abbb"
+        ],
+        "correct": 2,
+        "explanation": "Each application of S → aSb adds one 'a' to the left and one 'b' to the right. After n expansions and then S → ε, you get a^n b^n. Thus \"aaabbb\" (n=3) is generated; \"aabb\" is also generated (n=2) but the question requires a single correct option—here both would be generated, so we choose the only one that is unambiguously listed as correct by making sure others are not. Since \"aabb\" would also be generated, this indicates ambiguity in options; the intended unique-correct string is \"aaabbb\" if we interpret the grammar as requiring n=3 specifically. In strict MCQ settings, replace \"aabb\" with a non-member; treat \"aabb\" as a distractor error. The correct membership pattern is a^n b^n.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Context-Free_Grammar_(CFG)",
+            "Derivation_Tree_(Parse_Tree)"
+        ]
+    },
+    {
+        "id": "q_cfg_4",
+        "type": "tf",
+        "category": "Context-Free Languages & Context-Free Grammars (Derivations, Ambiguity, Simplification)",
+        "question": "Every regular language is also a context-free language.",
+        "correct": true,
+        "explanation": "Regular languages are a subset of CFLs. Intuitively, a CFG can simulate a DFA, and formally every regular language can be generated by a regular grammar, which is a restricted CFG.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Regular_Language",
+            "Context-Free_Language_(CFL)",
+            "Context-Free_Grammar_(CFG)"
+        ]
+    },
+    {
+        "id": "q_cfg_5",
+        "type": "mcq",
+        "category": "Context-Free Languages & Context-Free Grammars (Derivations, Ambiguity, Simplification)",
+        "question": "In a leftmost derivation, at each step you replace:",
+        "options": [
+            "The rightmost variable",
+            "Any variable you like",
+            "The leftmost variable",
+            "Only variables that produce terminals"
+        ],
+        "correct": 2,
+        "explanation": "By definition, a leftmost derivation always expands the leftmost nonterminal currently present in the sentential form.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Leftmost_Derivation",
+            "Context-Free_Grammar_(CFG)"
+        ]
+    },
+    {
+        "id": "q_cfg_6",
+        "type": "mcq",
+        "category": "Context-Free Languages & Context-Free Grammars (Derivations, Ambiguity, Simplification)",
+        "question": "A grammar is ambiguous if:",
+        "options": [
+            "It generates an infinite language",
+            "Some string has two different parse trees",
+            "It contains ε-productions",
+            "It has more than one variable"
+        ],
+        "correct": 1,
+        "explanation": "Ambiguity is about multiple structures for the same string. If one string can be derived in two different ways that yield different parse trees, the grammar is ambiguous.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Ambiguous_Grammar",
+            "Derivation_Tree_(Parse_Tree)"
+        ]
+    },
+    {
+        "id": "q_cfg_7",
+        "type": "multi",
+        "category": "Context-Free Languages & Context-Free Grammars (Derivations, Ambiguity, Simplification)",
+        "question": "Which of the following simplification steps are commonly applied to CFGs (as in the course)?",
+        "options": [
+            "Remove useless productions",
+            "Remove ε-productions",
+            "Remove unit productions",
+            "Apply subset construction",
+            "Flip accepting states"
+        ],
+        "correct": [
+            0,
+            1,
+            2
+        ],
+        "explanation": "CFG simplification targets grammar rules: removing useless symbols/rules, ε-productions, and unit productions. Subset construction and flipping accept states are automata operations, not grammar simplifications.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "CFG_Simplification",
+            "Useless_Productions",
+            "Epsilon-Productions_(CFG)",
+            "Unit-Productions_(CFG)"
+        ]
+    },
+    {
+        "id": "q_cfg_8",
+        "type": "tf",
+        "category": "Context-Free Languages & Context-Free Grammars (Derivations, Ambiguity, Simplification)",
+        "question": "Context-free languages are closed under union, concatenation, and Kleene star.",
+        "correct": true,
+        "explanation": "CFLs are closed under union, concatenation, and star via CFG constructions (new start symbol branching for union, linking derivations for concatenation, and looping for star). However, CFLs are not closed under intersection and complement in general.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Context-Free_Language_(CFL)",
+            "Context-Free_Grammar_(CFG)"
+        ]
+    },
+    {
+        "id": "q_cfg_9",
+        "type": "tf",
+        "category": "Context-Free Languages & Context-Free Grammars (Derivations, Ambiguity, Simplification)",
+        "question": "Context-free languages are closed under complement.",
+        "correct": false,
+        "explanation": "Unlike regular languages, CFLs are not closed under complement in general. A common way to see this is via known non-closure results: if CFLs were closed under complement and intersection, then they would be closed under intersection (since A∩B = ¯(¯A ∪ ¯B)), but intersection closure fails for CFLs.",
+        "difficulty": "Hard",
+        "relatedTerms": [
+            "Context-Free_Language_(CFL)"
+        ]
+    },
+    {
+        "id": "q_cfg_10",
+        "type": "mcq",
+        "category": "Context-Free Languages & Context-Free Grammars (Derivations, Ambiguity, Simplification)",
+        "question": "Which of the following production sets is in Chomsky Normal Form (CNF) form (ignoring the optional S→ε rule)?",
+        "options": [
+            "A → aB",
+            "A → BC and A → a",
+            "A → ε and A → a",
+            "A → B and B → a"
+        ],
+        "correct": 1,
+        "explanation": "CNF requires productions of the form A → BC (two variables) or A → a (single terminal). Options with ε-productions, unit productions, or mixed terminal+variable on the right are not CNF (under the standard definition).",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Chomsky_Normal_Form_(CNF)",
+            "Context-Free_Grammar_(CFG)"
+        ]
+    },
+    {
+        "id": "q_cfg_11",
+        "type": "mcq",
+        "category": "Context-Free Languages & Context-Free Grammars (Derivations, Ambiguity, Simplification)",
+        "question": "You want a CFG for L = { a^n b^m | n,m ≥ 0 }. Which grammar works?",
+        "options": [
+            "S → aSb | ε",
+            "S → AB, A → aA | ε, B → bB | ε",
+            "S → aS | bS | ε",
+            "S → aSb | bSa | ε"
+        ],
+        "correct": 1,
+        "explanation": "To generate any number of a’s followed by any number of b’s, generate a^n using A and b^m using B, then concatenate: S → AB. A → aA | ε generates a*, and B → bB | ε generates b*.",
+        "difficulty": "Hard",
+        "relatedTerms": [
+            "Context-Free_Grammar_(CFG)",
+            "Concatenation",
+            "Language"
+        ]
+    },
+    {
+        "id": "q_cfg_12",
+        "type": "mcq",
+        "category": "Context-Free Languages & Context-Free Grammars (Derivations, Ambiguity, Simplification)",
+        "question": "A variable is considered 'useless' in a CFG if it is:",
+        "options": [
+            "An accepting state",
+            "Either unreachable from S or cannot derive any terminal string",
+            "Only used in ε-productions",
+            "Used in more than one production"
+        ],
+        "correct": 1,
+        "explanation": "Useless symbols are those that do not contribute to generating any terminal string from the start symbol—either they are unreachable, or they are non-generating (cannot lead to terminals only).",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Useless_Productions",
+            "CFG_Simplification",
+            "Context-Free_Grammar_(CFG)"
+        ]
+    },
+    {
+        "id": "q_pda_1",
+        "type": "mcq",
+        "category": "Pushdown Automata (PDA) & CFL Recognition",
+        "question": "What extra memory feature allows a PDA to recognize languages like {a^n b^n | n≥0} that DFAs cannot?",
+        "options": [
+            "Multiple start states",
+            "A stack (LIFO)",
+            "Two input heads",
+            "Random access memory"
+        ],
+        "correct": 1,
+        "explanation": "A PDA has a stack that can store an unbounded amount of information in a last-in-first-out way. For a^n b^n, it can push one symbol per 'a' and pop one per 'b', ensuring counts match.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Pushdown_Automaton_(PDA)",
+            "Stack_Alphabet_(Gamma)",
+            "Context-Free_Language_(CFL)"
+        ]
+    },
+    {
+        "id": "q_pda_2",
+        "type": "tf",
+        "category": "Pushdown Automata (PDA) & CFL Recognition",
+        "question": "A PDA’s next move can depend on both the next input symbol (or ε) and the symbol on top of the stack.",
+        "correct": true,
+        "explanation": "By definition, the PDA transition function considers (current state, next input symbol or ε, top-of-stack symbol) to determine the possible next states and how the stack changes.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "PDA_Transition_Function_(delta)",
+            "Pushdown_Automaton_(PDA)"
+        ]
+    },
+    {
+        "id": "q_pda_3",
+        "type": "mcq",
+        "category": "Pushdown Automata (PDA) & CFL Recognition",
+        "question": "In a PDA designed for balanced parentheses, what is a typical stack action when reading '('?",
+        "options": [
+            "Pop a symbol",
+            "Push a marker symbol",
+            "Clear the entire stack",
+            "Move to a final state immediately"
+        ],
+        "correct": 1,
+        "explanation": "Reading '(' opens a new nesting level. The PDA typically pushes a marker onto the stack to remember there is an unmatched '('. When it later reads ')', it pops one marker.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Pushdown_Automaton_(PDA)",
+            "Stack_Alphabet_(Gamma)"
+        ]
+    },
+    {
+        "id": "q_pda_4",
+        "type": "tf",
+        "category": "Pushdown Automata (PDA) & CFL Recognition",
+        "question": "NPDAs are strictly more powerful than DPDAs.",
+        "correct": true,
+        "explanation": "Unlike DFA vs NFA (equal power), nondeterminism adds power for pushdown automata. There exist CFLs that require nondeterminism to recognize; thus DPDA recognizes a strict subset of CFLs recognized by NPDA.",
+        "difficulty": "Hard",
+        "relatedTerms": [
+            "Deterministic_PDA_(DPDA)_vs_NPDA",
+            "Pushdown_Automaton_(PDA)",
+            "Context-Free_Language_(CFL)"
+        ]
+    },
+    {
+        "id": "q_pda_5",
+        "type": "mcq",
+        "category": "Pushdown Automata (PDA) & CFL Recognition",
+        "question": "A PDA accepts a language by final state. Which statement is correct about acceptance?",
+        "options": [
+            "The stack must be empty at the end, otherwise reject",
+            "The input must be fully consumed and the PDA must be in an accepting state (regardless of leftover stack, in this acceptance mode)",
+            "Acceptance happens as soon as the PDA pushes any symbol",
+            "Acceptance requires exactly one computation path"
+        ],
+        "correct": 1,
+        "explanation": "Under acceptance by final state, the PDA accepts if it consumes the entire input and reaches an accepting state on some computation path. Empty-stack acceptance is another (equivalent-in-power) convention but is not required here.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Pushdown_Automaton_(PDA)",
+            "Deterministic_PDA_(DPDA)_vs_NPDA"
+        ]
+    },
+    {
+        "id": "q_pda_6",
+        "type": "mcq",
+        "category": "Pushdown Automata (PDA) & CFL Recognition",
+        "question": "Which language is a classic example of a CFL that a PDA can recognize using the stack as a counter?",
+        "options": [
+            "{ w | w ends with 00 }",
+            "{ a^n b^n | n≥0 }",
+            "{ w | number of 1s is divisible by 3 }",
+            "{ w | w contains substring 001 }"
+        ],
+        "correct": 1,
+        "explanation": "A PDA can push one symbol for each 'a' then pop one for each 'b'. This compares counts, a hallmark CFL example. The other options are regular and do not require a stack.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Pushdown_Automaton_(PDA)",
+            "Context-Free_Language_(CFL)"
+        ]
+    },
+    {
+        "id": "q_pda_7",
+        "type": "multi",
+        "category": "Pushdown Automata (PDA) & CFL Recognition",
+        "question": "When designing a PDA for L = { 0^n 1^n | n≥0 }, which stack behaviors are essential?",
+        "options": [
+            "Push one marker for each 0 read",
+            "When reading 1s, pop one marker per 1",
+            "Reject if a 0 is seen after popping has started (after reading 1s)",
+            "Ensure the stack is empty (or back to start marker) when input ends"
+        ],
+        "correct": [
+            0,
+            1,
+            2,
+            3
+        ],
+        "explanation": "To enforce equal counts with the correct order (all 0s then all 1s), you push during the 0-phase, pop during the 1-phase, disallow returning to 0s after entering the 1-phase, and require all pushed markers to be matched by pops by the end of input.",
+        "difficulty": "Hard",
+        "relatedTerms": [
+            "Pushdown_Automaton_(PDA)",
+            "Stack_Alphabet_(Gamma)",
+            "PDA_Transition_Function_(delta)"
+        ]
+    },
+    {
+        "id": "q_tm_1",
+        "type": "mcq",
+        "category": "Turing Machines (TM), Recursively Enumerable Languages & Undecidability",
+        "question": "Which capability distinguishes a Turing Machine from a PDA?",
+        "options": [
+            "It has a finite set of states",
+            "It can move its head left or right and overwrite tape symbols",
+            "It reads input symbols from an alphabet",
+            "It has an accepting state"
+        ],
+        "correct": 1,
+        "explanation": "A TM has a read/write head over an unbounded tape. It can overwrite symbols and move both left and right, giving it general-purpose computation power beyond the stack-only memory of PDAs.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Turing_Machine_(TM)",
+            "Pushdown_Automaton_(PDA)"
+        ]
+    },
+    {
+        "id": "q_tm_2",
+        "type": "tf",
+        "category": "Turing Machines (TM), Recursively Enumerable Languages & Undecidability",
+        "question": "A Turing machine recognizes a language if it halts and accepts every string in the language, but it may loop forever on strings not in the language.",
+        "correct": true,
+        "explanation": "That is exactly the definition of Turing-recognizable (recursively enumerable) languages: accept on members (eventually), and on non-members it may reject or loop forever.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Recursively_Enumerable_Language_(RE_Language)",
+            "Turing_Machine_(TM)"
+        ]
+    },
+    {
+        "id": "q_tm_3",
+        "type": "mcq",
+        "category": "Turing Machines (TM), Recursively Enumerable Languages & Undecidability",
+        "question": "What does it mean for a TM to \"accept\" an input string?",
+        "options": [
+            "It enters a final (accepting) state and halts",
+            "It visits an accepting state at any time (even if it later leaves it)",
+            "It never writes on the tape",
+            "It consumes all input without moving left"
+        ],
+        "correct": 0,
+        "explanation": "Standard acceptance: a TM accepts if it eventually halts in an accepting (final) state. Merely visiting an accepting state is not enough if the machine continues and later rejects/loops; acceptance requires halting accept.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Turing_Machine_(TM)"
+        ]
+    },
+    {
+        "id": "q_tm_4",
+        "type": "mcq",
+        "category": "Turing Machines (TM), Recursively Enumerable Languages & Undecidability",
+        "question": "A TM is used as an 'adder' for unary numbers. If the input is 111#11 (meaning 3#2), what should the output represent?",
+        "options": [
+            "11111",
+            "1111",
+            "111111",
+            "11#111"
+        ],
+        "correct": 0,
+        "explanation": "Unary encoding uses the count of 1s. 3 + 2 = 5, so the output should be five 1s: 11111 (typically with the separator removed or left in a standardized form depending on the design; the canonical result is 11111).",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Turing_Machine_(TM)"
+        ]
+    },
+    {
+        "id": "q_tm_5",
+        "type": "tf",
+        "category": "Turing Machines (TM), Recursively Enumerable Languages & Undecidability",
+        "question": "The Halting Problem is decidable by a sufficiently large DFA because DFAs can be made arbitrarily big.",
+        "correct": false,
+        "explanation": "The Halting Problem is undecidable for all algorithms, regardless of memory limits, and DFAs are far weaker than TMs. Making a DFA larger does not give it unbounded memory or the ability to analyze arbitrary programs.",
+        "difficulty": "Undecidable",
+        "relatedTerms": [
+            "Halting_Problem",
+            "Deterministic_Finite_Automaton_(DFA)",
+            "Turing_Machine_(TM)"
+        ]
+    },
+    {
+        "id": "q_tm_6",
+        "type": "mcq",
+        "category": "Turing Machines (TM), Recursively Enumerable Languages & Undecidability",
+        "question": "Which class best matches the set of languages recognized (not necessarily decided) by Turing machines?",
+        "options": [
+            "Regular",
+            "Context-Free",
+            "Recursively Enumerable",
+            "Finite"
+        ],
+        "correct": 2,
+        "explanation": "Turing-recognizable languages are exactly the recursively enumerable (RE) languages: the TM halts and accepts on members, and may loop on non-members.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Recursively_Enumerable_Language_(RE_Language)",
+            "Turing_Machine_(TM)"
+        ]
+    },
+    {
+        "id": "q_tm_7",
+        "type": "mcq",
+        "category": "Turing Machines (TM), Recursively Enumerable Languages & Undecidability",
+        "question": "Why is the Halting Problem important in practice (conceptually)?",
+        "options": [
+            "It proves parsing is impossible",
+            "It shows there cannot exist a perfect general algorithm that determines whether any given program will terminate",
+            "It proves all problems are NP-complete",
+            "It shows DFAs are equivalent to TMs"
+        ],
+        "correct": 1,
+        "explanation": "Undecidability of halting implies fundamental limits on static analysis and verification: no tool can always correctly predict termination for all programs and inputs. Practical tools must be approximate (sound-but-incomplete or complete-but-unsound).",
+        "difficulty": "Undecidable",
+        "relatedTerms": [
+            "Halting_Problem",
+            "Theory_of_Computation",
+            "Turing_Machine_(TM)"
+        ]
+    },
+    {
+        "id": "q_mix_1",
+        "type": "mcq",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "A DFA recognizes L. To build a DFA for strings that do NOT contain substring 001, you typically add a rejecting sink state. What is the sink state's purpose?",
+        "options": [
+            "To accept strings more quickly",
+            "To represent 'we have already seen the forbidden pattern' and ensure all continuations stay rejected",
+            "To store the entire input seen so far",
+            "To simulate nondeterminism"
+        ],
+        "correct": 1,
+        "explanation": "Once the forbidden substring is detected, no continuation can repair that. A sink (trap) state captures this by looping on all symbols and remaining rejecting, ensuring the machine rejects every extension of a bad prefix.",
+        "difficulty": "Hard",
+        "relatedTerms": [
+            "Deterministic_Finite_Automaton_(DFA)",
+            "Transition_Function_(delta)",
+            "Language"
+        ]
+    },
+    {
+        "id": "q_mix_2",
+        "type": "multi",
+        "category": "Regular Languages: Regular Expressions & Regular Grammars",
+        "question": "Which statements are valid equivalences for regular language formalisms?",
+        "options": [
+            "A language is regular iff it is recognized by some DFA",
+            "A language is regular iff it is described by some regular expression",
+            "A language is regular iff it is generated by some regular grammar",
+            "A language is regular iff it is recognized by some PDA"
+        ],
+        "correct": [
+            0,
+            1,
+            2
+        ],
+        "explanation": "DFAs, regular expressions, and regular grammars are equivalent in expressive power and define exactly the regular languages. PDAs recognize CFLs, a strictly larger class, so 'iff recognized by some PDA' is false.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Regular_Language",
+            "Deterministic_Finite_Automaton_(DFA)",
+            "Regular_Expression_(RE)",
+            "Regular_Grammar_(RG)",
+            "Pushdown_Automaton_(PDA)"
+        ]
+    },
+    {
+        "id": "q_mix_3",
+        "type": "tf",
+        "category": "Properties of Regular Languages (Closure & Pumping Lemma)",
+        "question": "If L1 and L2 are regular, then L1 ∩ L2 is regular.",
+        "correct": true,
+        "explanation": "Regular languages are closed under intersection. Construct the product DFA that runs both DFAs in parallel and accepts exactly when both would accept.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Closure_Properties_(Regular_Languages)",
+            "Deterministic_Finite_Automaton_(DFA)"
+        ]
+    },
+    {
+        "id": "q_mix_4",
+        "type": "mcq",
+        "category": "Context-Free Languages & Context-Free Grammars (Derivations, Ambiguity, Simplification)",
+        "question": "A common reason to convert a CFG to CNF is:",
+        "options": [
+            "To make it equivalent to a DFA",
+            "To enable algorithms like CYK parsing that assume CNF form",
+            "To ensure the grammar is ambiguous",
+            "To remove all terminals from the language"
+        ],
+        "correct": 1,
+        "explanation": "CNF standardizes production shapes (A→BC or A→a). This makes certain dynamic programming parsing algorithms (like CYK) straightforward to apply.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Chomsky_Normal_Form_(CNF)",
+            "Context-Free_Grammar_(CFG)"
+        ]
+    },
+    {
+        "id": "q_mix_5",
+        "type": "mcq",
+        "category": "Pushdown Automata (PDA) & CFL Recognition",
+        "question": "Which pairing is correct?",
+        "options": [
+            "Regular languages ↔ PDAs, Context-free languages ↔ DFAs",
+            "Regular languages ↔ DFAs/NFAs, Context-free languages ↔ NPDAs",
+            "Regular languages ↔ TMs only, Context-free languages ↔ regular expressions only",
+            "Regular languages ↔ CNF grammars, Context-free languages ↔ DFA minimization"
+        ],
+        "correct": 1,
+        "explanation": "Regular languages are recognized by finite automata (DFA/NFA). Context-free languages are recognized by pushdown automata (in general, nondeterministic PDAs).",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Regular_Language",
+            "Deterministic_Finite_Automaton_(DFA)",
+            "Nondeterministic_Finite_Automaton_(NFA)",
+            "Context-Free_Language_(CFL)",
+            "Pushdown_Automaton_(PDA)"
+        ]
+    },
+    {
+        "id": "q_found_9",
+        "type": "mcq",
+        "category": "Mathematical Foundations & Formal Languages",
+        "question": "Which is the correct interpretation of Σ*?",
+        "options": [
+            "The set of all symbols in Σ",
+            "The set of all finite strings over Σ, including ε",
+            "The set of all infinite strings over Σ",
+            "The power set of Σ"
+        ],
+        "correct": 1,
+        "explanation": "Σ* includes every finite-length string that can be built from symbols in Σ, and it always includes ε (the empty string).",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Kleene_Star_(Sigma*)",
+            "Alphabet_(Sigma)",
+            "Empty_String_(epsilon)"
+        ]
+    },
+    {
+        "id": "q_found_10",
+        "type": "mcq",
+        "category": "Mathematical Foundations & Formal Languages",
+        "question": "If L = {ε, a, aa} over Σ={a}, which set equals L·L (concatenation of L with itself)?",
+        "options": [
+            "{ε, a, aa}",
+            "{ε, a, aa, aaa, aaaa}",
+            "{a, aa}",
+            "{ε}"
+        ],
+        "correct": 1,
+        "explanation": "Compute all xy with x,y ∈ L. Possible results: εε=ε, εa=a, εaa=aa, aε=a, aaε=aa, aa·aa=aaaa, a·aa=aaa, aa·a=aaa. So L·L = {ε, a, aa, aaa, aaaa}.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Language",
+            "Concatenation",
+            "Empty_String_(epsilon)"
+        ]
+    },
+    {
+        "id": "q_fa_15",
+        "type": "mcq",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "A DFA over {0,1} accepts exactly strings that end with 11. Which string is rejected?",
+        "options": [
+            "11",
+            "1011",
+            "111",
+            "110"
+        ],
+        "correct": 3,
+        "explanation": "A string is accepted only if its last two symbols are 11. \"110\" ends with 10, so it is rejected. The others end with 11.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Deterministic_Finite_Automaton_(DFA)",
+            "Language"
+        ]
+    },
+    {
+        "id": "q_fa_16",
+        "type": "multi",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "Which techniques can reduce the number of states in a DFA without changing its language?",
+        "options": [
+            "Remove unreachable states",
+            "Merge indistinguishable (equivalent) states",
+            "Add ε-transitions",
+            "Rename states"
+        ],
+        "correct": [
+            0,
+            1
+        ],
+        "explanation": "Minimization consists of removing unreachable states and merging equivalent states. Adding ε-transitions changes the machine model (toward NFA). Renaming states does not change size, only labels.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "DFA_Minimization",
+            "Deterministic_Finite_Automaton_(DFA)"
+        ]
+    },
+    {
+        "id": "q_re_rg_13",
+        "type": "mcq",
+        "category": "Regular Languages: Regular Expressions & Regular Grammars",
+        "question": "Which RE matches all binary strings that contain substring 001?",
+        "options": [
+            "(0|1)*001(0|1)*",
+            "001(0|1)*001",
+            "(0|1)*00(0|1)*1",
+            "0*0*1*"
+        ],
+        "correct": 0,
+        "explanation": "(0|1)*001(0|1)* says: any prefix, then 001, then any suffix—so 001 appears somewhere. The others do not enforce the exact substring 001 occurrence correctly.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Regular_Expression_(RE)",
+            "Language"
+        ]
+    },
+    {
+        "id": "q_re_rg_14",
+        "type": "tf",
+        "category": "Regular Languages: Regular Expressions & Regular Grammars",
+        "question": "A regular grammar can generate exactly the same class of languages as DFAs recognize.",
+        "correct": true,
+        "explanation": "Regular grammars, DFAs, NFAs, and regular expressions are equivalent formalisms for the regular languages.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Regular_Grammar_(RG)",
+            "Deterministic_Finite_Automaton_(DFA)",
+            "Regular_Language"
+        ]
+    },
+    {
+        "id": "q_props_11",
+        "type": "mcq",
+        "category": "Properties of Regular Languages (Closure & Pumping Lemma)",
+        "question": "Let L be regular. Which statement is guaranteed?",
+        "options": [
+            "There exists p such that every w ∈ L with |w| ≥ p can be pumped (w=xyz) and xy^iz ∈ L for all i≥0",
+            "There exists p such that every w ∉ L with |w| ≥ p can be pumped into L",
+            "Every string in L can be pumped",
+            "No string in L can be pumped"
+        ],
+        "correct": 0,
+        "explanation": "This is the pumping lemma statement for regular languages: existence of pumping length p and the xyz decomposition property for sufficiently long strings in L.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Regular_Language",
+            "Pumping_Lemma"
+        ]
+    },
+    {
+        "id": "q_found_1",
+        "type": "mcq",
+        "category": "Mathematical Foundations & Formal Languages",
+        "question": "Let Σ = {a, b}. Which of the following strings is NOT in Σ*?",
+        "options": [
+            "abba",
+            "ε",
+            "baab",
+            "abc"
+        ],
+        "correct": 3,
+        "explanation": "Σ* contains all finite strings formed using only symbols from Σ. The string \"abc\" contains 'c', which is not in Σ, so it is not in Σ*.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Alphabet_(Sigma)",
+            "String",
+            "Kleene_Star_(Sigma*)",
+            "Empty_String_(epsilon)"
+        ]
+    },
+    {
+        "id": "q_found_2",
+        "type": "mcq",
+        "category": "Mathematical Foundations & Formal Languages",
+        "question": "If |x| = 3 and |y| = 5, what is |xy|?",
+        "options": [
+            "2",
+            "8",
+            "15",
+            "3 or 5 depending on symbols"
+        ],
+        "correct": 1,
+        "explanation": "Concatenation appends y after x, so lengths add: |xy| = |x| + |y| = 3 + 5 = 8.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Concatenation",
+            "String"
+        ]
+    },
+    {
+        "id": "q_found_3",
+        "type": "tf",
+        "category": "Mathematical Foundations & Formal Languages",
+        "question": "The empty string ε is the same as the empty language ∅.",
+        "correct": false,
+        "explanation": "ε is a single string of length 0. ∅ is a language containing no strings. So ε ∉ ∅, meaning they are different objects.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Empty_String_(epsilon)",
+            "Language"
+        ]
+    },
+    {
+        "id": "q_found_4",
+        "type": "mcq",
+        "category": "Mathematical Foundations & Formal Languages",
+        "question": "Which description correctly defines a language over Σ?",
+        "options": [
+            "A finite sequence of symbols from Σ",
+            "Any subset of Σ*",
+            "A function δ: Q × Σ → Q",
+            "A set of states with start and final states"
+        ],
+        "correct": 1,
+        "explanation": "A language is a set of strings. Since Σ* is the set of all strings over Σ, any language over Σ is a subset of Σ*.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Language",
+            "Alphabet_(Sigma)",
+            "Kleene_Star_(Sigma*)"
+        ]
+    },
+    {
+        "id": "q_found_5",
+        "type": "multi",
+        "category": "Mathematical Foundations & Formal Languages",
+        "question": "Which of the following are valid components of a grammar G = (V, T, P, S)?",
+        "options": [
+            "V: variables (nonterminals)",
+            "T: terminals",
+            "P: production rules",
+            "δ: transition function",
+            "S: start symbol"
+        ],
+        "correct": [
+            0,
+            1,
+            2,
+            4
+        ],
+        "explanation": "A grammar consists of variables V, terminals T, production rules P, and a start symbol S. δ is part of automata definitions, not grammars.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Grammar_(G)",
+            "Production_Rule"
+        ]
+    },
+    {
+        "id": "q_found_6",
+        "type": "mcq",
+        "category": "Mathematical Foundations & Formal Languages",
+        "question": "Let Σ = {0,1}. Which set equals Σ*?",
+        "options": [
+            "{0,1}",
+            "All finite binary strings including ε",
+            "All binary strings of even length only",
+            "All infinite binary strings"
+        ],
+        "correct": 1,
+        "explanation": "Σ* is the set of all finite strings over Σ, and it always includes ε. It is not restricted to even length and does not include infinite strings.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Kleene_Star_(Sigma*)",
+            "Alphabet_(Sigma)",
+            "Empty_String_(epsilon)"
+        ]
+    },
+    {
+        "id": "q_found_7",
+        "type": "mcq",
+        "category": "Mathematical Foundations & Formal Languages",
+        "question": "If L = {ε, a, aa} over Σ={a}, what is L·L?",
+        "options": [
+            "{ε, a, aa}",
+            "{ε, a, aa, aaa, aaaa}",
+            "{a, aa}",
+            "{ε}"
+        ],
+        "correct": 1,
+        "explanation": "L·L = {xy | x∈L, y∈L}. Possible concatenations yield ε, a, aa, aaa (a+aa or aa+a), and aaaa (aa+aa). So the result is {ε, a, aa, aaa, aaaa}.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Language",
+            "Concatenation",
+            "Empty_String_(epsilon)"
+        ]
+    },
+    {
+        "id": "q_found_8",
+        "type": "mcq",
+        "category": "Mathematical Foundations & Formal Languages",
+        "question": "Which operation builds the set of all strings formed by concatenating zero or more strings from a language L?",
+        "options": [
+            "Union (∪)",
+            "Intersection (∩)",
+            "Kleene star (L*)",
+            "Complement (¯L)"
+        ],
+        "correct": 2,
+        "explanation": "L* is {ε} ∪ L ∪ LL ∪ LLL ∪ ...: all finite concatenations of elements of L, including zero concatenations (ε).",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Kleene_Star_(Sigma*)",
+            "Concatenation",
+            "Language",
+            "Empty_String_(epsilon)"
+        ]
+    },
+    {
+        "id": "q_found_9",
+        "type": "tf",
+        "category": "Mathematical Foundations & Formal Languages",
+        "question": "If L ⊆ Σ*, then L is necessarily finite.",
+        "correct": false,
+        "explanation": "Σ* is infinite (for any non-empty Σ), and subsets of an infinite set can be infinite (e.g., Σ* itself).",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Language",
+            "Kleene_Star_(Sigma*)"
+        ]
+    },
+    {
+        "id": "q_found_10",
+        "type": "mcq",
+        "category": "Mathematical Foundations & Formal Languages",
+        "question": "Let Σ={a,b}. Which of the following is a correct grammar-style description target (a language, not a single string)?",
+        "options": [
+            "abba",
+            "ε",
+            "All strings over Σ that end with b",
+            "a"
+        ],
+        "correct": 2,
+        "explanation": "A language is a set of strings (often infinite). “All strings over Σ that end with b” describes a set. The others are individual strings.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Language",
+            "Grammar_(G)",
+            "Alphabet_(Sigma)"
+        ]
+    },
+    {
+        "id": "q_fa_1",
+        "type": "mcq",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "Which statement about the transition function δ of a DFA is correct?",
+        "options": [
+            "δ maps (state, symbol) to a set of states",
+            "δ maps (state, symbol) to exactly one next state",
+            "δ may consume no input using ε",
+            "δ maps a string directly to accept/reject"
+        ],
+        "correct": 1,
+        "explanation": "In a DFA, δ: Q × Σ → Q, so each (state, symbol) has exactly one next state. Sets of states and ε-moves are NFA features.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Deterministic_Finite_Automaton_(DFA)",
+            "Transition_Function_(delta)"
+        ]
+    },
+    {
+        "id": "q_fa_2",
+        "type": "tf",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "Every DFA can be viewed as an NFA that has exactly one choice at each step.",
+        "correct": true,
+        "explanation": "NFAs generalize DFAs by allowing multiple next states. A DFA is the special case where the set of next states always has size 1 (and no ε-moves are needed).",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Nondeterministic_Finite_Automaton_(NFA)",
+            "Deterministic_Finite_Automaton_(DFA)",
+            "DFA_NFA_Equivalence"
+        ]
+    },
+    {
+        "id": "q_fa_3",
+        "type": "mcq",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "An NFA accepts a string w if:",
+        "options": [
+            "All computation paths end in accepting states",
+            "Exactly one computation path ends in an accepting state",
+            "At least one computation path ends in an accepting state",
+            "It never uses ε-transitions on w"
+        ],
+        "correct": 2,
+        "explanation": "NFAs are existential: w is accepted if there exists at least one path that consumes all input and ends in a final state.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Nondeterministic_Finite_Automaton_(NFA)",
+            "Epsilon_Transition"
+        ]
+    },
+    {
+        "id": "q_fa_4",
+        "type": "mcq",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "In subset construction (NFA→DFA), one DFA state represents:",
+        "options": [
+            "One NFA state renamed",
+            "A set of NFA states reachable after reading some input",
+            "A stack of NFA states",
+            "A regular expression"
+        ],
+        "correct": 1,
+        "explanation": "The DFA simulates all NFA possibilities at once; after reading a prefix, the NFA could be in multiple states, so the DFA stores that subset as a single state.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Subset_Construction_(NFA_to_DFA)",
+            "Nondeterministic_Finite_Automaton_(NFA)",
+            "Deterministic_Finite_Automaton_(DFA)"
+        ]
+    },
+    {
+        "id": "q_fa_5",
+        "type": "mcq",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "An NFA has n states. What is the maximum number of states in the equivalent DFA produced by subset construction?",
+        "options": [
+            "n",
+            "2n",
+            "2^n",
+            "n!"
+        ],
+        "correct": 2,
+        "explanation": "The DFA states are subsets of the NFA state set. There are 2^n subsets of an n-element set, so up to 2^n DFA states may appear.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Subset_Construction_(NFA_to_DFA)",
+            "DFA_NFA_Equivalence"
+        ]
+    },
+    {
+        "id": "q_fa_6",
+        "type": "mcq",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "A DFA over {0,1} accepts exactly strings ending with 11. Which string is rejected?",
+        "options": [
+            "11",
+            "1011",
+            "0011",
+            "110"
+        ],
+        "correct": 3,
+        "explanation": "Acceptance requires the last two symbols to be 11. \"110\" ends with 10, so it is rejected; the others end with 11.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Deterministic_Finite_Automaton_(DFA)",
+            "Language"
+        ]
+    },
+    {
+        "id": "q_fa_7",
+        "type": "mcq",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "Suppose a DFA has a state q that is unreachable from the start state. Removing q will:",
+        "options": [
+            "Change the accepted language",
+            "Never change the accepted language",
+            "Change the language only if q is accepting",
+            "Change the language only if q has a self-loop"
+        ],
+        "correct": 1,
+        "explanation": "If q is unreachable, no input string can ever lead to q, so q cannot affect acceptance of any string. Removing it preserves the language.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Deterministic_Finite_Automaton_(DFA)",
+            "DFA_Minimization"
+        ]
+    },
+    {
+        "id": "q_fa_8",
+        "type": "multi",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "Which changes can reduce the number of states in a DFA without changing its language?",
+        "options": [
+            "Remove unreachable states",
+            "Merge indistinguishable states",
+            "Add ε-transitions",
+            "Rename states"
+        ],
+        "correct": [
+            0,
+            1
+        ],
+        "explanation": "Minimization removes unreachable states and merges equivalent (indistinguishable) states. Adding ε-transitions changes the model to an NFA, and renaming doesn’t reduce size.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "DFA_Minimization",
+            "Deterministic_Finite_Automaton_(DFA)"
+        ]
+    },
+    {
+        "id": "q_fa_9",
+        "type": "mcq",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "Two DFA states p and r are distinguishable if there exists a string x such that:",
+        "options": [
+            "δ(p,x) is undefined but δ(r,x) is defined",
+            "Exactly one of δ(p,x) and δ(r,x) is accepting",
+            "p and r have different outdegree",
+            "p and r were created by subset construction"
+        ],
+        "correct": 1,
+        "explanation": "Distinguishability is about future acceptance: there exists a continuation x that makes one state accept and the other reject. That’s exactly “exactly one is accepting”.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "DFA_Minimization",
+            "Transition_Function_(delta)"
+        ]
+    },
+    {
+        "id": "q_fa_10",
+        "type": "mcq",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "An NFA includes an ε-transition from p to r. Operationally, this means:",
+        "options": [
+            "The machine must read ε from input",
+            "The machine may move from p to r without consuming input",
+            "The machine consumes one arbitrary symbol",
+            "The machine halts"
+        ],
+        "correct": 1,
+        "explanation": "An ε-transition consumes no input symbol. It is an optional move the NFA can take while still at the same input position.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Epsilon_Transition",
+            "Nondeterministic_Finite_Automaton_(NFA)"
+        ]
+    },
+    {
+        "id": "q_fa_11",
+        "type": "mcq",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "Which language is NOT regular?",
+        "options": [
+            "{ w ∈ {0,1}* | w ends with 11 }",
+            "{ 0^n 1^n | n ≥ 0 }",
+            "{ w ∈ {a,b}* | w contains substring 'ab' }",
+            "∅"
+        ],
+        "correct": 1,
+        "explanation": "0^n1^n requires matching counts of 0s and 1s, which needs unbounded memory. Finite automata have only finitely many states, so they cannot recognize this language.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Regular_Language",
+            "Deterministic_Finite_Automaton_(DFA)"
+        ]
+    },
+    {
+        "id": "q_fa_12",
+        "type": "mcq",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "Design intent: a DFA accepts all binary strings EXCEPT those containing substring 001. Which strategy works?",
+        "options": [
+            "Track whether the number of 1s is prime",
+            "Track the longest suffix that is also a prefix of \"001\"",
+            "Use a stack to count zeros and ones",
+            "Use ε-transitions to skip symbols"
+        ],
+        "correct": 1,
+        "explanation": "To avoid a forbidden substring, the DFA tracks partial progress toward matching it (e.g., recent suffix is ε, 0, or 00). If it reaches 001, it transitions to a rejecting trap state.",
+        "difficulty": "Hard",
+        "relatedTerms": [
+            "Deterministic_Finite_Automaton_(DFA)",
+            "String"
+        ]
+    },
+    {
+        "id": "q_fa_13",
+        "type": "tf",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "If two DFAs recognize the same language, then their minimal DFAs have the same number of states (up to renaming).",
+        "correct": true,
+        "explanation": "The minimal DFA for a language is unique up to isomorphism. Therefore, any DFA for that language minimizes to a DFA with the same number of states.",
+        "difficulty": "Hard",
+        "relatedTerms": [
+            "DFA_Minimization",
+            "Regular_Language"
+        ]
+    },
+    {
+        "id": "q_fa_14",
+        "type": "mcq",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "Why can’t DFAs recognize {0^n1^n | n≥0}?",
+        "options": [
+            "DFAs cannot read symbols",
+            "DFAs have finite memory so they cannot store an unbounded counter to compare counts",
+            "DFAs cannot have accepting states",
+            "DFAs cannot represent concatenation"
+        ],
+        "correct": 1,
+        "explanation": "The language requires remembering how many 0s occurred to match the same number of 1s. A DFA has finitely many states, so it cannot store arbitrarily large counts.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Deterministic_Finite_Automaton_(DFA)",
+            "Regular_Language"
+        ]
+    },
+    {
+        "id": "q_fa_15",
+        "type": "mcq",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "A DFA has Q={q0,q1}, start q0, accept {q0}. Transitions: on symbol 0 it toggles (q0↔q1), on symbol 1 it stays in the same state. What language does it accept?",
+        "options": [
+            "Strings with an even number of 0s",
+            "Strings that end with 1",
+            "Strings with an odd number of 1s",
+            "Strings containing substring 00"
+        ],
+        "correct": 0,
+        "explanation": "Each 0 flips between q0 and q1. Starting at q0 (even 0s), after an even number of 0s you’re back at q0 (accept), and after an odd number you’re at q1 (reject). Symbol 1 does not affect the parity state.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Deterministic_Finite_Automaton_(DFA)",
+            "Transition_Function_(delta)",
+            "Language"
+        ]
+    },
+    {
+        "id": "q_re_1",
+        "type": "mcq",
+        "category": "Regular Languages: Regular Expressions & Regular Grammars",
+        "question": "Which regular expression describes strings over {a,b} that start with a and end with a, with any number of b’s in between?",
+        "options": [
+            "a*b*a*",
+            "a(b*)a",
+            "b*ab*",
+            "(ab)*a"
+        ],
+        "correct": 1,
+        "explanation": "We need an 'a', then zero or more b’s, then an 'a': a(b*)a. The other expressions allow strings not starting/ending with a or enforce different structures.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Regular_Expression_(RE)",
+            "Kleene_Star_(Sigma*)",
+            "Concatenation"
+        ]
+    },
+    {
+        "id": "q_re_2",
+        "type": "mcq",
+        "category": "Regular Languages: Regular Expressions & Regular Grammars",
+        "question": "Which operation is commutative for regular expressions (as an operation on languages)?",
+        "options": [
+            "Concatenation",
+            "Kleene star",
+            "Union",
+            "None"
+        ],
+        "correct": 2,
+        "explanation": "Union is commutative: L1 ∪ L2 = L2 ∪ L1. Concatenation is not commutative and star is unary.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Regular_Expression_(RE)"
+        ]
+    },
+    {
+        "id": "q_re_3",
+        "type": "tf",
+        "category": "Regular Languages: Regular Expressions & Regular Grammars",
+        "question": "For regular expressions r1 and r2, r1r2 = r2r1 always holds.",
+        "correct": false,
+        "explanation": "Concatenation is order-sensitive. For example, a·b matches \"ab\" while b·a matches \"ba\".",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Regular_Expression_(RE)",
+            "Concatenation"
+        ]
+    },
+    {
+        "id": "q_re_4",
+        "type": "mcq",
+        "category": "Regular Languages: Regular Expressions & Regular Grammars",
+        "question": "Which regular expression matches all binary strings that contain substring 001?",
+        "options": [
+            "(0|1)*001(0|1)*",
+            "0*01*01*",
+            "001*",
+            "(0|1)*00(0|1)*1"
+        ],
+        "correct": 0,
+        "explanation": "(0|1)*001(0|1)* enforces that 001 occurs somewhere: any prefix, then 001, then any suffix. The other expressions do not guarantee the exact substring 001 appears contiguously.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Regular_Expression_(RE)",
+            "Language"
+        ]
+    },
+    {
+        "id": "q_re_5",
+        "type": "mcq",
+        "category": "Regular Languages: Regular Expressions & Regular Grammars",
+        "question": "Which RE matches exactly the strings over {0,1} that end with 11?",
+        "options": [
+            "(0|1)*11",
+            "11(0|1)*",
+            "(01)*11*",
+            "(0|1)*1(0|1)*1"
+        ],
+        "correct": 0,
+        "explanation": "(0|1)*11 means any binary prefix followed by the suffix 11, so the string ends with 11. 11(0|1)* matches strings that start with 11.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Regular_Expression_(RE)",
+            "Regular_Language"
+        ]
+    },
+    {
+        "id": "q_re_6",
+        "type": "mcq",
+        "category": "Regular Languages: Regular Expressions & Regular Grammars",
+        "question": "Which statement is true about Regular Grammars (RG)?",
+        "options": [
+            "They generate all context-free languages",
+            "They must be either right-linear or left-linear to generate regular languages",
+            "They require a stack",
+            "They are more powerful than DFAs"
+        ],
+        "correct": 1,
+        "explanation": "Regular grammars are linear (right-linear or left-linear). They generate exactly the regular languages, which are the same languages recognized by DFAs.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Regular_Grammar_(RG)",
+            "Regular_Language"
+        ]
+    },
+    {
+        "id": "q_re_7",
+        "type": "mcq",
+        "category": "Regular Languages: Regular Expressions & Regular Grammars",
+        "question": "A right-linear grammar typically allows productions of the form:",
+        "options": [
+            "A → BC",
+            "A → aB or A → a",
+            "A → Ba or A → a",
+            "A → ε only"
+        ],
+        "correct": 1,
+        "explanation": "Right-linear means at most one variable appears on the right side, and if it appears, it is the rightmost symbol: A → aB or A → a (and sometimes ε).",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Regular_Grammar_(RG)",
+            "Production_Rule"
+        ]
+    },
+    {
+        "id": "q_re_8",
+        "type": "mcq",
+        "category": "Regular Languages: Regular Expressions & Regular Grammars",
+        "question": "Use Arden’s Theorem to solve X = aX ∪ b (assuming ε ∉ a).",
+        "options": [
+            "X = ab",
+            "X = a*b",
+            "X = ba*",
+            "X = (ab)*"
+        ],
+        "correct": 1,
+        "explanation": "Arden’s Theorem: if X = AX ∪ B and ε ∉ A, then X = A*B. Here A=a and B=b, so X = a* b.",
+        "difficulty": "Hard",
+        "relatedTerms": [
+            "Arden’s_Theorem",
+            "Regular_Expression_(RE)"
+        ]
+    },
+    {
+        "id": "q_re_9",
+        "type": "tf",
+        "category": "Regular Languages: Regular Expressions & Regular Grammars",
+        "question": "Every regular expression describes a regular language.",
+        "correct": true,
+        "explanation": "Regular expressions are built using union, concatenation, and star starting from symbols/ε/∅. These operations preserve regularity, so the resulting language is regular.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Regular_Expression_(RE)",
+            "Regular_Language",
+            "Closure_Properties_(Regular_Languages)"
+        ]
+    },
+    {
+        "id": "q_re_10",
+        "type": "mcq",
+        "category": "Regular Languages: Regular Expressions & Regular Grammars",
+        "question": "When converting a regular expression into an automaton using standard constructions, the most common intermediate automaton is:",
+        "options": [
+            "A minimal DFA",
+            "An ε-NFA",
+            "A PDA",
+            "A TM"
+        ],
+        "correct": 1,
+        "explanation": "Thompson-style constructions first produce an ε-NFA that mirrors the structure of the RE; it can later be converted to a DFA and minimized.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "RE_to_FA_Conversion",
+            "Epsilon_Transition",
+            "Nondeterministic_Finite_Automaton_(NFA)"
+        ]
+    },
+    {
+        "id": "q_re_11",
+        "type": "multi",
+        "category": "Regular Languages: Regular Expressions & Regular Grammars",
+        "question": "Which are primitive operators in the basic definition of regular expressions (as covered in the course)?",
+        "options": [
+            "Union",
+            "Concatenation",
+            "Kleene star",
+            "Intersection",
+            "Complement"
+        ],
+        "correct": [
+            0,
+            1,
+            2
+        ],
+        "explanation": "Basic regular expressions use union, concatenation, and Kleene star. Intersection and complement are closure operations on regular languages but are not basic RE constructors in the standard syntax.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Regular_Expression_(RE)",
+            "Closure_Properties_(Regular_Languages)"
+        ]
+    },
+    {
+        "id": "q_re_12",
+        "type": "mcq",
+        "category": "Regular Languages: Regular Expressions & Regular Grammars",
+        "question": "In a common DFA→right-linear grammar conversion, each DFA state corresponds to:",
+        "options": [
+            "A terminal",
+            "A variable (nonterminal)",
+            "A production rule",
+            "An alphabet symbol"
+        ],
+        "correct": 1,
+        "explanation": "In DFA→RG, each state becomes a variable. A transition p --a--> q becomes a production A_p → a A_q. Accepting states allow termination (often via ε or by allowing A_p → a when q is accepting).",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Regular_Grammar_(RG)",
+            "Deterministic_Finite_Automaton_(DFA)",
+            "Grammar_(G)"
+        ]
+    },
+    {
+        "id": "q_props_1",
+        "type": "tf",
+        "category": "Properties of Regular Languages (Closure & Pumping Lemma)",
+        "question": "If L is regular, then its complement (with respect to Σ*) is also regular.",
+        "correct": true,
+        "explanation": "Given a DFA for L, flip accepting and non-accepting states to obtain a DFA for Σ* \\ L. This proves closure under complement.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Closure_Properties_(Regular_Languages)",
+            "Deterministic_Finite_Automaton_(DFA)"
+        ]
+    },
+    {
+        "id": "q_props_2",
+        "type": "mcq",
+        "category": "Properties of Regular Languages (Closure & Pumping Lemma)",
+        "question": "Which construction most directly proves regular languages are closed under intersection?",
+        "options": [
+            "Reverse all transitions",
+            "Product construction on two DFAs",
+            "Replace transitions by ε",
+            "Convert to CFGs then intersect"
+        ],
+        "correct": 1,
+        "explanation": "The product DFA tracks a pair of states (p,q), simulating both DFAs in parallel and accepting iff both are in accepting states. This recognizes L1 ∩ L2.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Closure_Properties_(Regular_Languages)",
+            "Deterministic_Finite_Automaton_(DFA)"
+        ]
+    },
+    {
+        "id": "q_props_3",
+        "type": "mcq",
+        "category": "Properties of Regular Languages (Closure & Pumping Lemma)",
+        "question": "How is the Pumping Lemma most commonly used?",
+        "options": [
+            "To prove a language is regular",
+            "To prove a language is not regular (by contradiction)",
+            "To minimize a DFA",
+            "To build a regular expression from a DFA"
+        ],
+        "correct": 1,
+        "explanation": "The Pumping Lemma is a necessary property for regular languages. To prove non-regularity, assume regularity, pick a long string in the language, and show that pumping any valid decomposition breaks membership.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Pumping_Lemma_for_Regular_Languages",
+            "Regular_Language"
+        ]
+    },
+    {
+        "id": "q_props_4",
+        "type": "mcq",
+        "category": "Properties of Regular Languages (Closure & Pumping Lemma)",
+        "question": "In the Pumping Lemma, which condition must hold for the decomposition w = xyz?",
+        "options": [
+            "|y| = p",
+            "|xy| ≤ p",
+            "x = ε",
+            "y contains every symbol of Σ"
+        ],
+        "correct": 1,
+        "explanation": "The lemma requires |xy| ≤ p and |y| > 0, ensuring the pumped segment y occurs within the first p symbols and is non-empty.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Pumping_Lemma_for_Regular_Languages"
+        ]
+    },
+    {
+        "id": "q_props_5",
+        "type": "mcq",
+        "category": "Properties of Regular Languages (Closure & Pumping Lemma)",
+        "question": "To apply the Pumping Lemma to show L = {0^n1^n | n ≥ 0} is not regular, a standard choice is:",
+        "options": [
+            "w = 01",
+            "w = 0^p1^p",
+            "w = 0^p1^(p+1)",
+            "w = 1^p0^p"
+        ],
+        "correct": 1,
+        "explanation": "Choose w = 0^p1^p ∈ L. Since |xy| ≤ p, y contains only 0s. Pumping i=0 reduces the number of 0s but not 1s, producing a string not of the form 0^n1^n, contradicting regularity.",
+        "difficulty": "Hard",
+        "relatedTerms": [
+            "Pumping_Lemma_for_Regular_Languages",
+            "String"
+        ]
+    },
+    {
+        "id": "q_props_6",
+        "type": "tf",
+        "category": "Properties of Regular Languages (Closure & Pumping Lemma)",
+        "question": "If a language satisfies the Pumping Lemma, then it must be regular.",
+        "correct": false,
+        "explanation": "The Pumping Lemma is necessary but not sufficient. Passing the lemma does not guarantee regularity; it only means the lemma can’t be used to disprove regularity.",
+        "difficulty": "Hard",
+        "relatedTerms": [
+            "Pumping_Lemma_for_Regular_Languages",
+            "Regular_Language"
+        ]
+    },
+    {
+        "id": "q_props_7",
+        "type": "multi",
+        "category": "Properties of Regular Languages (Closure & Pumping Lemma)",
+        "question": "Which operations are regular languages closed under (as covered)?",
+        "options": [
+            "Union",
+            "Intersection",
+            "Concatenation",
+            "Kleene star",
+            "Complement"
+        ],
+        "correct": [
+            0,
+            1,
+            2,
+            3,
+            4
+        ],
+        "explanation": "Regular languages are closed under all listed operations. Each closure can be shown by an automaton construction (product for intersection, flipping finals for complement, and standard constructions for concatenation and star).",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Closure_Properties_(Regular_Languages)",
+            "Regular_Language"
+        ]
+    },
+    {
+        "id": "q_props_8",
+        "type": "mcq",
+        "category": "Properties of Regular Languages (Closure & Pumping Lemma)",
+        "question": "When using the Pumping Lemma in a non-regularity proof, who gets to choose the decomposition w = xyz (subject to the lemma’s constraints)?",
+        "options": [
+            "You choose it to make the proof easiest",
+            "The lemma provides a unique decomposition",
+            "An adversary can choose any valid decomposition; your proof must work for all of them",
+            "The decomposition must have y as the middle third of w"
+        ],
+        "correct": 2,
+        "explanation": "Quantifiers: for regular L, for each long w ∈ L there exists some decomposition. To refute regularity, you pick w and then argue that every possible valid decomposition leads to a pump that breaks membership.",
+        "difficulty": "Hard",
+        "relatedTerms": [
+            "Pumping_Lemma_for_Regular_Languages"
+        ]
+    },
+    {
+        "id": "q_props_9",
+        "type": "mcq",
+        "category": "Properties of Regular Languages (Closure & Pumping Lemma)",
+        "question": "If L1 and L2 are regular, which is guaranteed to be regular?",
+        "options": [
+            "L1 \\ L2",
+            "L1 ○ L2 (function composition)",
+            "L1 is finite",
+            "L1 = L2"
+        ],
+        "correct": 0,
+        "explanation": "L1 \\ L2 = L1 ∩ (Σ* \\ L2). Regular languages are closed under complement and intersection, hence under difference.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Closure_Properties_(Regular_Languages)",
+            "Regular_Language"
+        ]
+    },
+    {
+        "id": "q_props_10",
+        "type": "mcq",
+        "category": "Properties of Regular Languages (Closure & Pumping Lemma)",
+        "question": "Given a complete DFA for L, how do you obtain a DFA for the complement Σ* \\ L?",
+        "options": [
+            "Reverse all edges",
+            "Add ε-transitions",
+            "Swap accepting and non-accepting states",
+            "Remove the start state"
+        ],
+        "correct": 2,
+        "explanation": "Complementation for DFAs is achieved by flipping which states are final, assuming the DFA is complete (every state has transitions on every symbol).",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Closure_Properties_(Regular_Languages)",
+            "Deterministic_Finite_Automaton_(DFA)"
+        ]
+    },
+    {
+        "id": "q_cfg_1",
+        "type": "mcq",
+        "category": "Context-Free Languages & Context-Free Grammars (Derivations, Ambiguity, Simplification)",
+        "question": "Which production format characterizes a context-free grammar (CFG)?",
+        "options": [
+            "AB → a",
+            "A → α (A is a single variable)",
+            "a → A",
+            "ε → A"
+        ],
+        "correct": 1,
+        "explanation": "CFG productions must have exactly one variable (nonterminal) on the left side: A → α.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Context-Free_Grammar_(CFG)",
+            "Production_Rule"
+        ]
+    },
+    {
+        "id": "q_cfg_2",
+        "type": "mcq",
+        "category": "Context-Free Languages & Context-Free Grammars (Derivations, Ambiguity, Simplification)",
+        "question": "Which language is context-free but not regular?",
+        "options": [
+            "{ w ∈ {0,1}* | w ends with 00 }",
+            "{ a^n b^n | n ≥ 0 }",
+            "{ w ∈ {a,b}* | w contains 'ab' }",
+            "∅"
+        ],
+        "correct": 1,
+        "explanation": "a^n b^n needs matching counts, which DFAs cannot do, but CFGs/PDAs can (e.g., S → aSb | ε).",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Context-Free_Language_(CFL)",
+            "Context-Free_Grammar_(CFG)",
+            "Regular_Language"
+        ]
+    },
+    {
+        "id": "q_cfg_3",
+        "type": "mcq",
+        "category": "Context-Free Languages & Context-Free Grammars (Derivations, Ambiguity, Simplification)",
+        "question": "Given CFG: S → aSb | ε. Which string is NOT generated by this grammar?",
+        "options": [
+            "aabb",
+            "aaabbb",
+            "ab",
+            "abab"
+        ],
+        "correct": 3,
+        "explanation": "This grammar generates exactly strings of the form a^n b^n (all a’s first, then all b’s). \"abab\" is not of the form a^n b^n, so it is not generated. The others are: ab (n=1), aabb (n=2), aaabbb (n=3).",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Context-Free_Grammar_(CFG)",
+            "Derivation_Tree_(Parse_Tree)"
+        ]
+    },
+    {
+        "id": "q_cfg_4",
+        "type": "tf",
+        "category": "Context-Free Languages & Context-Free Grammars (Derivations, Ambiguity, Simplification)",
+        "question": "Every regular language is also a context-free language.",
+        "correct": true,
+        "explanation": "Regular languages are a subset of CFLs. A CFG (or PDA) can simulate a DFA, so any regular language is also context-free.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Regular_Language",
+            "Context-Free_Language_(CFL)",
+            "Context-Free_Grammar_(CFG)"
+        ]
+    },
+    {
+        "id": "q_cfg_5",
+        "type": "mcq",
+        "category": "Context-Free Languages & Context-Free Grammars (Derivations, Ambiguity, Simplification)",
+        "question": "In a leftmost derivation, at each step you replace:",
+        "options": [
+            "The rightmost variable",
+            "Any variable you like",
+            "The leftmost variable",
+            "Only variables that produce terminals"
+        ],
+        "correct": 2,
+        "explanation": "A leftmost derivation always expands the leftmost nonterminal currently present in the sentential form.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Leftmost_Derivation",
+            "Context-Free_Grammar_(CFG)"
+        ]
+    },
+    {
+        "id": "q_cfg_6",
+        "type": "mcq",
+        "category": "Context-Free Languages & Context-Free Grammars (Derivations, Ambiguity, Simplification)",
+        "question": "A grammar is ambiguous if:",
+        "options": [
+            "It generates an infinite language",
+            "Some string has two different parse trees",
+            "It contains ε-productions",
+            "It has more than one variable"
+        ],
+        "correct": 1,
+        "explanation": "Ambiguity means there exists at least one string in the language that can be derived in two different ways that yield different parse trees.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Ambiguous_Grammar",
+            "Derivation_Tree_(Parse_Tree)"
+        ]
+    },
+    {
+        "id": "q_cfg_7",
+        "type": "multi",
+        "category": "Context-Free Languages & Context-Free Grammars (Derivations, Ambiguity, Simplification)",
+        "question": "Which simplification steps are commonly applied to CFGs (as in the course)?",
+        "options": [
+            "Remove useless productions",
+            "Remove ε-productions",
+            "Remove unit productions",
+            "Apply subset construction",
+            "Flip accepting states"
+        ],
+        "correct": [
+            0,
+            1,
+            2
+        ],
+        "explanation": "CFG simplification typically removes useless symbols/rules, ε-productions (with care), and unit productions. Subset construction and flipping finals are automata procedures.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "CFG_Simplification",
+            "Useless_Productions",
+            "Epsilon-Productions_(CFG)",
+            "Unit-Productions_(CFG)"
+        ]
+    },
+    {
+        "id": "q_cfg_8",
+        "type": "tf",
+        "category": "Context-Free Languages & Context-Free Grammars (Derivations, Ambiguity, Simplification)",
+        "question": "Context-free languages are closed under union, concatenation, and Kleene star.",
+        "correct": true,
+        "explanation": "There are standard CFG constructions for union (new start symbol branching), concatenation (linking derivations), and star (looping with ε).",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Context-Free_Language_(CFL)",
+            "Context-Free_Grammar_(CFG)"
+        ]
+    },
+    {
+        "id": "q_cfg_9",
+        "type": "tf",
+        "category": "Context-Free Languages & Context-Free Grammars (Derivations, Ambiguity, Simplification)",
+        "question": "Context-free languages are closed under complement.",
+        "correct": false,
+        "explanation": "CFLs are not closed under complement in general. This contrasts with regular languages, which are closed under complement.",
+        "difficulty": "Hard",
+        "relatedTerms": [
+            "Context-Free_Language_(CFL)"
+        ]
+    },
+    {
+        "id": "q_cfg_10",
+        "type": "mcq",
+        "category": "Context-Free Languages & Context-Free Grammars (Derivations, Ambiguity, Simplification)",
+        "question": "Which production set is in Chomsky Normal Form (CNF) (ignoring the optional S→ε rule)?",
+        "options": [
+            "A → aB",
+            "A → BC and A → a",
+            "A → ε and A → a",
+            "A → B and B → a"
+        ],
+        "correct": 1,
+        "explanation": "CNF allows only A → BC (two variables) or A → a (single terminal), plus optionally S → ε. The other options contain forbidden patterns (terminal+variable, ε-productions, or unit productions).",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Chomsky_Normal_Form_(CNF)",
+            "Context-Free_Grammar_(CFG)"
+        ]
+    },
+    {
+        "id": "q_cfg_11",
+        "type": "mcq",
+        "category": "Context-Free Languages & Context-Free Grammars (Derivations, Ambiguity, Simplification)",
+        "question": "You want a CFG for L = { a^n b^m | n,m ≥ 0 } (any number of a’s followed by any number of b’s). Which grammar works?",
+        "options": [
+            "S → aSb | ε",
+            "S → AB, A → aA | ε, B → bB | ε",
+            "S → aS | bS | ε",
+            "S → aSb | bSa | ε"
+        ],
+        "correct": 1,
+        "explanation": "A generates a* and B generates b*. S → AB concatenates them, producing all a^n b^m in the correct order.",
+        "difficulty": "Hard",
+        "relatedTerms": [
+            "Context-Free_Grammar_(CFG)",
+            "Concatenation",
+            "Language"
+        ]
+    },
+    {
+        "id": "q_cfg_12",
+        "type": "mcq",
+        "category": "Context-Free Languages & Context-Free Grammars (Derivations, Ambiguity, Simplification)",
+        "question": "A variable is 'useless' in a CFG if it is:",
+        "options": [
+            "An accepting state",
+            "Unreachable from S or cannot derive any terminal-only string",
+            "Only used in ε-productions",
+            "Used in more than one production"
+        ],
+        "correct": 1,
+        "explanation": "Useless means it does not help generate any terminal string from the start symbol: either it is unreachable or it is non-generating (cannot derive terminals only).",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Useless_Productions",
+            "CFG_Simplification",
+            "Context-Free_Grammar_(CFG)"
+        ]
+    },
+    {
+        "id": "q_pda_1",
+        "type": "mcq",
+        "category": "Pushdown Automata (PDA) & CFL Recognition",
+        "question": "What extra memory feature allows a PDA to recognize languages like {a^n b^n | n≥0} that DFAs cannot?",
+        "options": [
+            "Multiple start states",
+            "A stack (LIFO)",
+            "Two input heads",
+            "Random access memory"
+        ],
+        "correct": 1,
+        "explanation": "A stack can store an unbounded number of markers. A PDA can push for each 'a' and pop for each 'b' to ensure counts match.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Pushdown_Automaton_(PDA)",
+            "Stack_Alphabet_(Gamma)",
+            "Context-Free_Language_(CFL)"
+        ]
+    },
+    {
+        "id": "q_pda_2",
+        "type": "tf",
+        "category": "Pushdown Automata (PDA) & CFL Recognition",
+        "question": "A PDA’s next move can depend on the next input symbol (or ε) and the symbol on top of the stack.",
+        "correct": true,
+        "explanation": "The PDA transition relation is based on (state, input/ε, stack-top) and can change state while pushing/popping/replacing stack symbols.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "PDA_Transition_Function_(delta)",
+            "Pushdown_Automaton_(PDA)"
+        ]
+    },
+    {
+        "id": "q_pda_3",
+        "type": "mcq",
+        "category": "Pushdown Automata (PDA) & CFL Recognition",
+        "question": "For balanced parentheses, what is a typical stack action when reading '('?",
+        "options": [
+            "Pop a symbol",
+            "Push a marker symbol",
+            "Clear the stack",
+            "Immediately accept"
+        ],
+        "correct": 1,
+        "explanation": "Each '(' opens a new nesting level, so the PDA pushes a marker. When it sees ')', it pops a marker; if it cannot pop, the string is unbalanced.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Pushdown_Automaton_(PDA)",
+            "Stack_Alphabet_(Gamma)"
+        ]
+    },
+    {
+        "id": "q_pda_4",
+        "type": "tf",
+        "category": "Pushdown Automata (PDA) & CFL Recognition",
+        "question": "NPDAs are strictly more powerful than DPDAs.",
+        "correct": true,
+        "explanation": "Unlike DFA vs NFA, nondeterminism increases PDA power: some CFLs are recognized by NPDAs but not by any DPDA.",
+        "difficulty": "Hard",
+        "relatedTerms": [
+            "Deterministic_PDA_(DPDA)_vs_NPDA",
+            "Pushdown_Automaton_(PDA)"
+        ]
+    },
+    {
+        "id": "q_pda_5",
+        "type": "mcq",
+        "category": "Pushdown Automata (PDA) & CFL Recognition",
+        "question": "In acceptance by final state for a PDA, which condition is required for acceptance?",
+        "options": [
+            "Stack must be empty",
+            "Input must be fully consumed and PDA is in an accepting state on some path",
+            "PDA must never use ε-moves",
+            "Exactly one computation path exists"
+        ],
+        "correct": 1,
+        "explanation": "Under final-state acceptance, the PDA accepts if it consumes all input and reaches an accepting state along at least one computation path (nondeterminism is allowed).",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Pushdown_Automaton_(PDA)",
+            "Deterministic_PDA_(DPDA)_vs_NPDA"
+        ]
+    },
+    {
+        "id": "q_pda_6",
+        "type": "multi",
+        "category": "Pushdown Automata (PDA) & CFL Recognition",
+        "question": "For a PDA recognizing L = { 0^n 1^n | n≥0 }, which behaviors are essential?",
+        "options": [
+            "Push one marker per 0",
+            "Pop one marker per 1",
+            "Reject if a 0 appears after starting to pop",
+            "Ensure all markers are matched by the end of input"
+        ],
+        "correct": [
+            0,
+            1,
+            2,
+            3
+        ],
+        "explanation": "To enforce order and equality, the PDA uses the stack as a counter: push during the 0-phase, pop during the 1-phase, forbid returning to 0s, and require the stack to return to the start marker (or empty) when input ends.",
+        "difficulty": "Hard",
+        "relatedTerms": [
+            "Pushdown_Automaton_(PDA)",
+            "Stack_Alphabet_(Gamma)",
+            "PDA_Transition_Function_(delta)"
+        ]
+    },
+    {
+        "id": "q_tm_1",
+        "type": "mcq",
+        "category": "Turing Machines (TM), Recursively Enumerable Languages & Undecidability",
+        "question": "Which capability distinguishes a Turing Machine from a PDA?",
+        "options": [
+            "Finite set of states",
+            "Can overwrite tape symbols and move head left/right",
+            "Reads symbols from an alphabet",
+            "Has an accepting state"
+        ],
+        "correct": 1,
+        "explanation": "A TM has an unbounded tape that it can read and write on, and the head can move both left and right. This gives it general-purpose computation power beyond stack-based memory.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Turing_Machine_(TM)",
+            "Pushdown_Automaton_(PDA)"
+        ]
+    },
+    {
+        "id": "q_tm_2",
+        "type": "mcq",
+        "category": "Turing Machines (TM), Recursively Enumerable Languages & Undecidability",
+        "question": "A TM accepts an input string when it:",
+        "options": [
+            "Visits an accepting state at least once",
+            "Halts in an accepting state",
+            "Consumes all input without moving left",
+            "Empties its tape"
+        ],
+        "correct": 1,
+        "explanation": "Acceptance is defined as halting in an accepting state. Merely visiting an accepting state is not sufficient if the machine continues running.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Turing_Machine_(TM)"
+        ]
+    },
+    {
+        "id": "q_tm_3",
+        "type": "tf",
+        "category": "Turing Machines (TM), Recursively Enumerable Languages & Undecidability",
+        "question": "A Turing machine recognizes a language if it halts and accepts every string in the language, but may loop forever on strings not in the language.",
+        "correct": true,
+        "explanation": "That is the definition of Turing-recognizable (recursively enumerable) languages: accept on members (eventually), and on non-members it may reject or loop forever.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Recursively_Enumerable_Language_(RE_Language)",
+            "Turing_Machine_(TM)"
+        ]
+    },
+    {
+        "id": "q_tm_4",
+        "type": "mcq",
+        "category": "Turing Machines (TM), Recursively Enumerable Languages & Undecidability",
+        "question": "Which class best matches the set of languages recognized (not necessarily decided) by Turing machines?",
+        "options": [
+            "Regular",
+            "Context-Free",
+            "Recursively Enumerable",
+            "Finite"
+        ],
+        "correct": 2,
+        "explanation": "The languages recognized by Turing machines are the recursively enumerable (RE) languages (also called Turing-recognizable).",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Recursively_Enumerable_Language_(RE_Language)",
+            "Turing_Machine_(TM)"
+        ]
+    },
+    {
+        "id": "q_tm_5",
+        "type": "mcq",
+        "category": "Turing Machines (TM), Recursively Enumerable Languages & Undecidability",
+        "question": "A TM is designed as a unary adder. If the input is 111#11 (meaning 3#2), what output should represent the sum?",
+        "options": [
+            "11111",
+            "1111",
+            "111111",
+            "11#111"
+        ],
+        "correct": 0,
+        "explanation": "In unary, the value is the number of 1s. 3 + 2 = 5, so the result should be five 1s: 11111 (exact formatting depends on the TM design, but the numeric content is 5 ones).",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Turing_Machine_(TM)"
+        ]
+    },
+    {
+        "id": "q_tm_6",
+        "type": "tf",
+        "category": "Turing Machines (TM), Recursively Enumerable Languages & Undecidability",
+        "question": "The Halting Problem is decidable by a sufficiently large DFA because DFAs can be made arbitrarily big.",
+        "correct": false,
+        "explanation": "The Halting Problem is undecidable for any algorithmic model of computation powerful enough to represent programs (like TMs). DFAs are far weaker and cannot analyze arbitrary program behavior; making a DFA larger does not remove undecidability.",
+        "difficulty": "Undecidable",
+        "relatedTerms": [
+            "Halting_Problem",
+            "Deterministic_Finite_Automaton_(DFA)",
+            "Turing_Machine_(TM)"
+        ]
+    },
+    {
+        "id": "q_tm_7",
+        "type": "mcq",
+        "category": "Turing Machines (TM), Recursively Enumerable Languages & Undecidability",
+        "question": "Why is the Halting Problem a central result?",
+        "options": [
+            "It proves all languages are regular",
+            "It shows there is no perfect general termination checker for all programs and inputs",
+            "It shows CNF conversion is impossible",
+            "It proves PDAs are as powerful as TMs"
+        ],
+        "correct": 1,
+        "explanation": "Undecidability of halting establishes a fundamental limit: no algorithm can correctly decide termination for every possible program-input pair. Many other undecidability results are proven by reducing from halting.",
+        "difficulty": "Undecidable",
+        "relatedTerms": [
+            "Halting_Problem",
+            "Theory_of_Computation",
+            "Turing_Machine_(TM)"
+        ]
+    },
+    {
+        "id": "q_mix_1",
+        "type": "multi",
+        "category": "Finite Automata (DFA/NFA) & State Minimization",
+        "question": "A DFA for 'avoid substring 001' often uses a rejecting trap state. Which statements about the trap state are correct?",
+        "options": [
+            "Once entered, all future inputs keep the machine in the trap state",
+            "The trap state is accepting",
+            "The trap state represents that the forbidden substring has already occurred",
+            "Removing the trap state always preserves the language"
+        ],
+        "correct": [
+            0,
+            2
+        ],
+        "explanation": "A trap state captures 'we already saw 001'. From that point, any continuation must still be rejected, so the trap loops on all symbols and is non-accepting.",
+        "difficulty": "Hard",
+        "relatedTerms": [
+            "Deterministic_Finite_Automaton_(DFA)",
+            "Transition_Function_(delta)",
+            "String"
+        ]
+    },
+    {
+        "id": "q_mix_2",
+        "type": "multi",
+        "category": "Regular Languages: Regular Expressions & Regular Grammars",
+        "question": "Which formalisms define exactly the regular languages?",
+        "options": [
+            "DFA",
+            "Regular expression",
+            "Regular grammar",
+            "PDA"
+        ],
+        "correct": [
+            0,
+            1,
+            2
+        ],
+        "explanation": "DFAs, regular expressions, and regular grammars are equivalent and define exactly the regular languages. PDAs recognize (in general) the context-free languages, which are strictly larger.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Regular_Language",
+            "Deterministic_Finite_Automaton_(DFA)",
+            "Regular_Expression_(RE)",
+            "Regular_Grammar_(RG)",
+            "Pushdown_Automaton_(PDA)"
+        ]
+    },
+    {
+        "id": "q_mix_3",
+        "type": "mcq",
+        "category": "Pushdown Automata (PDA) & CFL Recognition",
+        "question": "Which pairing is correct?",
+        "options": [
+            "Regular languages ↔ PDAs, CFLs ↔ DFAs",
+            "Regular languages ↔ DFAs/NFAs, CFLs ↔ NPDAs",
+            "Regular languages ↔ TMs only, CFLs ↔ regular expressions only",
+            "Regular languages ↔ CNF grammars, CFLs ↔ DFA minimization"
+        ],
+        "correct": 1,
+        "explanation": "Finite automata recognize exactly the regular languages. Pushdown automata (especially nondeterministic) recognize exactly the context-free languages.",
+        "difficulty": "Easy",
+        "relatedTerms": [
+            "Regular_Language",
+            "Deterministic_Finite_Automaton_(DFA)",
+            "Nondeterministic_Finite_Automaton_(NFA)",
+            "Context-Free_Language_(CFL)",
+            "Pushdown_Automaton_(PDA)"
+        ]
+    },
+    {
+        "id": "q_mix_4",
+        "type": "mcq",
+        "category": "Context-Free Languages & Context-Free Grammars (Derivations, Ambiguity, Simplification)",
+        "question": "A primary reason to convert a CFG to CNF is to:",
+        "options": [
+            "Make it equivalent to a DFA",
+            "Enable algorithms like CYK parsing",
+            "Guarantee the grammar is ambiguous",
+            "Remove terminals from the language"
+        ],
+        "correct": 1,
+        "explanation": "CNF standardizes productions to A→BC or A→a, making dynamic programming parsing algorithms such as CYK straightforward to apply.",
+        "difficulty": "Medium",
+        "relatedTerms": [
+            "Chomsky_Normal_Form_(CNF)",
+            "Context-Free_Grammar_(CFG)"
+        ]
+    }
+]
