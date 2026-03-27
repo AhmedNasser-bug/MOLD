@@ -20,6 +20,7 @@ import '../../styles/screens/revision.css';
 
 
 <script>
+    import { escapeHtml } from '../scripts/utils';
     class RevisionController {
         private content: HTMLElement;
         private search: HTMLInputElement;
@@ -79,8 +80,8 @@ import '../../styles/screens/revision.css';
             
             this.content.innerHTML = filtered.map((t: any) => `
                 <div class="rev-item">
-                    <div class="rev-term">${t.term}</div>
-                    <div class="rev-def">${t.definition}</div>
+                    <div class="rev-term">${escapeHtml(t.term)}</div>
+                    <div class="rev-def">${escapeHtml(t.definition)}</div>
                 </div>
             `).join('');
         }
