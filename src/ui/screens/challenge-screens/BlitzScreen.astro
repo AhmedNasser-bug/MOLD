@@ -18,8 +18,10 @@ import '../../../styles/screens/blitz.css';
 <script>
     import { GameUtils } from '../../scripts/GameUtils';
     import type { SubjectData, Question } from '../../../data/subjects/Subject';
+    import { BaseScreenController } from "../../controllers/BaseScreenController";
+    import { componentRegistry } from "../../registry/ComponentRegistry";
 
-    class BlitzGame {
+    class BlitzGame extends BaseScreenController {
         private subject: SubjectData;
         private currentQuestions: Question[] = [];
         private currentIndex: number = 0;
@@ -29,28 +31,35 @@ import '../../../styles/screens/blitz.css';
         private display: any;
 
         constructor() {
-            // @ts-ignore
-            this.subject = window.subjectData;
-            this.init();
+            super('blitz-screen');
         }
 
-        init() {
+        async onInit() {
+            // @ts-ignore
+            this.subject = window.subjectData;
+            
             const screen = document.getElementById('blitz-screen');
             if(!screen) return;
             
             this.display = (screen.querySelector('.question-display-root') as any).questionDisplayInstance;
 
-            window.addEventListener('request-submit', () => this.submitAnswer());
-            window.addEventListener('request-next', () => this.nextQuestion());
-            window.addEventListener('request-skip', () => this.skip());
-            window.addEventListener('request-hint', () => this.showHint());
+            this.addEventListener(window, 'request-submit', () => this.submitAnswer());
+            this.addEventListener(window, 'request-next', () => this.nextQuestion());
+            this.addEventListener(window, 'request-skip', () => this.skip());
+            this.addEventListener(window, 'request-hint', () => this.showHint());
             
-            screen.addEventListener('question-selected', (e: any) => this.handleSelection(e.detail));
+            this.addEventListener(screen, 'question-selected', (e: any) => this.handleSelection(e.detail));
 
-             // @ts-ignore
-            window.game = window.game || {};
-             // @ts-ignore
-            window.game.startBlitz = this.startGame.bind(this);
+            componentRegistry.register('blitz-controller', {
+                start: () => this.startGame(),
+                screen: this.screenId,
+            });
+
+            this.subscribeEvent('game:start', (data: any) => {
+                if(data.mode === 'blitz') {
+                    this.startGame();
+                }
+            });
         }
 
         startGame() {
@@ -145,11 +154,28 @@ import '../../../styles/screens/blitz.css';
 
         finishGame() {
             GameUtils.stopTimer();
-            const results = GameUtils.createResult('blitz', this.answers);
+            // const results = GameUtils.createResult('blitz', this.answers); // Original line
+            
+            const results = {
+                score: this.score,
+                total: this.currentQuestions.length,
+                time: Math.floor((Date.now() - this.startTime) / 1000),
+                answers: this.answerLog,
+                maxStreak: 0, // Blitz mode doesn't track streak in this implementation
+                mode: 'blitz'
+            };
+
+            eventBus.emit('game:results', results); // Emit the game:results event
+
             // @ts-ignore
             if (window.game.showResults) window.game.showResults(results);
         }
     }
     
-    new BlitzGame();
+    // Initialize controller and let it wait for explicit start
+    const controller = new BlitzGame();
+    // Wait for DOM then init
+    document.addEventListener('DOMContentLoaded', () => {
+        controller.initialize().catch(console.error);
+    });
 </script>

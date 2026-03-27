@@ -23,8 +23,10 @@ import '../../../styles/screens/practice.css';
     import { GameEngine } from "../../../logic/controllers/GameEngine";
     import { Subject } from "../../../logic/entities/Subject";
     import { Player } from "../../../logic/entities/Player";
+    import { BaseScreenController } from "../../controllers/BaseScreenController";
+    import { componentRegistry } from "../../registry/ComponentRegistry";
     
-    class PracticeController {
+    class PracticeController extends BaseScreenController {
         private engine: GameEngine;
         private header: any;
         private container: any;
@@ -34,10 +36,10 @@ import '../../../styles/screens/practice.css';
         private currentSelection: any = null;
 
         constructor() {
-            this.init();
+            super('practice-screen');
         }
 
-        async init() {
+        async onInit() {
             const screen = document.getElementById('practice-screen');
             if(!screen) return;
             
@@ -45,19 +47,25 @@ import '../../../styles/screens/practice.css';
             this.container = (document.getElementById('pc-question-container') as any)?.containerInstance;
             this.footer = (document.getElementById('pc-footer') as any)?.footerInstance;
 
-            this.bindEvents(screen);
+            componentRegistry.register('practice-controller', {
+                start: (filter: any) => this.startPractice(filter),
+                screen: this.screenId
+            });
 
-            // @ts-ignore
-            window.game = window.game || {};
-            // @ts-ignore
-            window.game.startPractice = this.startPractice.bind(this);
+            this.subscribeEvent('game:start', (data: any) => {
+                if(data.mode === 'practice') {
+                    this.startPractice(data.category);
+                }
+            });
         }
 
-        bindEvents(screen: HTMLElement) {
-             screen.addEventListener('request-submit', () => this.submitAnswer());
-             screen.addEventListener('request-next', () => this.nextQuestion()); // Practice might auto-next?
-             screen.addEventListener('request-hint', (e: any) => this.showHint(e.detail));
-             screen.addEventListener('question-selected', (e: any) => this.handleSelection(e.detail));
+        bindEvents() {
+             const screen = document.getElementById(this.screenId);
+             if(!screen) return;
+             this.addEventListener(screen, 'request-submit', () => this.submitAnswer());
+             this.addEventListener(screen, 'request-next', () => this.nextQuestion()); // Practice might auto-next?
+             this.addEventListener(screen, 'request-hint', (e: any) => this.showHint(e.detail));
+             this.addEventListener(screen, 'question-selected', (e: any) => this.handleSelection(e.detail));
         }
 
         async startPractice(categoryFilter: string | null) {
@@ -145,5 +153,10 @@ import '../../../styles/screens/practice.css';
         }
     }
 
-    new PracticeController();
+    // Initialize controller and let it wait for explicit start
+    const controller = new PracticeController();
+    // Wait for DOM then init
+    document.addEventListener('DOMContentLoaded', () => {
+        controller.initialize().catch(console.error);
+    });
 </script>

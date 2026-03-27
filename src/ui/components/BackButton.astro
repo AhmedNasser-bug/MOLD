@@ -4,7 +4,7 @@ interface Props {
   label?: string;
   onClick?: string; // Optional custom handler, defaults to game.goHome()
 }
-const { label = "EXIT TO MENU", onClick = "window.game.goHome()" } = Astro.props;
+const { label = "EXIT TO MENU", onClick } = Astro.props;
 ---
 <button class="back-btn" onclick={onClick}>
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
@@ -12,3 +12,16 @@ const { label = "EXIT TO MENU", onClick = "window.game.goHome()" } = Astro.props
     </svg>
     {label}
 </button>
+
+<script>
+    import { eventBus } from "../../infrastructure/events/EventBus";
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.back-btn').forEach(btn => {
+            if (!btn.getAttribute('onclick')) {
+                btn.addEventListener('click', () => {
+                    eventBus.emit('navigate:home', { preserveState: false });
+                });
+            }
+        });
+    });
+</script>

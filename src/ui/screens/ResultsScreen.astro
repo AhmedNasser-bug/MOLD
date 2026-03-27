@@ -40,10 +40,10 @@ import '../../styles/screens/results.css';
             </div>
 
             <div class="action-buttons">
-                 <button class="btn btn-secondary review-btn" onclick="window.game.showReview()">
+                 <button class="btn btn-secondary review-btn" id="rs-show-review-btn">
                     REVIEW LOGS
                 </button>
-                <button class="btn btn-primary return-btn" onclick="window.game.goHome()">
+                <button class="btn btn-primary return-btn" id="rs-return-home-btn">
                     RETURN TO BASE
                 </button>
             </div>
@@ -55,7 +55,7 @@ import '../../styles/screens/results.css';
              <h3 class="review-title">MISSION DEBRIEF</h3>
         </div>
         <div id="reviewContent" class="review-content"></div>
-         <button class="btn btn-secondary close-btn" onclick="document.getElementById('reviewContainer').classList.add('hidden')">CLOSE DEBRIEF</button>
+         <button class="btn btn-secondary close-btn" id="rs-close-review-btn">CLOSE DEBRIEF</button>
     </div>
 </div>
 
@@ -63,8 +63,7 @@ import '../../styles/screens/results.css';
 
 <script>
     import { DatabaseService } from '../../infrastructure/db/DatabaseService';
-    // We can also import Player or specific Stats entity if we had it.
-    // For now, let's assume we save runs via DB service or Player Logic.
+    import { eventBus } from '../../infrastructure/events/EventBus';
     
     export interface QuizResults {
         score: number;
@@ -76,13 +75,22 @@ import '../../styles/screens/results.css';
     }
 
     class ResultsScreenController {
+        private lastResults: QuizResults | null = null;
+
         constructor() {
-            // @ts-ignore
-            window.game = window.game || {};
-            // @ts-ignore
-            window.game.showResults = this.display.bind(this);
-            // @ts-ignore
-            window.game.showReview = this.showReview.bind(this);
+            eventBus.on('game:results', (results: any) => this.display(results));
+            
+            const reviewBtn = document.getElementById('rs-show-review-btn');
+            if(reviewBtn) reviewBtn.addEventListener('click', () => this.showReview());
+            
+            const homeBtn = document.getElementById('rs-return-home-btn');
+            if(homeBtn) homeBtn.addEventListener('click', () => eventBus.emit('navigate:home', { preserveState: false }));
+            
+            const closeReviewBtn = document.getElementById('rs-close-review-btn');
+            if(closeReviewBtn) closeReviewBtn.addEventListener('click', () => {
+                const container = document.getElementById('reviewContainer');
+                if (container) container.classList.add('hidden');
+            });
         }
 
         async display(results: QuizResults) {
@@ -90,8 +98,7 @@ import '../../styles/screens/results.css';
 
             const percentage = Math.round((results.score / results.total) * 100);
             
-             // @ts-ignore
-            window.lastQuizResults = results;
+            this.lastResults = results;
             
             // SAVE PROGRESS (DB)
             // @ts-ignore
@@ -143,8 +150,7 @@ import '../../styles/screens/results.css';
         }
 
         showReview(): void {
-            // @ts-ignore
-            const results = window.lastQuizResults;
+            const results = this.lastResults;
             if(!results) return;
 
             const container = document.getElementById('reviewContainer');

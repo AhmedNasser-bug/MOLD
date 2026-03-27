@@ -122,15 +122,13 @@ import '../../../styles/screens/speedrun.css';
                 start: () => this.startChallenge(),
                 screen: this.screenId,
             });
+
+            this.subscribeEvent('game:start', (data: any) => {
+                if(data.mode === 'speedrun') {
+                    this.startChallenge();
+                }
+            });
             
-            // For backward compatibility, also register on window.game
-            // TODO: Remove this once HomeScreen is updated
-            // @ts-ignore
-            window.game = window.game || {};
-            // @ts-ignore
-            window.game.startSpeedrun = this.startChallenge.bind(this);
-            // @ts-ignore
-            window.game.startBlitz = this.startChallenge.bind(this);
         }
 
         async startChallenge() {
@@ -335,18 +333,18 @@ import '../../../styles/screens/speedrun.css';
             
             // Show results screen
             // @ts-ignore
-            if (window.game.showResults) {
-                // @ts-ignore
-                window.game.showResults({
-                    score: state.stats.correct,
-                    total: state.stats.totalQuestions,
-                    time: state.stats.endTime ? 
-                        (state.stats.endTime - state.stats.startTime) / 1000 : 0,
-                    answers: [],
-                    maxStreak: state.stats.streak,
-                    mode: 'speedrun'
-                });
-            }
+            const results = {
+                score: state.stats.correct,
+                total: state.stats.totalQuestions,
+                time: state.stats.endTime ? 
+                    (state.stats.endTime - state.stats.startTime) / 1000 : 0,
+                answers: [], // Assuming answers are not tracked in this mode or need to be fetched differently
+                maxStreak: state.stats.streak,
+                mode: 'speedrun'
+            };
+
+            // @ts-ignore
+            eventBus.emit('game:results', results);
         }
 
         /**

@@ -177,22 +177,7 @@ export const SUBJECT_MODES: Record<string, GameModeConfig> = {
 // 3. SUBJECT DATA MODEL (The "Class")
 // ==========================================
 
-export interface SubjectData {
-    id: string;
-    name: string; // Add name explicitly
-    config: {
-        title: string;
-        description: string;
-        themeColor?: string;
-        version?: string;
-        storageKey?: string;
-    };
-    questions: Question[];
-    flashcards: Flashcard[];
-    terminology: Terminology;
-    achievements: any[];
-    [key: string]: any;
-}
+
 
 // ==========================================
 // 4. LOADER LOGIC (Runtime)

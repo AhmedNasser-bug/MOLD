@@ -44,7 +44,7 @@ const { subjectName, description } = Astro.props;
                 </button>
                 <button
                     class="btn btn-primary start-challenge-btn"
-                    onclick="window.game.startQuiz()"
+                    id="initializeChallengeBtn"
                 >
                     INITIALIZE CHALLENGE
                 </button>
@@ -72,6 +72,8 @@ const { subjectName, description } = Astro.props;
     import { PlayerRepository } from "../../infrastructure/db/repositories/PlayerRepository";
     import { AchievementRepository } from "../../infrastructure/db/repositories/AchievementRepository";
     import { uiStore } from "../../logic/state/UIStore";
+
+    import { eventBus } from "../../infrastructure/events/EventBus";
 
     class HomeScreenController {
         private subject: Subject;
@@ -102,41 +104,30 @@ const { subjectName, description } = Astro.props;
         }
 
         bindEvents() {
-            // Bind global methods for legacy/inline calls if any (though we prefer listeners)
+            // Event Bus Subscriptions and Global fallbacks
+            // Backward compatibility until specific buttons are fully rewritten
             // @ts-ignore
             window.game = window.game || {};
-            // @ts-ignore
-            window.game.startQuiz = this.startChallenge.bind(this);
-            // @ts-ignore
-            window.game.selectMode = this.selectMode.bind(this);
-            // @ts-ignore
-            window.game.selectCategory = this.selectCategory.bind(this);
-            // @ts-ignore
-            window.game.updateStats = this.updateStats.bind(this);
-            // @ts-ignore
-            window.game.loadHistory = this.loadHistory.bind(this);
-            // @ts-ignore
-            window.game.goHome = this.goHome.bind(this);
-            // @ts-ignore
-            window.game.showRevisionScreen = () => {
-                 this.currentMode = 'full-revision'; // Just a fallback
-                 // We need to implement actual screen switching if 'RevisionScreen' is a separate component
-                 document.getElementById('homeScreen')?.classList.remove('active');
-                 document.getElementById('revisionScreen')?.classList.add('active');
-            };
-
-            // Attach explicit listeners for robustness
-            // We listen to the Custom Event dispatched by ModeSelector component
+            
+            eventBus.on('navigate:home', () => this.goHome());
+            
             document.addEventListener('mode-selected', (e: any) => {
                  if(e.detail) {
                      this.selectMode(e.detail);
                  }
             });
             
-            document.getElementById('revisionBtn')?.addEventListener('click', () => {
-                 // @ts-ignore
-                 window.game.showRevisionScreen();
-            });
+            const achievementsBtn = document.getElementById('achievementsBtn');
+            if (achievementsBtn) {
+                 achievementsBtn.addEventListener('click', () => {
+                     eventBus.emit('screen:change', { from: 'homeScreen', to: 'achievementsScreen' });
+                 });
+            }
+            
+            const initBtn = document.getElementById('initializeChallengeBtn');
+            if (initBtn) {
+                 initBtn.addEventListener('click', () => this.startChallenge());
+            }
         }
 
         goHome() {
@@ -154,49 +145,19 @@ const { subjectName, description } = Astro.props;
             
             // Store config globally or pass it? 
             // For transition, we'll attach it to the game object so specific screens can read it
-            // until we fully refactor them to use GameEngine directly.
             (window as any).currentGameConfig = config;
 
-            // @ts-ignore
-            const game = window.game;
-
-            // Simple "Launch" for now as requested "Prepare interface", maybe not enforce it yet?
-            // User: "Prepare the interface of each mode for a settings pattern refactor"
-            // I will Launch directly for now to preserve existing behavior, 
-            // BUT I will modify this to support a "Setup Phase".
+            // Broadcast the intent to start a game mode to the EventBus
+            let requestedMode = this.currentMode;
+            if (requestedMode === 'question-bank') requestedMode = 'flashcards';
             
-            // Let's just Launch the Mode. The Settings Panel exists in DOM now.
-            // Wiring it up completely might break "Quick Start" if user didn't ask for mandatory settings.
+            eventBus.emit('game:start', { 
+                 mode: requestedMode, 
+                 category: this.selectedCategory 
+            });
             
-            switch(this.currentMode) {
-                case 'speedrun':
-                    if(game.startSpeedrun) game.startSpeedrun();
-                    break;
-                case 'blitz':
-                    if(game.startBlitz) game.startBlitz();
-                    break;
-                case 'hardcore':
-                    if(game.startHardcore) game.startHardcore();
-                    break;
-                case 'full-revision':
-                    if(game.startExam) game.startExam();
-                    break;
-                case 'practice':
-                    if(game.startPractice) game.startPractice(this.selectedCategory);
-                    break;
-                case 'flashcards':
-                    // Legacy fallback
-                    if(game.startFlashcards) game.startFlashcards('questionBank');
-                    break;
-                case 'terminology':
-                    if(game.startFlashcards) game.startFlashcards('terminology');
-                    break;
-                case 'question-bank':
-                    if(game.startFlashcards) game.startFlashcards('questionBank');
-                    break;
-                default:
-                    console.warn("Unknown mode:", this.currentMode);
-            }
+            // Note: The terminology sub-mode of flashcards will need interception.
+            // Some controllers may still rely on the exact requested string.
         }
 
         init() {
@@ -306,17 +267,30 @@ const { subjectName, description } = Astro.props;
             const grid = document.getElementById("categoryGrid");
             if (!grid) return;
 
-            const categories = [
-                ...new Set(this.subject.questions.map((q) => q.category)),
-            ];
-            grid.innerHTML = categories
-                .map((cat) => {
-                    const count = this.subject.questions.filter(
-                        (q) => q.category === cat,
-                    ).length;
-                    return `<div class="category-card" data-cat="${cat}" onclick="window.game.selectCategory('${cat}')"><h3>${cat}</h3><span>${count} questions</span></div>`;
-                })
-                .join("");
+            const categoryCounts = this.subject.questions.reduce((acc, q) => {
+                acc[q.category] = (acc[q.category] || 0) + 1;
+                return acc;
+            }, {});
+
+            const categories = Object.entries(categoryCounts);
+
+            grid.innerHTML = categories.map(([cat, count]) => {
+                if (cat === 'All') {
+                    return `<div class="category-card" data-cat="${cat}"><h3>${cat}</h3><span>${count} questions</span></div>`;
+                }
+                return `<div class="category-card" data-cat="${cat}"><h3>${cat}</h3><span>${count} questions</span></div>`;
+            }).join('');
+
+            // Highlight selected
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const cat = card.getAttribute('data-cat');
+                    if (cat) this.selectCategory(cat);
+                });
+                if (card.getAttribute('data-cat') === this.state.selectedCategory) {
+                    card.classList.add('selected');
+                }
+            });
         }
 
 

@@ -1,11 +1,12 @@
 ---
 import '../../styles/global.css';
 import '../../styles/screens/revision.css';
+import BackButton from '../components/BackButton.astro';
 ---
 
 <div class="screen revision-screen" id="revisionScreen">
     <div class="revision-header">
-        <button class="back-btn" onclick="window.game.goHome()">← HOME</button>
+        <BackButton label="← HOME" />
         <h2>ENCYCLOPEDIA</h2>
         <div class="search-bar">
             <input type="text" id="revSearch" placeholder="Search terms or questions...">
@@ -20,6 +21,8 @@ import '../../styles/screens/revision.css';
 
 
 <script>
+    import { eventBus } from "../../infrastructure/events/EventBus";
+
     class RevisionController {
         private content: HTMLElement;
         private search: HTMLInputElement;
@@ -28,6 +31,14 @@ import '../../styles/screens/revision.css';
         constructor() {
             this.content = document.getElementById('revisionContent')!;
             this.search = document.getElementById('revSearch') as HTMLInputElement;
+            
+            eventBus.on('screen:change', (e: any) => {
+                if (e.to === 'revisionScreen') {
+                    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+                    document.getElementById('revisionScreen')?.classList.add('active');
+                    this.render();
+                }
+            });
             
             this.init();
         }

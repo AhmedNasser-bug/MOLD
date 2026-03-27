@@ -18,8 +18,10 @@ import '../../../styles/screens/hardcore.css';
 <script>
     import { GameUtils } from '../../scripts/GameUtils';
     import type { SubjectData, Question } from '../../../data/subjects/Subject';
+    import { BaseScreenController } from "../../controllers/BaseScreenController";
+    import { componentRegistry } from "../../registry/ComponentRegistry";
 
-    class HardcoreGame {
+    class HardcoreGame extends BaseScreenController {
         private subject: SubjectData;
         private currentQuestions: Question[] = [];
         private currentIndex: number = 0;
@@ -29,24 +31,34 @@ import '../../../styles/screens/hardcore.css';
         private display: any;
 
         constructor() {
-            // @ts-ignore
-            this.subject = window.subjectData;
-            this.init();
+            super('hardcore-screen');
         }
 
-        init() {
+        async onInit() {
+            // @ts-ignore
+            this.subject = window.subjectData;
+            
             const screen = document.getElementById('hardcore-screen');
             if(!screen) return;
             this.display = (screen.querySelector('.question-display-root') as any).questionDisplayInstance;
-            window.addEventListener('request-submit', () => this.submitAnswer());
-            window.addEventListener('request-next', () => this.nextQuestion());
-            window.addEventListener('request-skip', () => this.skip());
-            window.addEventListener('request-hint', () => this.showHint());
-            screen.addEventListener('question-selected', (e: any) => this.handleSelection(e.detail));
-             // @ts-ignore
-            window.game = window.game || {};
-             // @ts-ignore
-            window.game.startHardcore = this.startGame.bind(this);
+            
+            this.addEventListener(window, 'request-submit', () => this.submitAnswer());
+            this.addEventListener(window, 'request-next', () => this.nextQuestion());
+            this.addEventListener(window, 'request-skip', () => this.skip());
+            this.addEventListener(window, 'request-hint', () => this.showHint());
+            this.addEventListener(screen, 'question-selected', (e: any) => this.handleSelection(e.detail));
+            
+            componentRegistry.register('hardcore-controller', {
+                start: () => this.startGame(),
+                screen: this.screenId,
+            });
+
+            this.subscribeEvent('game:start', (data: any) => {
+                if(data.mode === 'hardcore') {
+                    this.startGame();
+                }
+            });
+
         }
 
         startGame() {
@@ -144,10 +156,16 @@ import '../../../styles/screens/hardcore.css';
         finishGame() {
             GameUtils.stopTimer();
             const results = GameUtils.createResult('hardcore', this.answers);
+            eventBus.emit('game:results', results);
             // @ts-ignore
             if (window.game.showResults) window.game.showResults(results);
         }
     }
 
-    new HardcoreGame();
+    // Initialize controller and let it wait for explicit start
+    const controller = new HardcoreGame();
+    // Wait for DOM then init
+    document.addEventListener('DOMContentLoaded', () => {
+        controller.initialize().catch(console.error);
+    });
 </script>

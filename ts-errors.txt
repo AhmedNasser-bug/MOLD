@@ -1,0 +1,27 @@
+src/data/subjects/Subject.ts(106,9): error TS2322: Type '"SpeedrunScreen"' is not assignable to type '"QuizScreen" | "FlashcardScreen"'.
+src/data/subjects/Subject.ts(115,9): error TS2322: Type '"BlitzScreen"' is not assignable to type '"QuizScreen" | "FlashcardScreen"'.
+src/data/subjects/Subject.ts(124,9): error TS2322: Type '"HardcoreScreen"' is not assignable to type '"QuizScreen" | "FlashcardScreen"'.
+src/data/subjects/Subject.ts(133,9): error TS2322: Type '"SurvivalScreen"' is not assignable to type '"QuizScreen" | "FlashcardScreen"'.
+src/data/subjects/Subject.ts(142,9): error TS2322: Type '"PracticeScreen"' is not assignable to type '"QuizScreen" | "FlashcardScreen"'.
+src/data/subjects/Subject.ts(169,9): error TS2322: Type '"ExamScreen"' is not assignable to type '"QuizScreen" | "FlashcardScreen"'.
+src/data/subjects/Subject.ts(191,51): error TS2552: Cannot find name 'SubjectData'. Did you mean 'SubjectMeta'?
+src/data/subjects/Subject.ts(275,37): error TS2552: Cannot find name 'SubjectData'. Did you mean 'SubjectMeta'?
+src/data/subjects/Subject.ts(278,25): error TS2552: Cannot find name 'SubjectData'. Did you mean 'SubjectMeta'?
+src/infrastructure/db/repositories/GameHistoryRepository.ts(67,20): error TS2339: Property 'lastInsertRowid' does not exist on type 'never'.
+src/logic/controllers/GameEngine.ts(32,26): error TS2339: Property 'mode' does not exist on type 'GameConfig'.
+src/logic/controllers/GameEngine.ts(34,13): error TS2322: Type '"hardcore" | "normal" | undefined' is not assignable to type '"easy" | "medium" | "hard" | undefined'.
+  Type '"hardcore"' is not assignable to type '"easy" | "medium" | "hard" | undefined'.
+src/logic/controllers/GameEngine.ts(35,40): error TS2339: Property 'timeLimit' does not exist on type '{ timeLimitSeconds: number; isSurvival: boolean; difficulty?: "hardcore" | "normal" | undefined; }'.
+src/logic/controllers/GameEngine.ts(209,31): error TS2339: Property 'mode' does not exist on type 'GameConfig'.
+src/logic/controllers/GameEngine.ts(273,13): error TS2322: Type 'GameStatus' is not assignable to type '"READY" | "ANSWERING" | "FEEDBACK" | "PAUSED" | "COMPLETED"'.
+src/storage/PersistenceLayer.ts(5,34): error TS2307: Cannot find module '../interfaces/QuestionSet' or its corresponding type declarations.
+src/storage/PersistenceLayer.ts(6,31): error TS2307: Cannot find module '../interfaces/Material' or its corresponding type declarations.
+src/tests/adapter.test.ts(6,31): error TS2307: Cannot find module '../ai/OpenAIAdapter' or its corresponding type declarations.
+src/tests/adapter.test.ts(7,34): error TS2307: Cannot find module '../ai/AnthropicAdapter' or its corresponding type declarations.
+src/tests/adapter.test.ts(8,35): error TS2307: Cannot find module '../ai/LocalModelAdapter' or its corresponding type declarations.
+src/tests/factory.test.ts(6,55): error TS2307: Cannot find module '../ai/QuestionFactory' or its corresponding type declarations.
+src/tests/pipeline.test.ts(6,55): error TS2307: Cannot find module '../processing/GenerationPipeline' or its corresponding type declarations.
+src/tests/pipeline.test.ts(18,29): error TS7006: Parameter 'input' implicitly has an 'any' type.
+src/tests/pipeline.test.ts(28,29): error TS7006: Parameter 'n' implicitly has an 'any' type.
+src/tests/pipeline.test.ts(33,29): error TS7006: Parameter 'n' implicitly has an 'any' type.
+src/tests/pipeline.test.ts(62,29): error TS7006: Parameter 'input' implicitly has an 'any' type.

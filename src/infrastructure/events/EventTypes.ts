@@ -7,6 +7,11 @@
 // Game State Events
 // ============================================================================
 
+export interface GameStartEvent {
+  mode: string;
+  category?: string | null;
+}
+
 export interface GameStateChangeEvent {
   state: 'READY' | 'ANSWERING' | 'FEEDBACK' | 'PAUSED' | 'COMPLETED';
   previousState?: 'READY' | 'ANSWERING' | 'FEEDBACK' | 'PAUSED' | 'COMPLETED';
@@ -37,6 +42,15 @@ export interface GameCompleteEvent {
   timeTaken: number;
   mode: string;
   subject: string;
+}
+
+export interface GameResultsEvent {
+  score: number;
+  total: number;
+  time: number;
+  answers: any[];
+  maxStreak: number;
+  mode?: string;
 }
 
 // ============================================================================
@@ -130,11 +144,13 @@ export interface DatabaseReadyEvent {
 
 export interface EventMap {
   // Game State
+  'game:start': GameStartEvent;
   'game:state-change': GameStateChangeEvent;
   'game:stats-update': GameStatsUpdateEvent;
   'game:time-update': GameTimeUpdateEvent;
   'game:pause': GamePauseEvent;
   'game:complete': GameCompleteEvent;
+  'game:results': GameResultsEvent;
 
   // Questions
   'question:loaded': QuestionLoadedEvent;
