@@ -77,21 +77,23 @@ export class SubjectRepository {
 
     public async saveQuestions(subjectId: string, questions: any[]): Promise<void> {
         const db = await this.getDB();
-        for (const q of questions) {
-            db.run(
-                "INSERT OR REPLACE INTO question (id, subject_id, category, type, question, options, correct, explanation) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                [
-                    q.id,
-                    subjectId,
-                    q.category,
-                    q.type,
-                    q.question,
-                    JSON.stringify(q.options || []),
-                    JSON.stringify(q.correct),
-                    q.explanation || ""
-                ]
-            );
-        }
+        await TransactionManager.execute(db, async (tx) => {
+            for (const q of questions) {
+                await tx.run(
+                    "INSERT OR REPLACE INTO question (id, subject_id, category, type, question, options, correct, explanation) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                    [
+                        q.id,
+                        subjectId,
+                        q.category,
+                        q.type,
+                        q.question,
+                        JSON.stringify(q.options || []),
+                        JSON.stringify(q.correct),
+                        q.explanation || ""
+                    ]
+                );
+            }
+        });
     }
 
     public async getSubjectData(id: string): Promise<any | null> {
