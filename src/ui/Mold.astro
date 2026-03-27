@@ -16,7 +16,10 @@ interface Props {
 const { subject } = Astro.props;
 ---
 
-<div id="loading-overlay" style="position: fixed; inset: 0; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; z-index: 9999;">
+<div
+    id="loading-overlay"
+    style="position: fixed; inset: 0; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; z-index: 9999;"
+>
     <div>
         <h2>Loading Assets...</h2>
         <p id="loading-status">Synchronizing subject data</p>
@@ -28,14 +31,14 @@ const { subject } = Astro.props;
         subjectName={subject.name}
         description={subject.config.description}
     />
-    
+
     <!-- Consolidated Challenge Mode Screen -->
     <SpeedrunScreen />
-    
+
     <!-- Practice Modes -->
     <PracticeScreen />
     <FlashcardScreen />
-    
+
     <!-- Utility Screens -->
     <ResultsScreen />
     <RevisionScreen />
@@ -52,12 +55,12 @@ const { subject } = Astro.props;
     import { Subject } from "../logic/entities/Subject";
     import { migrationService } from "../infrastructure/db/MigrationService";
     import { eventBus } from "../infrastructure/events/EventBus";
-    
+
     // Pass subject data from SSR to client logic
-    const subjectData = subjectState.getSubject(); 
+    const subjectData = subjectState.getSubject();
 
     async function initAssets() {
-        const statusEl = document.getElementById('loading-status');
+        const statusEl = document.getElementById("loading-status");
         if (!subjectData) {
             console.error("No subject data found!");
             if (statusEl) statusEl.textContent = "Error: Missing Subject Data";
@@ -66,59 +69,68 @@ const { subject } = Astro.props;
 
         try {
             // Step 1: Run localStorage migration if needed
-            if (statusEl) statusEl.textContent = "Checking for data migration...";
-            const migrationComplete = await migrationService.isMigrationComplete();
-            
+            if (statusEl)
+                statusEl.textContent = "Checking for data migration...";
+            const migrationComplete =
+                await migrationService.isMigrationComplete();
+
             if (!migrationComplete) {
-                if (statusEl) statusEl.textContent = "Migrating localStorage data to database...";
+                if (statusEl)
+                    statusEl.textContent =
+                        "Migrating localStorage data to database...";
                 await migrationService.migrate();
             }
 
             // Step 2: Instantiate subject with ID from SSR
             const subject = new Subject(subjectData.id, subjectData.name);
-            
+
             if (statusEl) statusEl.textContent = `Syncing ${subject.name}...`;
-            
+
             // Step 3: Perform Sync (API -> DB if missing)
-            await eventBus.emit('data:sync-start', { syncType: 'subjects' });
+            await eventBus.emit("data:sync-start", { syncType: "subjects" });
             const success = await subject.sync();
-            
+
             if (success) {
                 // Step 4: Load Data into Memory (and subjectState.getSubject() for legacy screens)
                 await subject.loadFromDB();
-                
-                await eventBus.emit('data:sync-complete', { 
-                    syncType: 'subjects',
+
+                await eventBus.emit("data:sync-complete", {
+                    syncType: "subjects",
                     itemsProcessed: 1,
                 });
 
                 // Step 5: Emit database ready event
-                await eventBus.emit('database:ready', { 
-                    hasExistingData: true 
+                await eventBus.emit("database:ready", {
+                    hasExistingData: true,
                 });
-                
+
                 // Step 6: Hide loader, show game
-                const overlay = document.getElementById('loading-overlay');
-                const container = document.getElementById('game-container');
-                if (overlay) overlay.style.display = 'none';
-                if (container) container.style.display = 'block';
+                const overlay = document.getElementById("loading-overlay");
+                const container = document.getElementById("game-container");
+                if (overlay) overlay.style.display = "none";
+                if (container) container.style.display = "block";
                 console.log("[Mold] Assets loaded and synced successfully.");
-                
+
                 // Legacy event for backward compatibility (will be removed)
-                window.dispatchEvent(new CustomEvent('game-assets-ready', { 
-                    detail: subjectState.getSubject() 
-                }));
+                window.dispatchEvent(
+                    new CustomEvent("game-assets-ready", {
+                        detail: subjectState.getSubject(),
+                    }),
+                );
             } else {
-                if (statusEl) statusEl.textContent = "Failed to sync assets. Are you online?";
+                if (statusEl)
+                    statusEl.textContent =
+                        "Failed to sync assets. Are you online?";
             }
         } catch (e) {
             console.error("[Mold] Asset load error:", e);
-            if (statusEl) statusEl.textContent = "Critical Error loading assets.";
+            if (statusEl)
+                statusEl.textContent = "Critical Error loading assets.";
         }
     }
 
     // Wait for window load or just run
-    window.addEventListener('load', initAssets);
+    window.addEventListener("load", initAssets);
 </script>
 
 <script is:inline define:vars={{ subject }}>
