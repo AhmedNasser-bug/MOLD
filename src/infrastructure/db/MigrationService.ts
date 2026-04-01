@@ -246,31 +246,20 @@ export class MigrationService {
       // Migrate achievements
       if (progress.achievements && progress.achievements.length > 0) {
         try {
-          // Fetch all previously unlocked achievements for this player
-          const existingRows = await db.query(
-            "SELECT achievement_id FROM player_achievements WHERE player_id = ?",
-            [player.id]
-          );
-
-          // Create a Set for fast membership checks
-          const unlockedSet = new Set(existingRows.map((r: any) => r.achievement_id));
-
-          for (const achievementId of progress.achievements) {
-            try {
-              if (!unlockedSet.has(achievementId)) {
-                await db.run(
-                  "INSERT INTO player_achievements (player_id, achievement_id, unlocked_at) VALUES (?, ?, ?)",
+          await TransactionManager.execute(db, async (tx) => {
+            for (const achievementId of progress.achievements) {
+              try {
+                await tx.run(
+                  "INSERT OR IGNORE INTO player_achievements (player_id, achievement_id, unlocked_at) VALUES (?, ?, ?)",
                   [player.id, achievementId, Date.now()]
                 );
-                // Add to set to prevent duplicate inserts in the same migration run
-                unlockedSet.add(achievementId);
+              } catch (error) {
+                console.error('[MigrationService] Error migrating achievement:', error);
               }
-            } catch (error) {
-              console.error('[MigrationService] Error migrating achievement:', error);
             }
-          }
+          });
         } catch (error) {
-          console.error('[MigrationService] Error fetching existing achievements:', error);
+          console.error('[MigrationService] Error migrating achievements:', error);
         }
       }
 
