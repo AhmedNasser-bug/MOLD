@@ -126,6 +126,7 @@ const { id = "questionDisplay" } = Astro.props;
 </style>
 
 <script>
+    import DOMPurify from 'dompurify';
     // We import Card Classes. 
     // In a full refactor, these would be exported from the .astro files or separate .ts files.
     // Assuming global availability for now as per existng pattern or we could dynamic import.
@@ -316,7 +317,7 @@ const { id = "questionDisplay" } = Astro.props;
             this.feedbackEl.classList.remove('hidden');
             this.feedbackEl.classList.add(isCorrect ? 'correct' : 'incorrect');
             const icon = isCorrect ? '🎉 Correct!' : '❌ Incorrect';
-            this.explanationEl.innerHTML = `<strong>${icon}</strong><br/>${explanation}`;
+            this.explanationEl.innerHTML = `<strong>${icon}</strong><br/>${DOMPurify.sanitize(explanation)}`;
         }
     }
 
